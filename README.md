@@ -13,10 +13,8 @@ since that's the last stable build script before OpenCV 3.0.0.
 The master branch now builds OpenCV 3.0.0 from GitHub, so you can consider this experimental
 until the OpenCV build is release quality. TBB works now thanks to an answer after reporting
 the problem as a [bug](http://code.opencv.org/issues/3900). The suggested cmake arguments worked.
-I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb)
-if you are interested.
-Need to do:
-* Finish TBB testing on ARM.
+I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb) if you are interested.
+
 
 ### WARNING
 
@@ -91,32 +89,32 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build output
 * Check install.log output for any problems with the installation script.
-* Dependent libraries `/home/<username>/opencv-2.4.x-libs`
-* OpenCV home `/home/<username>/opencv-2.4.x`
-* Java and Python bindings `/home/<username>/opencv-2.4.x/build`
+* Dependent libraries `/home/<username>/opencv-3.0.x-libs`
+* OpenCV home `/home/<username>/opencv-3.0.x`
+* Java and Python bindings `/home/<username>/opencv-3.0.x/build`
 
 #### Upgrades
 The install script will remove the previously installed packages with `dpkg -r`.
 To upgrade OpenCV follow the build instructions after doing:
 * `sudo su -`
-* `cd /home/<username>/opencv-2.4.x/build`
+* `cd /home/<username>/opencv-3.0.x/build`
 * `make uninstall`
 * `exit`
 
 ### Java
 To run Java programs in Eclipse you need add the OpenCV library.
 * Window, Preferences, Java, Build Path, User Libraries, New..., OpenCV, OK
-* Add External JARs..., /home/&lt;username&gt;/opencv-2.4.x/build-java/bin/opencv-24x.jar
-* Native library location, Edit..., External Folder..., /home/&lt;username&gt;/opencv-2.4.x/build/lib, OK
+* Add External JARs..., /home/&lt;username&gt;/opencv-3.0.x/build/bin/opencv-30x.jar
+* Native library location, Edit..., External Folder..., /home/&lt;username&gt;/opencv-3.0.x/build/lib, OK
 * Right click project, Properties, Java Build Path, Libraries, Add Library..., User Library, OpenCV, Finish, OK
 * Import [Eclipse project](https://github.com/sgjava/install-opencv/tree/master/opencv-java)
 
 To run compiled class (Canny for this example) from shell:
 * `cd /home/<username>/workspace/install-opencv/opencv-java`
-* `java -Djava.library.path=/home/<username>/opencv-2.4.x/build/lib -cp /home/<username>/opencv-2.4.x/build/bin/opencv-24x.jar:bin com.codeferm.opencv.Canny`
+* `java -Djava.library.path=/home/<username>/opencv-3.0.x/build/lib -cp /home/<username>/opencv-3.0.x/build/bin/opencv-30x.jar:bin com.codeferm.opencv.Canny`
 
 #### Things to be aware of
-* There's no bindings generated for OpenCV's GPU module.
+* There are no bindings generated for OpenCV's GPU module.
 * Missing VideoWriter (I fixed this by patching gen_java.py)
 * Constants are missing (These can by patched as well in the install script)
 * There's no imshow equivalent, so check out [CaptureUI](https://github.com/sgjava/install-opencv/blob/master/opencv-java/src/com/codeferm/opencv/CaptureUI.java)
@@ -139,12 +137,12 @@ JNI based app).
     * `sudo apt-get install valgrind valkyrie`
 * Profile application
     * `cd /home/<username>/workspace/install-opencv/opencv-java`
-    * `valgrind --trace-children=yes --leak-check=full --num-callers=15 --xml=yes --xml-file=/home/<username>/canny.xml java -Djava.compiler=NONE -Djava.library.path=/home/<username>/opencv-2.4.x/build/lib -cp /home/<username>/opencv-2.4.x/build/bin/opencv-24x.jar:bin com.codeferm.opencv.Canny`
+    * `valgrind --trace-children=yes --leak-check=full --num-callers=15 --xml=yes --xml-file=/home/<username>/canny.xml java -Djava.compiler=NONE -Djava.library.path=/home/<username>/opencv-3.0.x/build/lib -cp /home/<username>/opencv-3.0.x/build/bin/opencv-24x.jar:bin com.codeferm.opencv.Canny`
 * Examine Valgrind output
     * `valkyrie`
     * Open canny.xml
     * Scroll down to bottom
-    * Look for OpenCV classes which ar wrapped by Java such as `0x1FDD0BFE: Java_org_opencv_imgproc_Imgproc_findContours_11 (in /home/<username>/opencv-2.4.x/build/lib/libopencv_java24x.so)` This will give you a hint which Java class is leaking memory. There's always a chance it could by a memory leak in the C++ code which would require patching the C++ source.
+    * Look for OpenCV classes which ar wrapped by Java such as `0x1FDD0BFE: Java_org_opencv_imgproc_Imgproc_findContours_11 (in /home/<username>/opencv-3.0.x/build/lib/libopencv_java24x.so)` This will give you a hint which Java class is leaking memory. There's always a chance it could by a memory leak in the C++ code which would require patching the C++ source.
     
 The Canny example is slightly faster in Java (3.08 seconds) compared to Python
 (3.18 seconds). In general, there's not enough difference in processing over 900
