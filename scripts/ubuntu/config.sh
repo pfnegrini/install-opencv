@@ -49,7 +49,7 @@ javahome=/usr/lib/jvm/jdk1.8.0
 
 if [ $installjava = "True" ]; then
 	jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u25-b17/"
-	jdkver="jdk1.8.0_20"
+	jdkver="jdk1.8.0_25"
 	if [ "$arch" = "x86_64" ]; then
 		jdkarchive="jdk-8u25-linux-x64.tar.gz"
 	elif [ "$arch" = "i586" ] || [ "$arch" = "i686" ]; then

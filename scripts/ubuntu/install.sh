@@ -86,12 +86,13 @@ log "Installing OpenCV $opencvver on Ubuntu $ubuntuver $arch...\n\nHost:   $host
 # Remove temp dir
 log "Removing tmpdir $tmpdir\n"
 rm -rf "$tmpdir"
+mkdir -p "$tmpdir"
 
 # Install Oracle Java JDK if installjava True
 if [ $installjava = "True" ]; then
 	log "Installing Java $jdkver...\n"
 	echo -n "Downloading $jdkurl$jdkarchive to $tmpdir     "
-	wget --directory-prefix=$tmpdir --timestamping --progress=dot --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "$jdkurl$jdkarchive" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+	wget --directory-prefix=$tmpdir --timestamping --progress=dot --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "$jdkurl$jdkarchive" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
 	echo "\nExtracting $tmpdir/$jdkarchive to $tmpdir"
 	tar -xf "$tmpdir/$jdkarchive" -C "$tmpdir"
 	echo "Removing $javahome"
