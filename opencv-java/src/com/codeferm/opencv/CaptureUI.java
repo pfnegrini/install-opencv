@@ -165,6 +165,7 @@ final class CaptureUI extends Applet implements Runnable { // NOPMD
         // Release native memory
         if (captureMat != null) {
             captureMat.release();
+            captureMat.delete();
         }
     }
 

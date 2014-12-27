@@ -105,5 +105,8 @@ final class Writer {
         logger.log(Level.INFO, String.format("Elipse time: %4.2f seconds",
                 (double) estimatedTime / 1000));
         // CHECKSTYLE:ON MagicNumber
+        // Release native memory
+        mat.release();
+        mat.delete();
     }
 }

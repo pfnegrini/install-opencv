@@ -119,9 +119,14 @@ final class Canny {
         // CHECKSTYLE:ON MagicNumber
         // Release native memory
         mat.release();
+        mat.delete();
         gray.release();
+        gray.delete();
         blur.release();
+        blur.delete();
         edges.release();
+        edges.delete();
         dst.release();
+        dst.delete();
     }
 }
