@@ -81,7 +81,7 @@ log(){
 	echo "\n$timestamp $1" >> $logfile 2>&1
 }
 
-log "Installing OpenCV $opencvver on Ubuntu $ubuntuver $arch...\n\nHost:   $hostname\nDomain: $domain\nUser:   $curuser"
+log "Installing OpenCV $opencvver on Ubuntu $ubuntuver $arch...\n\nHost:   $hostname\nDomain: $domain\nUser:   $curuser\nShared: $shared"
 
 # Remove temp dir
 log "Removing tmpdir $tmpdir\n"
