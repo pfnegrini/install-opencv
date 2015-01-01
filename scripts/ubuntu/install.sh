@@ -122,6 +122,8 @@ if [ $installjava = "True" ]; then
 	echo "\nExtracting $tmpdir/$antarchive to $tmpdir"
 	tar -xf "$tmpdir/$antarchive" -C "$tmpdir"
 	echo "Removing $anthome"
+	# In case /opt doesn't exist
+	mkdir -p "$anthome"
 	rm -rf "$anthome"
 	echo "Moving $tmpdir/$antver to $anthome"
 	mv "$tmpdir/$antver" "$anthome"
