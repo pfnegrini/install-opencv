@@ -58,7 +58,7 @@ if [ $installjava = "True" ]; then
 		jdkarchive="jdk-8u25-linux-i586.tar.gz"
 	elif [ "$arch" = "armv7l" ]; then
 		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u6-b23/"
-		jdkver="jdk1.8.0_6"
+		jdkver="jdk1.8.0_06"
 		jdkarchive="jdk-8u6-linux-arm-vfp-hflt.tar.gz"
 	else
 		echo "\nNo supported architectures detected!"
