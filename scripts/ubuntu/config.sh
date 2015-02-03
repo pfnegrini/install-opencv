@@ -49,17 +49,17 @@ javahome=/usr/lib/jvm/jdk1.8.0
 
 if [ $installjava = "True" ]; then
 	if [ "$arch" = "x86_64" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u25-b17/"
-		jdkver="jdk1.8.0_25"
-		jdkarchive="jdk-8u25-linux-x64.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u31-b13/"
+		jdkver="jdk1.8.0_31"
+		jdkarchive="jdk-8u31-linux-x64.tar.gz"
 	elif [ "$arch" = "i586" ] || [ "$arch" = "i686" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u25-b17/"
-		jdkver="jdk1.8.0_25"
-		jdkarchive="jdk-8u25-linux-i586.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u31-b13/"
+		jdkver="jdk1.8.0_31"
+		jdkarchive="jdk-8u31-linux-i586.tar.gz"
 	elif [ "$arch" = "armv7l" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u6-b23/"
-		jdkver="jdk1.8.0_06"
-		jdkarchive="jdk-8u6-linux-arm-vfp-hflt.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u33-b05/"
+		jdkver="jdk1.8.0_33"
+		jdkarchive="jdk-8u33-linux-arm-vfp-hflt.tar.gz"
 	else
 		echo "\nNo supported architectures detected!"
 		exit 1

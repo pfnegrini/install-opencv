@@ -79,7 +79,7 @@ with an out of memory exception. To create a 1GB swap file use:
     * 32GB SDHC Class 10
     * Ubuntu 14.04
     * ~3 hours (depends on download latency)
-* MK802IV mini PC
+* MK802IV mini PC (built on 02/02/2015)
     * Rockchip RK3188 quad core
     * 1.6GHz Cortex-A9 (set to 1.2 GHz)
     * 2GB DDR3
