@@ -81,10 +81,6 @@ log(){
 	echo "\n$timestamp $1" >> $logfile 2>&1
 }
 
-# Required packages
-apt-get -y install checkinstall >> $logfile 2>&1
-
-
 log "Installing OpenCV $opencvver on Ubuntu $ubuntuver $arch...\n\nHost:   $hostname\nDomain: $domain\nUser:   $curuser\nShared: $shared"
 
 # Remove temp dir
@@ -161,7 +157,7 @@ fi
 
 # Install build dependenices
 log "Installing build dependenices..."
-apt-get -y install autoconf build-essential checkinstall cmake git libass-dev libfaac-dev libgpac-dev libjack-jackd2-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libx11-dev libxext-dev libxfixes-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
+apt-get -y install autoconf build-essential checkinstall libass-dev cmake git libass-dev libfaac-dev libgpac-dev libjack-jackd2-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libx11-dev libxext-dev libxfixes-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
 
 # Install yasm
 log "Removing yasm $yasmver...\n"
