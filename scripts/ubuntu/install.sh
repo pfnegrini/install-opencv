@@ -81,6 +81,10 @@ log(){
 	echo "\n$timestamp $1" >> $logfile 2>&1
 }
 
+# Required packages
+apt-get -y install checkinstall >> $logfile 2>&1
+
+
 log "Installing OpenCV $opencvver on Ubuntu $ubuntuver $arch...\n\nHost:   $hostname\nDomain: $domain\nUser:   $curuser\nShared: $shared"
 
 # Remove temp dir
@@ -115,7 +119,7 @@ if [ $installjava = "True" ]; then
 		echo "JAVA_HOME=$javahome" >> /etc/environment
 		. /etc/environment
 	fi
-	# Latest ANT without all the junk from apt-get install ant
+	# Latest ANT without all the junk from  install ant
 	log "Installing Ant $antver...\n"
 	echo -n "Downloading $anturl$antarchive to $tmpdir     "
 	wget --directory-prefix=$tmpdir --timestamping --progress=dot "$anturl$antarchive" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
