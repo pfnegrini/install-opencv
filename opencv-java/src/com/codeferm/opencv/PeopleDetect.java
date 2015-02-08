@@ -93,8 +93,9 @@ final class PeopleDetect {
                 (int) videoCapture.get(Videoio.CAP_PROP_FRAME_HEIGHT));
         logger.log(Level.INFO, String.format("Resolution: %s", frameSize));
         final FourCC fourCC = new FourCC("DIVX");
-        VideoWriter videoWriter = new VideoWriter(outputFile, fourCC.toInt(),
-                videoCapture.get(Videoio.CAP_PROP_FPS), frameSize, true);
+        final VideoWriter videoWriter = new VideoWriter(outputFile,
+                fourCC.toInt(), videoCapture.get(Videoio.CAP_PROP_FPS),
+                frameSize, true);
         final Mat mat = new Mat();
         // final HOGDescriptor hog = new HOGDescriptor(new Size(128, 64),
         // new Size(16, 16), new Size(8, 8), new Size(8, 8), 9, 0, -1, 0,
@@ -140,10 +141,13 @@ final class PeopleDetect {
                     // CHECKSTYLE:OFF MagicNumber - Magic numbers here for
                     // illustration
                     Imgproc.putText(mat,
-                            String.format("%1.2f", weightList.get(i++)),
+                            String.format("%1.2f", weightList.get(i)),
                             fontPoint, Core.FONT_HERSHEY_PLAIN, 1.5, fontColor,
                             2, Core.LINE_AA, false);
                     // CHECKSTYLE:ON MagicNumber
+                    logger.log(Level.INFO,
+                            String.format("Weight: %1.2f", weightList.get(i)));
+                    i++;
                 }
             }
             videoWriter.write(mat);
