@@ -46,6 +46,14 @@ sane in config.sh.
 * Ubuntu 14.04.1 LTS x86
 * Ubuntu 14.04.1 LTS armv7l
 
+Make sure the following is in your /etc/apt/sources.list:
+```
+deb http://ports.ubuntu.com/ubuntu-ports/ trusty multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports/ trusty multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/ trusty-updates multiverse
+deb-src http://ports.ubuntu.com/ubuntu-ports/ trusty-updates multiverse
+```
+
 ### Build
 * On ARM platforms with limited memory create a swap file or the build may fail
 with an out of memory exception. To create a 1GB swap file use:
