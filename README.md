@@ -39,9 +39,6 @@ sane in config.sh.
     * People detection
     
 ### Platforms Supported by Install OpenCV
-* Ubuntu 12.04.4 LTS x86_64
-* Ubuntu 12.04.4 LTS x86
-* Ubuntu 12.04.4 LTS armv7l
 * Ubuntu 14.04.1 LTS x86_64
 * Ubuntu 14.04.1 LTS x86
 * Ubuntu 14.04.1 LTS armv7l
@@ -74,12 +71,21 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build times (Note not all make build jobs run in parallel)
 * Acer AM3470G-UW10P Desktop (test build on 02/03/2015)
+    * Test build on 02/03/2015
     * AMD A6-3620 quad core
     * 2.20GHz, 4MB Cache
     * 8GB DIMM DDR3 Synchronous 1333 MHz
     * 500GB WDC WD5000AAKX-0 SATA 3 7200 RPM 16MB Cache
-    * Ubuntu 12.04.3 LTS x86_64
+    * Ubuntu 14.04 x86_64
     * ~40 minutes (depends on download latency)
+* ODROID-C1
+    * Test build on 02/15/2015
+    * Amlogic S805 quad core
+    * 1.6GHz Cortex-A5 (set to 1.5 GHz)
+    * 1GB DDR3
+    * 32GB SDHC Class10 UHS-1
+    * Ubuntu 14.04
+    * ~2.5 hours (depends on download latency)
 * MK808 mini PC
     * Rockchip RK3066 dual core
     * 1.6GHz Cortex-A9 (set to 1.5 GHz)
@@ -87,7 +93,8 @@ with an out of memory exception. To create a 1GB swap file use:
     * 32GB SDHC Class 10
     * Ubuntu 14.04
     * ~4 hours (depends on download latency)
-* MK802IV mini PC (test build on 02/02/2015)
+* MK802IV mini PC
+    * Test build on 02/02/2015
     * Rockchip RK3188 quad core
     * 1.6GHz Cortex-A9 (set to 1.2 GHz)
     * 2GB DDR3
