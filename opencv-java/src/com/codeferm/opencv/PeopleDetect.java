@@ -145,8 +145,6 @@ final class PeopleDetect {
                             fontPoint, Core.FONT_HERSHEY_PLAIN, 1.5, fontColor,
                             2, Core.LINE_AA, false);
                     // CHECKSTYLE:ON MagicNumber
-                    logger.log(Level.INFO,
-                            String.format("Weight: %1.2f", weightList.get(i)));
                     i++;
                 }
             }

@@ -43,7 +43,7 @@ sane in config.sh.
 * Ubuntu 14.04.1 LTS x86
 * Ubuntu 14.04.1 LTS armv7l
 
-Make sure the following is in your /etc/apt/sources.list:
+Make sure the following is in your /etc/apt/sources.list for ARM:
 ```
 deb http://ports.ubuntu.com/ubuntu-ports/ trusty multiverse
 deb-src http://ports.ubuntu.com/ubuntu-ports/ trusty multiverse
