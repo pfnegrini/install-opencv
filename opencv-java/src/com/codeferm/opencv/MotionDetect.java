@@ -96,7 +96,7 @@ final class MotionDetect {
     }
 
     /**
-     * Create window, frame and set window to visible.
+     * Mark frames with motion detected.
      *
      * args[0] = source file or will default to "../resources/traffic.mp4" if no
      * args passed.
