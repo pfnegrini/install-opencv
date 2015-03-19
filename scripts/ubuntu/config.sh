@@ -23,8 +23,8 @@ opencvver="3.0.0"
 # Relative path to gen_java.py
 genjava="/modules/java/generator/gen_java.py"
 
-# Relative path to core+Mat.java
-coremat="/modules/java/generator/src/java/core+Mat.java"
+# Relative path to Mat.java
+mat="/build/src/org/opencv/core/Mat.java"
 
 # Relative path to Imgproc.java
 imgproc="/build/src/org/opencv/imgproc/Imgproc.java"
@@ -49,13 +49,13 @@ javahome=/usr/lib/jvm/jdk1.8.0
 
 if [ $installjava = "True" ]; then
 	if [ "$arch" = "x86_64" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u31-b13/"
-		jdkver="jdk1.8.0_31"
-		jdkarchive="jdk-8u31-linux-x64.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u40-b26/"
+		jdkver="jdk1.8.0_40"
+		jdkarchive="jdk-8u40-linux-x64.tar.gz"
 	elif [ "$arch" = "i586" ] || [ "$arch" = "i686" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u31-b13/"
-		jdkver="jdk1.8.0_31"
-		jdkarchive="jdk-8u31-linux-i586.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u40-b26/"
+		jdkver="jdk1.8.0_40"
+		jdkarchive="jdk-8u40-linux-i586.tar.gz"
 	elif [ "$arch" = "armv7l" ]; then
 		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u33-b05/"
 		jdkver="jdk1.8.0_33"

@@ -299,11 +299,6 @@ sed -i 's/\"CV_CAP_PROP_FRAME_COUNT\",/'\#\"CV_CAP_PROP_FRAME_COUNT\",'/g' "$ope
 # Patch gen_java.py to generate delete() instead of finalize() methods
 sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable/public void delete()/g' "$opencvhome$genjava"
 
-# Patch core+Mat.java to remove finalize method which causes heap leaks
-# Renamed method is delete() which calls n_delete just like finalize did
-sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable/public void delete()/g' "$opencvhome$coremat"
-sed -i 's~super.finalize~//super.finalize~g' "$opencvhome$coremat"
-
 # Patch jdhuff.c to remove "Invalid SOS parameters for sequential JPEG" warning
 sed -i 's~WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);~//WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);\'$'\n      ; // NOP~g' "$opencvhome$jdhuff"
 
@@ -332,6 +327,11 @@ ldconfig
 #
 
 log "Patching Java source post-generated\n"
+# Patch Mat.java to remove finalize method which causes heap leaks
+# Renamed method is delete() which calls n_delete just like finalize did
+sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable/public void delete()/g' "$opencvhome$mat"
+sed -i 's~super.finalize~//super.finalize~g' "$opencvhome$mat"
+
 # Patch Imgproc.java to fix memory leaks
 sed -i 's/Converters.Mat_to_vector_vector_Point(contours_mat, contours);/Converters.Mat_to_vector_vector_Point(contours_mat, contours);\n        contours_mat.release();\n        contours_mat.delete();/g' "$opencvhome$imgproc"
 
