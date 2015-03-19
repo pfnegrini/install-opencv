@@ -152,12 +152,12 @@ JNI based app).
     * `sudo apt-get install valgrind valkyrie`
 * Profile application
     * `cd /home/<username>/workspace/install-opencv/opencv-java`
-    * `valgrind --trace-children=yes --leak-check=full --num-callers=15 --xml=yes --xml-file=/home/<username>/canny.xml java -Djava.compiler=NONE -Djava.library.path=/home/<username>/opencv-3.0.x/build/lib -cp /home/<username>/opencv-3.0.x/build/bin/opencv-24x.jar:bin com.codeferm.opencv.Canny`
+    * `valgrind --trace-children=yes --leak-check=full --num-callers=15 --xml=yes --xml-file=/home/<username>/canny.xml java -Djava.compiler=NONE -Djava.library.path=/home/<username>/opencv-3.0.x/build/lib -cp /home/<username>/opencv-3.0.x/build/bin/opencv-30x.jar:bin com.codeferm.opencv.Canny`
 * Examine Valgrind output
     * `valkyrie`
     * Open canny.xml
     * Scroll down to bottom
-    * Look for OpenCV classes which ar wrapped by Java such as `0x1FDD0BFE: Java_org_opencv_imgproc_Imgproc_findContours_11 (in /home/<username>/opencv-3.0.x/build/lib/libopencv_java24x.so)` This will give you a hint which Java class is leaking memory. There's always a chance it could by a memory leak in the C++ code which would require patching the C++ source.
+    * Look for OpenCV classes which ar wrapped by Java such as `0x1FDD0BFE: Java_org_opencv_imgproc_Imgproc_findContours_11 (in /home/<username>/opencv-3.0.x/build/lib/libopencv_java30x.so)` This will give you a hint which Java class is leaking memory. There's always a chance it could by a memory leak in the C++ code which would require patching the C++ source.
     
 The Canny example is slightly faster in Java (3.08 seconds) compared to Python
 (3.18 seconds). In general, there's not enough difference in processing over 900
