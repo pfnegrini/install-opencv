@@ -16,7 +16,7 @@ sys.argv[1] = source file or will default to "../../resources/walking.mp4" if no
 """
 
 # Configure logger
-logger = logging.getLogger("VideoLoop")
+logger = logging.getLogger("PeopleDetect")
 logger.setLevel("INFO")
 formatter = logging.Formatter("%(asctime)s %(levelname)-8s %(module)s %(message)s")
 handler = logging.StreamHandler(sys.stdout)

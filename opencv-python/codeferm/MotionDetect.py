@@ -32,7 +32,7 @@ def contours(source):
     return movementLocations
 
 # Configure logger
-logger = logging.getLogger("VideoLoop")
+logger = logging.getLogger("MotionDetect")
 logger.setLevel("INFO")
 formatter = logging.Formatter("%(asctime)s %(levelname)-8s %(module)s %(message)s")
 handler = logging.StreamHandler(sys.stdout)

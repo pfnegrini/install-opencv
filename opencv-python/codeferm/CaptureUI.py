@@ -16,7 +16,7 @@ sys.argv[1] = camera index, url or will default to "0" if no args passed.
 """
 
 # Configure logger
-logger = logging.getLogger("VideoLoop")
+logger = logging.getLogger("CaptureUI")
 logger.setLevel("INFO")
 formatter = logging.Formatter("%(asctime)s %(levelname)-8s %(module)s %(message)s")
 handler = logging.StreamHandler(sys.stdout)
