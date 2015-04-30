@@ -49,13 +49,13 @@ javahome=/usr/lib/jvm/jdk1.8.0
 
 if [ $installjava = "True" ]; then
 	if [ "$arch" = "x86_64" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u40-b26/"
-		jdkver="jdk1.8.0_40"
-		jdkarchive="jdk-8u40-linux-x64.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u45-b14/"
+		jdkver="jdk1.8.0_45"
+		jdkarchive="jdk-8u45-linux-x64.tar.gz"
 	elif [ "$arch" = "i586" ] || [ "$arch" = "i686" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u40-b26/"
-		jdkver="jdk1.8.0_40"
-		jdkarchive="jdk-8u40-linux-i586.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u45-b14/"
+		jdkver="jdk1.8.0_45"
+		jdkarchive="jdk-8u45-linux-i586.tar.gz"
 	elif [ "$arch" = "armv7l" ]; then
 		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u33-b05/"
 		jdkver="jdk1.8.0_33"
