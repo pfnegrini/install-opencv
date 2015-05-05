@@ -12,7 +12,8 @@ import logging, sys, os, time, cv2, numpy, argparse, glob, pickle
 You need at least 10 images that pass cv2.findChessboardCorners at varying
 angles and distances from the camera. You must do this for each resolution you
 wish to calibrate. Camera matrix and distortion coefficients are pickled to
-files for later use with undistort.
+files for later use with undistort. This code based on
+http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_calib3d/py_calibration/py_calibration.html 
 
 --inmask = Input file mask
 --outdir = Output dir for debug images
@@ -71,7 +72,7 @@ def getPoints(inMask, outDir, patternSize):
             cv2.drawChessboardCorners(vis, patternSize, corners, found)
             path, name, ext = splitFileName(fileName)
             # Write off marked up images
-            cv2.imwrite('%s/%s_output.bmp' % (outdir, name), vis)
+            cv2.imwrite('%s/%s-python.bmp' % (outdir, name), vis)
             # Add image and object points to lists for calibrateCamera
             imgPoints.append(corners.reshape(-1, 2))
             objPoints.append(patternPoints)
@@ -113,7 +114,7 @@ def undistortAll(inMask, outDir, cameraMatrix, distCoefs):
         image = cv2.imread(fileName, 0)
         dst = undistort(image, cameraMatrix, distCoefs)
         path, name, ext = splitFileName(fileName)
-        cv2.imwrite('%s/%s_undistort_output.bmp' % (outDir, name), dst)
+        cv2.imwrite('%s/%s-python-undistort.bmp' % (outDir, name), dst)
     
 if __name__ == '__main__':
     # Configure logger
@@ -127,7 +128,7 @@ if __name__ == '__main__':
     # Add arguments
     parser.add_argument('-i', '--inmask', type=str, help='Mask used for input files', required=False)
     parser.add_argument('-o', '--outdir', type=str, help='Directory to send debug files', required=False)
-    parser.add_argument('-p', '--pattern', type=str, help='Checcboard pattern cols,rows', required=False)
+    parser.add_argument('-p', '--pattern', type=str, help='Checkerboard pattern cols,rows', required=False)
     # Array for all arguments passed to script
     args = parser.parse_args()
     inmask = args.inmask 
@@ -151,8 +152,8 @@ if __name__ == '__main__':
     logger.info("Mean reprojection error: %s" % error)
     undistortAll(inmask, outdir, cameraMatrix, distCoefs)
     # Pickle numpy arrays
-    saveArray('%s/camera_matrix.pkl' % outdir, cameraMatrix)
-    saveArray('%s/dist_coefs.pkl' % outdir, distCoefs)
+    saveArray('%s/camera-matrix.pkl' % outdir, cameraMatrix)
+    saveArray('%s/dist-coefs.pkl' % outdir, distCoefs)
     elapse = time.time() - start
     logger.info("RMS: %s" % rms)
     logger.info("Camera matrix: %s" % cameraMatrix)
