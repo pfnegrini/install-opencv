@@ -70,14 +70,14 @@ with an out of memory exception. To create a 1GB swap file use:
     * `sudo sh -c 'nohup ./install.sh &'` to run script in background
 
 #### Build times (Note not all make build jobs run in parallel)
-* Acer AM3470G-UW10P Desktop (test build on 02/03/2015)
-    * Test build on 02/03/2015
-    * AMD A6-3620 quad core
-    * 2.20GHz, 4MB Cache
-    * 8GB DIMM DDR3 Synchronous 1333 MHz
-    * 500GB WDC WD5000AAKX-0 SATA 3 7200 RPM 16MB Cache
+* MacBookPro 11,3
+    * Test build on 05/05/2015
+    * Intel(R) Core(TM) i7-4870HQ (8 cores)
+    * 2.50GHz, 6MB Cache
+    * 16GB SODIMM DDR3 Synchronous 1600 MHz (0.6 ns)
+    * APPLE SSD SM1024
     * Ubuntu 14.04 x86_64
-    * ~40 minutes (depends on download latency)
+    * ~35 minutes (depends on download latency)
 * ODROID-C1
     * Test build on 02/15/2015
     * Amlogic S805 quad core
@@ -134,7 +134,7 @@ To run compiled class (Canny for this example) from shell:
 * Constants are missing (These can by patched as well in the install script)
 * There's no imshow equivalent, so check out [CaptureUI](https://github.com/sgjava/install-opencv/blob/master/opencv-java/src/com/codeferm/opencv/CaptureUI.java)
 * Make sure you call Mat.release() followed by Mat.delete() to free native memory
-* The JNI code can modify variables with the final modifier. You need to be aware of the implications of this since is not normal Java behavior.
+* The JNI code can modify variables with the final modifier. You need to be aware of the implications of this since it is not normal Java behavior.
 
 ![CaptureUI Java](images/captureui-java.png)
 
