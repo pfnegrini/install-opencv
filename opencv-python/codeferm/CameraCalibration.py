@@ -11,7 +11,7 @@ import logging, sys, os, time, cv2, numpy, argparse, glob, pickle
 
 You need at least 10 images that pass cv2.findChessboardCorners at varying
 angles and distances from the camera. You must do this for each resolution you
-wish to calibrate. Camera matrix and distortion coefficients and pickled to
+wish to calibrate. Camera matrix and distortion coefficients are pickled to
 files for later use with undistort.
 
 --inmask = Input file mask
@@ -55,6 +55,7 @@ def getPoints(inMask, outDir, patternSize):
     imageNames = glob.glob(inMask)
     objPoints = []
     imgPoints = []
+    # Set the criteria for the cornerSubPix algorithm
     term = (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_COUNT, 30, 0.1)
     passed = 0
     # Process all images
@@ -63,6 +64,7 @@ def getPoints(inMask, outDir, patternSize):
         found, corners, patternPoints = findCorners(image, patternSize)
         # Found corners
         if found:
+            logger.info("Chessboard found in: %s" % fileName)
             cv2.cornerSubPix(image, corners, (5, 5), (-1, -1), term)
             vis = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
             # Draw the corners
@@ -75,7 +77,7 @@ def getPoints(inMask, outDir, patternSize):
             objPoints.append(patternPoints)
             passed += 1          
         else:
-            logger.error("Chessboard not found in %s" % fileName)
+            logger.error("Chessboard not found in: %s" % fileName)
     logger.info("Images passed cv2.findChessboardCorners: %d" % passed)
     # We assume all images the same size, so we use last one
     h, w = image.shape[:2]    
