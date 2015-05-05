@@ -36,8 +36,10 @@ import org.opencv.imgproc.Imgproc;
  *
  * You need at least 10 images that pass cv2.findChessboardCorners at varying
  * angles and distances from the camera. You must do this for each resolution
- * you wish to calibrate. Camera matrix and distortion coefficients are pickled
- * to files for later use with undistort.
+ * you wish to calibrate. Camera matrix and distortion coefficients are
+ * serialized to files for later use with undistort. This code is based on
+ * http://computervisionandjava.blogspot.com/2013/10/camera-cailbration.html,
+ * but follows Python code closely (hence the almost identical values returned).
  *
  * args[0] = input file mask or will default to "../resources/2015*.jpg" if no
  * args passed.
@@ -72,7 +74,8 @@ final class CameraCalibration {
 	/**
 	 * Clean up Mat the right way.
 	 * 
-	 * @param mat Mat to delete.
+	 * @param mat
+	 *            Mat to delete.
 	 */
 	public void deleteMat(final Mat mat) {
 		mat.release();
@@ -139,11 +142,14 @@ final class CameraCalibration {
 	 *            Camera matrix.
 	 * @param distCoeffs
 	 *            Input vector of distortion coefficients.
+	 * @param imagePoints
+	 *            Image points.
 	 * @return Mean reprojection error.
 	 */
-	public double reprojectionError(List<Mat> objectPoints, List<Mat> rVecs,
-			List<Mat> tVecs, Mat cameraMatrix, Mat distCoeffs,
-			List<Mat> imagePoints) {
+	public double reprojectionError(final List<Mat> objectPoints,
+			final List<Mat> rVecs, final List<Mat> tVecs,
+			final Mat cameraMatrix, final Mat distCoeffs,
+			final List<Mat> imagePoints) {
 		double totalError = 0;
 		double totalPoints = 0;
 		final MatOfPoint2f cornersProjected = new MatOfPoint2f();
@@ -190,16 +196,26 @@ final class CameraCalibration {
 				String.format("Camera matrix: %s", cameraMatrix.dump()));
 		logger.log(Level.INFO,
 				String.format("Distortion coefficients: %s", distCoeffs.dump()));
+		// Clean up
 		deleteMat(cameraMatrix);
 		deleteMat(distCoeffs);
+		for (final Mat mat : tVecs) {
+			deleteMat(mat);
+		}
+		for (final Mat mat : rVecs) {
+			deleteMat(mat);
+		}
 	}
 
 	/**
 	 * Process all images matching inMask and output debug images to outDir.
 	 * 
 	 * @param inMask
+	 *            Mask used for input files.
 	 * @param patternSize
+	 *            Checkerboard pattern cols,rows.
 	 * @throws IOException
+	 *             Possible exception.
 	 */
 	public void getPoints(final String inMask, final Size patternSize)
 			throws IOException {
@@ -227,6 +243,12 @@ final class CameraCalibration {
 				if (getCorners(mat, patternSize, winSize, zoneSize, corners)) {
 					logger.log(Level.INFO,
 							String.format("Chessboard found in: %s", fileName));
+					final Mat vis = new Mat();
+					Imgproc.cvtColor(mat, vis, Imgproc.COLOR_GRAY2BGR);
+					Calib3d.drawChessboardCorners(vis, patternSize, corners,
+							true);
+					final String[] tokens = Paths.get(fileName).getFileName()
+							.toString().split("\\.");
 					objectPoints.add(corners3f);
 					imagePoints.add(corners);
 					images.add(mat);
