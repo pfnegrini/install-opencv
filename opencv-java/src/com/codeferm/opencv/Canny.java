@@ -50,7 +50,7 @@ final class Canny {
     }
 
     /**
-     * Create window, frame and set window to visible.
+     * Run Canny edge detection on all frames.
      *
      * args[0] = source file or will default to "../resources/traffic.mp4" if no
      * args passed.
