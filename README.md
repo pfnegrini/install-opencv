@@ -134,6 +134,7 @@ To run compiled class (Canny for this example) from shell:
 * Constants are missing (These can by patched as well in the install script)
 * There's no imshow equivalent, so check out [CaptureUI](https://github.com/sgjava/install-opencv/blob/master/opencv-java/src/com/codeferm/opencv/CaptureUI.java)
 * Make sure you call Mat.release() followed by Mat.delete() to free native memory
+* The JNI code can modify variables with the final modifier. You need to be aware of the implications of this since is not normal Java behavior.
 
 ![CaptureUI Java](images/captureui-java.png)
 
