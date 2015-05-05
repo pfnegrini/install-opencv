@@ -37,6 +37,7 @@ sane in config.sh.
     * Capture UI
     * Motion detection
     * People detection
+    * Camera Calibration
     
 ### Platforms Supported by Install OpenCV
 * Ubuntu 14.04.1 LTS x86_64
