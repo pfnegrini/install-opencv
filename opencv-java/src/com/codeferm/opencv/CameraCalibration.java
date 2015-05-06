@@ -212,13 +212,15 @@ final class CameraCalibration {
 	 * 
 	 * @param inMask
 	 *            Mask used for input files.
+	 * @param outDir
+	 *            Output dir.
 	 * @param patternSize
 	 *            Checkerboard pattern cols,rows.
 	 * @throws IOException
 	 *             Possible exception.
 	 */
-	public void getPoints(final String inMask, final Size patternSize)
-			throws IOException {
+	public void getPoints(final String inMask, final String outDir,
+			final Size patternSize) throws IOException {
 		final List<Mat> images = new ArrayList<Mat>();
 		final List<Mat> objectPoints = new ArrayList<Mat>();
 		final List<Mat> imagePoints = new ArrayList<Mat>();
@@ -244,11 +246,19 @@ final class CameraCalibration {
 					logger.log(Level.INFO,
 							String.format("Chessboard found in: %s", fileName));
 					final Mat vis = new Mat();
+					// Convert to color for drawing
 					Imgproc.cvtColor(mat, vis, Imgproc.COLOR_GRAY2BGR);
 					Calib3d.drawChessboardCorners(vis, patternSize, corners,
 							true);
+					// Get file name without extension
 					final String[] tokens = Paths.get(fileName).getFileName()
 							.toString().split("\\.");
+					// Write debug Mat to output dir
+					Imgcodecs.imwrite(
+							String.format("%s/%s-java.bmp", outDir, tokens[0]),
+							vis);
+					// Clean up
+					deleteMat(vis);
 					objectPoints.add(corners3f);
 					imagePoints.add(corners);
 					images.add(mat);
@@ -260,6 +270,7 @@ final class CameraCalibration {
 			}
 			logger.log(Level.INFO, String.format(
 					"Images passed cv2.findChessboardCorners: %d", passed));
+			// Calibrate camera
 			calibrate(objectPoints, imagePoints, images);
 		} catch (IOException e) {
 			logger.log(Level.SEVERE,
@@ -306,6 +317,6 @@ final class CameraCalibration {
 		logger.log(Level.INFO, String.format("Input mask: %s", inMask));
 		logger.log(Level.INFO, String.format("Output dir: %s", outDir));
 		CameraCalibration cameraCalibration = new CameraCalibration();
-		cameraCalibration.getPoints(inMask, patternSize);
+		cameraCalibration.getPoints(inMask, outDir, patternSize);
 	}
 }
