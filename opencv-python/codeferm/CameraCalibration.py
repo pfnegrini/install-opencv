@@ -107,7 +107,7 @@ def reprojectionError(objPoints, imgPoints, rVecs, tVecs, cameraMatrix, distCoef
     return numpy.sqrt(totalError / totalPoints)
 
 def undistortAll(inMask, outDir, cameraMatrix, distCoefs):
-    """Process all images matching inMask and output debug images to outDir"""
+    """Process all images matching inMask and output undistorted images to outDir"""
     imageNames = glob.glob(inMask)
     # Process all images
     for fileName in imageNames:
