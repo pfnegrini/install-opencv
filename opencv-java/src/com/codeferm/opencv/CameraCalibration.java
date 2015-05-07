@@ -170,7 +170,68 @@ final class CameraCalibration {
 	}
 
 	/**
-	 * Calibrate camera.
+	 * Undistort image.
+	 * 
+	 * @param image
+	 *            Distorted image.
+	 * @param cameraMatrix
+	 *            Camera matrix.
+	 * @param distCoeffs
+	 *            Input vector of distortion coefficients.
+	 * @return Undistorted image.
+	 */
+	public Mat undistort(final Mat image, final Mat cameraMatrix,
+			final Mat distCoeffs) {
+		final Mat newCameraMtx = Calib3d.getOptimalNewCameraMatrix(
+				cameraMatrix, distCoeffs, image.size(), 0);
+		Calib3d.undistortImage(image, cameraMatrix, distCoeffs, newCameraMtx);
+		return image;
+	}
+
+	/**
+	 * 
+	 * @param inMask
+	 *            Mask used for input files.
+	 * @param outDir
+	 *            Output dir.
+	 * @param cameraMatrix
+	 *            Camera matrix.
+	 * @param distCoeffs
+	 *            Input vector of distortion coefficients.
+	 * @throws IOException
+	 *             Possible exception.
+	 */
+	public void undistortAll(final String inMask, final String outDir,
+			final Mat cameraMatrix, final Mat distCoeffs) throws IOException {
+		final File file = new File(inMask);
+		// Get dir
+		final File parentFile = new File(file.getParent());
+		// Make it canonical
+		final Path dir = Paths.get(parentFile.getCanonicalPath());
+		// Get matching names from inMask
+		try (final DirectoryStream<Path> stream = Files.newDirectoryStream(dir,
+				file.getName())) {
+			// Undistort all files
+			for (final Path entry : stream) {
+				final String fileName = String.format("%s/%s", dir,
+						entry.getFileName());
+				// Read in image as gray scale
+				final Mat mat = Imgcodecs.imread(fileName,
+						Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
+				final Mat undistort = undistort(mat, cameraMatrix, distCoeffs);
+				// Get file name without extension
+				final String[] tokens = Paths.get(fileName).getFileName()
+						.toString().split("\\.");
+				// Write debug Mat to output dir
+				Imgcodecs.imwrite(String.format("%s/%s-java-undistort.bmp",
+						outDir, tokens[0]), undistort);
+			}
+		}
+	}
+
+	/**
+	 * Calibrate camera. Caller needs to clean up cameraMatrix and distCoeffs
+	 * Mats.
 	 * 
 	 * @param objectPoints
 	 *            Object points.
@@ -178,8 +239,9 @@ final class CameraCalibration {
 	 *            Image points.
 	 * @param images
 	 *            List of images to calibrate.
+	 * @return Mat array consisting of cameraMatrix and distCoeffs.
 	 */
-	public void calibrate(final List<Mat> objectPoints,
+	public Mat[] calibrate(final List<Mat> objectPoints,
 			final List<Mat> imagePoints, final List<Mat> images) {
 		final Mat cameraMatrix = Mat.eye(3, 3, CvType.CV_64F);
 		final Mat distCoeffs = Mat.zeros(8, 1, CvType.CV_64F);
@@ -196,19 +258,19 @@ final class CameraCalibration {
 				String.format("Camera matrix: %s", cameraMatrix.dump()));
 		logger.log(Level.INFO,
 				String.format("Distortion coefficients: %s", distCoeffs.dump()));
-		// Clean up
-		deleteMat(cameraMatrix);
-		deleteMat(distCoeffs);
+		// Clean up lists
 		for (final Mat mat : tVecs) {
 			deleteMat(mat);
 		}
 		for (final Mat mat : rVecs) {
 			deleteMat(mat);
 		}
+		return new Mat[] { cameraMatrix, distCoeffs };
 	}
 
 	/**
-	 * Process all images matching inMask and output debug images to outDir.
+	 * Process all images matching inMask and output debug images to outDir. All
+	 * Mats are deleted at the end, thus freeing native memory right away.
 	 * 
 	 * @param inMask
 	 *            Mask used for input files.
@@ -271,7 +333,22 @@ final class CameraCalibration {
 			logger.log(Level.INFO, String.format(
 					"Images passed cv2.findChessboardCorners: %d", passed));
 			// Calibrate camera
-			calibrate(objectPoints, imagePoints, images);
+			final Mat[] params = calibrate(objectPoints, imagePoints, images);
+			// TODO: fix undistort error
+			// Undistort all images
+			// undistortAll(inMask, outDir, params[0], params[1]);
+			// Clean up
+			deleteMat(params[0]);
+			deleteMat(params[1]);
+			deleteMat(corners3f);
+			// Clean up imagePoints
+			for (Mat imagePoint : imagePoints) {
+				deleteMat(imagePoint);
+			}
+			// Clean up images
+			for (Mat image : images) {
+				deleteMat(image);
+			}
 		} catch (IOException e) {
 			logger.log(Level.SEVERE,
 					String.format("IO error: %s", e.getMessage()));
