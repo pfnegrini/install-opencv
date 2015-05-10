@@ -6,7 +6,11 @@
  */
 package com.codeferm.opencv;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -157,7 +161,7 @@ final class CameraCalibration {
 		for (int i = 0; i < objectPoints.size(); i++) {
 			Calib3d.projectPoints((MatOfPoint3f) objectPoints.get(i),
 					rVecs.get(i), tVecs.get(i), cameraMatrix,
-					distortionCoefficients, (MatOfPoint2f) cornersProjected);
+					distortionCoefficients, cornersProjected);
 			final double error = Core.norm(imagePoints.get(i),
 					cornersProjected, Core.NORM_L2);
 			final int n = objectPoints.get(i).rows();
@@ -184,8 +188,9 @@ final class CameraCalibration {
 			final Mat distCoeffs) {
 		final Mat newCameraMtx = Calib3d.getOptimalNewCameraMatrix(
 				cameraMatrix, distCoeffs, image.size(), 0);
-		Calib3d.undistortImage(image, cameraMatrix, distCoeffs, newCameraMtx);
-		return image;
+		final Mat mat = new Mat();
+		Imgproc.undistort(image, mat, cameraMatrix, distCoeffs, newCameraMtx);
+		return mat;
 	}
 
 	/**
@@ -225,8 +230,88 @@ final class CameraCalibration {
 				// Write debug Mat to output dir
 				Imgcodecs.imwrite(String.format("%s/%s-java-undistort.bmp",
 						outDir, tokens[0]), undistort);
+				// Clean up
+				deleteMat(mat);
+				deleteMat(undistort);
 			}
 		}
+	}
+
+	/**
+	 * Save Mat of type Double.
+	 * 
+	 * @param mat
+	 *            Mat to save.
+	 * @param fileName
+	 *            File to write.
+	 */
+	public void saveDoubleMat(final Mat mat, final String fileName) {
+		logger.log(Level.FINE, String.format("Saving double Mat: %s", fileName));
+		final long count = mat.total() * mat.channels();
+		final double[] buff = new double[(int) count];
+		mat.get(0, 0, buff);
+		try (final DataOutputStream out = new DataOutputStream(
+				new FileOutputStream(fileName))) {
+			for (int i = 0; i < buff.length; ++i) {
+				out.writeDouble(buff[i]);
+			}
+		} catch (IOException e) {
+			logger.log(Level.SEVERE,
+					String.format("Exception: %s", e.getMessage()));
+		}
+	}
+
+	/**
+	 * Load pre-configured Mat fron a file.
+	 * 
+	 * @param mat
+	 *            Mat configured the same as the saved Mat. This Mat will be
+	 *            overwritten with the data in the file.
+	 * @param fileName
+	 *            File to read.
+	 */
+	public void loadDoubleMat(final Mat mat, final String fileName) {
+		logger.log(Level.FINE,
+				String.format("Loading double Mat: %s", fileName));
+		final long count = mat.total() * mat.channels();
+		final double[] buff = new double[(int) count];
+		try (final DataInputStream in = new DataInputStream(
+				new FileInputStream(fileName))) {
+			for (int i = 0; i < buff.length; ++i) {
+				buff[i] = in.readDouble();
+			}
+		} catch (IOException e) {
+			if (e.getMessage() == null) {
+				logger.log(Level.FINE,
+						String.format("EOF reached for: %s", fileName));
+			} else {
+				logger.log(Level.SEVERE,
+						String.format("Exception: %s", e.getMessage()));
+			}
+		}
+		mat.put(0, 0, buff);
+	}
+
+	/**
+	 * Load calibration Mats.
+	 * 
+	 * @param camMtxFileName
+	 *            Camera matrix file name.
+	 * @param distCoFileName
+	 *            Distortion coefficients file name.
+	 * @return Mat array consisting of cameraMatrix and distCoeffs.
+	 */
+	public Mat[] loadCalibrate(final String camMtxFileName,
+			final String distCoFileName) {
+		logger.log(Level.FINE,
+				String.format("Loading camera matrix: %s", camMtxFileName));
+		final Mat cameraMatrix = Mat.eye(3, 3, CvType.CV_64F);
+		loadDoubleMat(cameraMatrix, camMtxFileName);
+		logger.log(Level.FINE, String.format(
+				"Loading distortion coefficients: %s", distCoFileName));
+		final Mat distCoeffs = Mat.zeros(8, 1, CvType.CV_64F);
+		loadDoubleMat(distCoeffs, distCoFileName);
+		return new Mat[] { cameraMatrix, distCoeffs };
 	}
 
 	/**
@@ -305,7 +390,7 @@ final class CameraCalibration {
 				final Size winSize = new Size(5, 5);
 				final Size zoneSize = new Size(-1, -1);
 				if (getCorners(mat, patternSize, winSize, zoneSize, corners)) {
-					logger.log(Level.INFO,
+					logger.log(Level.FINE,
 							String.format("Chessboard found in: %s", fileName));
 					final Mat vis = new Mat();
 					// Convert to color for drawing
@@ -326,7 +411,7 @@ final class CameraCalibration {
 					images.add(mat);
 					passed++;
 				} else {
-					logger.log(Level.INFO, String.format(
+					logger.log(Level.WARNING, String.format(
 							"Chessboard not found in: %s", fileName));
 				}
 			}
@@ -334,10 +419,23 @@ final class CameraCalibration {
 					"Images passed cv2.findChessboardCorners: %d", passed));
 			// Calibrate camera
 			final Mat[] params = calibrate(objectPoints, imagePoints, images);
-			// TODO: fix undistort error
+			// Save off camera matrix
+			saveDoubleMat(params[0],
+					String.format("%scamera-matrix.bin", outDir));
+			// Save off distortion coefficients
+			saveDoubleMat(params[1], String.format("%sdist-coefs.bin", outDir));
+			final Mat[] calibrateArr = loadCalibrate(
+					String.format("%scamera-matrix.bin", outDir),
+					String.format("%sdist-coefs.bin", outDir));
+			logger.log(Level.INFO,
+					String.format("Camera matrix: %s", calibrateArr[0].dump()));
+			logger.log(Level.INFO, String.format("Distortion coefficients: %s",
+					calibrateArr[1].dump()));
 			// Undistort all images
-			// undistortAll(inMask, outDir, params[0], params[1]);
+			undistortAll(inMask, outDir, params[0], params[1]);
 			// Clean up
+			deleteMat(calibrateArr[0]);
+			deleteMat(calibrateArr[1]);
 			deleteMat(params[0]);
 			deleteMat(params[1]);
 			deleteMat(corners3f);
