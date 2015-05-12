@@ -65,7 +65,7 @@ def getPoints(inMask, outDir, patternSize):
         found, corners, patternPoints = findCorners(image, patternSize)
         # Found corners
         if found:
-            logger.info("Chessboard found in: %s" % fileName)
+            logger.debug("Chessboard found in: %s" % fileName)
             cv2.cornerSubPix(image, corners, (5, 5), (-1, -1), term)
             vis = cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
             # Draw the corners
@@ -78,7 +78,7 @@ def getPoints(inMask, outDir, patternSize):
             objPoints.append(patternPoints)
             passed += 1          
         else:
-            logger.error("Chessboard not found in: %s" % fileName)
+            logger.warning("Chessboard not found in: %s" % fileName)
     logger.info("Images passed cv2.findChessboardCorners: %d" % passed)
     # We assume all images the same size, so we use last one
     h, w = image.shape[:2]    
