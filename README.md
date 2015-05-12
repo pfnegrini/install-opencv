@@ -42,9 +42,9 @@ no different from a coding perspective as using an unpatched OpenCV build.
     * Camera Calibration
     
 ### Platforms Supported by Install OpenCV
-* Ubuntu 14.04.1 LTS x86_64
-* Ubuntu 14.04.1 LTS x86
-* Ubuntu 14.04.1 LTS armv7l
+* Ubuntu 14.04.2 LTS x86_64
+* Ubuntu 14.04.2 LTS x86
+* Ubuntu 14.04.2 LTS armv7l
 
 Make sure the following is in your /etc/apt/sources.list for ARM:
 ```
@@ -74,13 +74,13 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build times (Note not all make build jobs run in parallel)
 * MacBookPro 11,3
-    * Test build on 05/05/2015
+    * Test build on 05/12/2015
     * Intel(R) Core(TM) i7-4870HQ (8 cores)
     * 2.50GHz, 6MB Cache
     * 16GB SODIMM DDR3 Synchronous 1600 MHz (0.6 ns)
     * APPLE SSD SM1024
     * Ubuntu 14.04 x86_64
-    * ~35 minutes (depends on download latency)
+    * ~25 minutes (depends on download latency)
 * ODROID-C1
     * Test build on 02/15/2015
     * Amlogic S805 quad core
