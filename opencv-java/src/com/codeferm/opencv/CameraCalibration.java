@@ -43,7 +43,7 @@ import org.opencv.imgproc.Imgproc;
  * you wish to calibrate. Camera matrix and distortion coefficients are written
  * to files for later use with undistort. This code is based on
  * http://computervisionandjava.blogspot.com/2013/10/camera-cailbration.html,
- * but follows Python code closely (hence the almost identical values returned).
+ * but follows Python code closely (hence the identical values returned).
  *
  * args[0] = input file mask or will default to "../resources/2015*.jpg" if no
  * args passed.
@@ -416,10 +416,12 @@ final class CameraCalibration {
 					// Get file name without extension
 					final String[] tokens = Paths.get(fileName).getFileName()
 							.toString().split("\\.");
+					final String writeFileName = String.format(
+							"%s/%s-java.bmp", outDir, tokens[0]);
+					logger.log(Level.FINE, String.format(
+							"Writing debug image: %s", writeFileName));
 					// Write debug Mat to output dir
-					Imgcodecs.imwrite(
-							String.format("%s/%s-java.bmp", outDir, tokens[0]),
-							vis);
+					Imgcodecs.imwrite(writeFileName, vis);
 					// Clean up
 					deleteMat(vis);
 					// Add data collected to Lists
