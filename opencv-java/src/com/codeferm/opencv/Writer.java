@@ -107,6 +107,5 @@ final class Writer {
         // CHECKSTYLE:ON MagicNumber
         // Release native memory
         mat.release();
-        mat.delete();
     }
 }

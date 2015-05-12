@@ -90,7 +90,6 @@ final class MotionDetect {
             rectList.add(Imgproc.boundingRect(mop));
             // Release native memory
             mop.release();
-            mop.delete();
         }
         return rectList;
     }
@@ -200,16 +199,10 @@ final class MotionDetect {
         // CHECKSTYLE:ON MagicNumber
         // Free native memory
         mat.release();
-        mat.delete();
         workImg.release();
-        workImg.delete();
         movingAvgImg.release();
-        movingAvgImg.delete();
         gray.release();
-        gray.delete();
         diffImg.release();
-        diffImg.delete();
         scaleImg.release();
-        scaleImg.delete();
     }
 }

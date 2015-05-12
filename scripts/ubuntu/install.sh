@@ -4,11 +4,12 @@
 #
 # @author: sgoldsmith
 #
-# Install and configure OpenCV for Ubuntu 12.04.4 and 14.04.0 (Desktop/Server 
+# Install and configure OpenCV for Ubuntu 14.04.2 (Desktop/Server 
 # x86/x86_64 bit/armv7l). Please note that since some of the operations change
 # configurations, etc. I cannot guarantee it will work on future or previous
-# versions of Ubuntu. All testing was performed on Ubuntu 12.04.4 and 14.04.0
-# LTS x86_64,x86 and armv7l with the latest updates applied.
+# versions of Ubuntu. All testing was performed on Ubuntu 14.04.2
+# LTS x86_64,x86 and armv7l with the latest updates applied. Most likely
+# this will work on newer versions as well. 
 #
 # WARNING: This script has the ability to install/remove Ubuntu packages and it also
 # installs some libraries from source. This could potentially screw up your system,
@@ -20,7 +21,7 @@
 # 
 # Prerequisites:
 #
-# o Install Ubuntu 12.04.4 or 14.04.0, update (I used VirtualBox for testing) and
+# o Install Ubuntu 14.04.2, update (I used VirtualBox for testing) and
 #   make sure to select OpenSSH Server during install. Internet connection is
 #   required to download libraries, frameworks, etc.
 #    o sudo apt-get update
@@ -297,7 +298,7 @@ sed -i 's/\"CV_CAP_PROP_FOURCC\",/'\#\"CV_CAP_PROP_FOURCC\",'/g' "$opencvhome$ge
 sed -i 's/\"CV_CAP_PROP_FRAME_COUNT\",/'\#\"CV_CAP_PROP_FRAME_COUNT\",'/g' "$opencvhome$genjava"
 
 # Patch gen_java.py to generate delete() instead of finalize() methods
-sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable/public void delete()/g' "$opencvhome$genjava"
+sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable/protected void delete()/g' "$opencvhome$genjava"
 
 # Patch jdhuff.c to remove "Invalid SOS parameters for sequential JPEG" warning
 sed -i 's~WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);~//WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);\'$'\n      ; // NOP~g' "$opencvhome$jdhuff"
@@ -329,14 +330,17 @@ ldconfig
 log "Patching Java source post-generated\n"
 # Patch Mat.java to remove finalize method which causes heap leaks
 # Renamed method is delete() which calls n_delete just like finalize did
-sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable/public void delete()/g' "$opencvhome$mat"
+sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable/protected void delete()/g' "$opencvhome$mat"
 sed -i 's~super.finalize~//super.finalize~g' "$opencvhome$mat"
 
+# Patch Mat.java to add new delete() method to release(), thus no need to call delete() directly
+sed -i 's~n_release(nativeObj);~n_release(nativeObj);\n        delete();~g' "$opencvhome$mat"
+
 # Patch Imgproc.java to fix memory leaks
-sed -i 's/Converters.Mat_to_vector_vector_Point(contours_mat, contours);/Converters.Mat_to_vector_vector_Point(contours_mat, contours);\n        contours_mat.release();\n        contours_mat.delete();/g' "$opencvhome$imgproc"
+sed -i 's/Converters.Mat_to_vector_vector_Point(contours_mat, contours);/Converters.Mat_to_vector_vector_Point(contours_mat, contours);\n        contours_mat.release();/g' "$opencvhome$imgproc"
 
 # Patch Converters.java to fix memory leaks
-sed -i 's/pts.add(pt);/pts.add(pt);\n            mi.release();\n            mi.delete();/g' "$opencvhome$converters"
+sed -i 's/pts.add(pt);/pts.add(pt);\n            mi.release();/g' "$opencvhome$converters"
 
 # Rebuild OpenCV jar file with patched classes
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1

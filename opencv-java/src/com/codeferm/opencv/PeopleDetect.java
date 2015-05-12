@@ -160,6 +160,5 @@ final class PeopleDetect {
         // CHECKSTYLE:ON MagicNumber
         // Release native memory
         mat.release();
-        mat.delete();
     }
 }

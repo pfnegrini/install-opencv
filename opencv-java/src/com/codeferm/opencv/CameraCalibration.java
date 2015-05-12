@@ -76,17 +76,6 @@ final class CameraCalibration {
 	}
 
 	/**
-	 * Clean up Mat the right way.
-	 * 
-	 * @param mat
-	 *            Mat to delete.
-	 */
-	public void deleteMat(final Mat mat) {
-		mat.release();
-		mat.delete();
-	}
-
-	/**
 	 * Find chess board corners.
 	 * 
 	 * @param gray
@@ -168,8 +157,8 @@ final class CameraCalibration {
 			totalError += error * error;
 			totalPoints += n;
 		}
-		deleteMat(cornersProjected);
-		deleteMat(distortionCoefficients);
+		cornersProjected.release();
+		distortionCoefficients.release();
 		return Math.sqrt(totalError / totalPoints);
 	}
 
@@ -238,8 +227,8 @@ final class CameraCalibration {
 				// Write debug Mat to output dir
 				Imgcodecs.imwrite(writeFileName, undistort);
 				// Clean up
-				deleteMat(mat);
-				deleteMat(undistort);
+				mat.release();
+				undistort.release();
 			}
 		}
 	}
@@ -360,10 +349,10 @@ final class CameraCalibration {
 				String.format("Distortion coefficients: %s", distCoeffs.dump()));
 		// Clean up lists
 		for (final Mat mat : tVecs) {
-			deleteMat(mat);
+			mat.release();
 		}
 		for (final Mat mat : rVecs) {
-			deleteMat(mat);
+			mat.release();
 		}
 		return new Mat[] { cameraMatrix, distCoeffs };
 	}
@@ -423,7 +412,7 @@ final class CameraCalibration {
 					// Write debug Mat to output dir
 					Imgcodecs.imwrite(writeFileName, vis);
 					// Clean up
-					deleteMat(vis);
+					vis.release();
 					// Add data collected to Lists
 					objectPoints.add(corners3f);
 					imagePoints.add(corners);
@@ -445,16 +434,16 @@ final class CameraCalibration {
 			// Save off distortion coefficients
 			saveDoubleMat(params[1], String.format("%sdist-coefs.bin", outDir));
 			// Clean up
-			deleteMat(params[0]);
-			deleteMat(params[1]);
-			deleteMat(corners3f);
+			params[0].release();
+			params[1].release();
+			corners3f.release();
 			// Clean up imagePoints
 			for (Mat imagePoint : imagePoints) {
-				deleteMat(imagePoint);
+				imagePoint.release();
 			}
 			// Clean up images
 			for (Mat image : images) {
-				deleteMat(image);
+				image.release();
 			}
 		} catch (IOException e) {
 			logger.log(Level.SEVERE,
@@ -519,8 +508,8 @@ final class CameraCalibration {
 		cameraCalibration.undistortAll(inMask, outDir, calibrateArr[0],
 				calibrateArr[1]);
 		// Clean up
-		cameraCalibration.deleteMat(calibrateArr[0]);
-		cameraCalibration.deleteMat(calibrateArr[1]);
+		calibrateArr[0].release();
+		calibrateArr[1].release();
 		final long estimatedTime = System.currentTimeMillis() - startTime;
 		// CHECKSTYLE:OFF MagicNumber - Magic numbers here for illustration
 		logger.log(Level.INFO, String.format("Elipse time: %4.2f seconds",
