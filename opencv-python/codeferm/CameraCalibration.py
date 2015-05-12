@@ -31,12 +31,14 @@ def splitFileName(fileName):
 
 def saveArray(fileName, array):
     """Pickle ndarray"""  
+    logger.debug("Saving Mat: %s" % fileName)    
     output = open(fileName, 'wb')
     pickle.dump(array, output)
     output.close()
 
-def loadArray(fileName, array):
+def loadArray(fileName):
     """Load pickled ndarray"""
+    logger.debug("Loading Mat: %s" % fileName)    
     pklFile = open(fileName, 'rb')
     array = pickle.load(pklFile)
     pklFile.close()
@@ -71,8 +73,10 @@ def getPoints(inMask, outDir, patternSize):
             # Draw the corners
             cv2.drawChessboardCorners(vis, patternSize, corners, found)
             path, name, ext = splitFileName(fileName)
+            writeFileName = "%s%s-python.bmp" % (outdir, name)
+            logger.debug("Writing debug image: %s" % writeFileName)    
             # Write off marked up images
-            cv2.imwrite('%s/%s-python.bmp' % (outdir, name), vis)
+            cv2.imwrite(writeFileName, vis)
             # Add image and object points to lists for calibrateCamera
             imgPoints.append(corners.reshape(-1, 2))
             objPoints.append(patternPoints)
@@ -111,10 +115,13 @@ def undistortAll(inMask, outDir, cameraMatrix, distCoefs):
     imageNames = glob.glob(inMask)
     # Process all images
     for fileName in imageNames:
+        logger.debug("Reading image:: %s" % fileName)    
         image = cv2.imread(fileName, 0)
         dst = undistort(image, cameraMatrix, distCoefs)
         path, name, ext = splitFileName(fileName)
-        cv2.imwrite('%s/%s-python-undistort.bmp' % (outDir, name), dst)
+        writeFileName = "%s%s-python-undistort.bmp" % (outDir, name)
+        logger.debug("Writing image:: %s" % writeFileName)    
+        cv2.imwrite(writeFileName, dst)
     
 if __name__ == '__main__':
     # Configure logger
@@ -145,17 +152,25 @@ if __name__ == '__main__':
     logger.info("Input mask: %s" % inmask)
     logger.info("Output dir: %s" % outdir)
     patternSize = eval(pattern)
+    logger.info("Calibrate camera from files")
     start = time.time()
     h, w, objPoints, imgPoints = getPoints(inmask, outdir, patternSize)
     rms, cameraMatrix, distCoefs, rVecs, tVecs = cv2.calibrateCamera(objPoints, imgPoints, (w, h), None, None)
     error = reprojectionError(objPoints, imgPoints, rVecs, tVecs, cameraMatrix, distCoefs)
     logger.info("Mean reprojection error: %s" % error)
-    undistortAll(inmask, outdir, cameraMatrix, distCoefs)
-    # Pickle numpy arrays
-    saveArray('%s/camera-matrix.pkl' % outdir, cameraMatrix)
-    saveArray('%s/dist-coefs.pkl' % outdir, distCoefs)
-    elapse = time.time() - start
     logger.info("RMS: %s" % rms)
     logger.info("Camera matrix: %s" % cameraMatrix)
     logger.info("Distortion coefficients: %s" % distCoefs.ravel())    
+    logger.info("Saving calibration parameters to file")
+    # Pickle numpy arrays
+    saveArray("%s/camera-matrix.pkl" % outdir, cameraMatrix)
+    saveArray("%s/dist-coefs.pkl" % outdir, distCoefs)
+    logger.info("Restoring calibration parameters from file")
+    cameraMatrix = loadArray("%s/camera-matrix.pkl" % outdir)
+    distCoefs = loadArray("%s/dist-coefs.pkl" % outdir)
+    logger.info("Camera matrix: %s" % cameraMatrix)
+    logger.info("Distortion coefficients: %s" % distCoefs.ravel())    
+    logger.info("Undistorting images")
+    undistortAll(inmask, outdir, cameraMatrix, distCoefs)
+    elapse = time.time() - start
     logger.info("Elapse time: %4.2f seconds" % elapse)    
