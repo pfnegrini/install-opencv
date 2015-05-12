@@ -30,7 +30,8 @@ sane in config.sh.
     * Patch libjpeg to mute common warnings that will fill up the logs.
 * Java 8 and Apache Ant
     * Patch gen_java.py to generate missing VideoWriter class, add some missing CV_CAP_PROP constants and replace protected finalize() method with protected delete(). release() will now call delete() immediately instead of waiting
-around to see if finalize() will kick in. 
+around to see if finalize() will kick in. This saves you from calling delete() after release(). Fundamentally this is
+no different from a coding perspective as using an unpatched OpenCV build.
     * Patch OpenCV classes with memory leaks as I find them. All finalize methods replaced with delete.
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
