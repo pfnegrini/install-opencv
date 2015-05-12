@@ -146,12 +146,12 @@ Since the OpenCV Java bindings wrap OpenCV's C++ libraries there's opportunities
 for native memory to leak without being able to detect it from Java (jmap/jhat).
 The Java bindings make use of the finalize method which is generally bad practice.
 I have removed all of these via patching. Some of the bindings create new Mat
-objects and subclasses of Mat without calling Mat.release() and Mat.delete(). This
-will cause native memory leaks and I'm patching these as they are encountered. The
-real fix is for the code to be corrected, so patching is not required. I have
-submitted bugs regarding the memory leaks, but until the code is fixed patching is
-the only cure. These are the steps required to analyze a Java program using OpenCV (or any
-JNI based app). 
+objects and subclasses of Mat without calling Mat.release(). This will cause
+native memory leaks and I'm patching these as they are encountered. The real fix
+is for the code to be corrected, so patching is not required. I have submitted
+[bugs](http://code.opencv.org/issues/3846) regarding the memory leaks, but until
+the code is fixed patching is the only cure. These are the steps required to
+analyze a Java program using OpenCV (or any JNI based app). 
 * Install Valgrind and the Valkyrie GUI
     * `sudo apt-get install valgrind valkyrie`
 * Profile application
