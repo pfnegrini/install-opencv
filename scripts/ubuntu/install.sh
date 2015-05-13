@@ -289,16 +289,6 @@ cp -r "$tmpdir/opencv" "$opencvhome"
 #
 
 log "Patching source pre-compile\n"
-# Patch gen_java.py to generate VideoWriter by removing from class_ignore_list
-sed -i 's/\"VideoWriter\",/'\#\"VideoWriter\",'/g' "$opencvhome$genjava"
-
-# Patch gen_java.py to generate constants by removing from const_ignore_list
-sed -i 's/\"CV_CAP_PROP_FPS\",/'\#\"CV_CAP_PROP_FPS\",'/g' "$opencvhome$genjava"
-sed -i 's/\"CV_CAP_PROP_FOURCC\",/'\#\"CV_CAP_PROP_FOURCC\",'/g' "$opencvhome$genjava"
-sed -i 's/\"CV_CAP_PROP_FRAME_COUNT\",/'\#\"CV_CAP_PROP_FRAME_COUNT\",'/g' "$opencvhome$genjava"
-
-# Patch gen_java.py to generate delete() instead of finalize() methods
-sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable/protected void delete()/g' "$opencvhome$genjava"
 
 # Patch jdhuff.c to remove "Invalid SOS parameters for sequential JPEG" warning
 sed -i 's~WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);~//WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);\'$'\n      ; // NOP~g' "$opencvhome$jdhuff"
@@ -328,13 +318,6 @@ ldconfig
 #
 
 log "Patching Java source post-generated\n"
-# Patch Mat.java to remove finalize method which causes heap leaks
-# Renamed method is delete() which calls n_delete just like finalize did
-sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable/protected void delete()/g' "$opencvhome$mat"
-sed -i 's~super.finalize~//super.finalize~g' "$opencvhome$mat"
-
-# Patch Mat.java to add new delete() method to release(), thus no need to call delete() directly
-sed -i 's~n_release(nativeObj);~n_release(nativeObj);\n        delete();~g' "$opencvhome$mat"
 
 # Patch Imgproc.java to fix memory leaks
 sed -i 's/Converters.Mat_to_vector_vector_Point(contours_mat, contours);/Converters.Mat_to_vector_vector_Point(contours_mat, contours);\n        contours_mat.release();/g' "$opencvhome$imgproc"
