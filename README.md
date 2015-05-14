@@ -29,10 +29,7 @@ sane in config.sh.
 * OpenCV from source
     * Patch libjpeg to mute common warnings that will fill up the logs.
 * Java 8 and Apache Ant
-    * Patch gen_java.py to generate missing VideoWriter class, add some missing CV_CAP_PROP constants and replace protected finalize() method with protected delete(). release() will now call delete() immediately instead of waiting
-around to see if finalize() will kick in. This saves you from calling delete() after release(). Fundamentally this is
-no different (from a coding perspective) than using an unpatched OpenCV build. I have a [pull request](https://github.com/Itseez/opencv/pull/4006) that should fix this in gen_java.py. Then I will need to fix the other classes.
-    * Patch OpenCV classes with memory leaks as I find them. All finalize methods replaced with delete.
+    * [Pull request 4006](https://github.com/Itseez/opencv/pull/4006) was accepted, but I should have made delete() public instead or protected. [Pull request 4014](https://github.com/Itseez/opencv/pull/4014) is waiting for a merge and it will make generated delete() public. These changes combined will generate VideoWriter, add a few CV_CAP constants and add n_delete to release() in Mat class. This will prevent the majority of native memory leaks. Some other classes still create Mats without calling release(). Once I figure out how to fix these in the source I'll create some more pull requests.
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
 * Java and Python examples
