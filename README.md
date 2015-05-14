@@ -13,7 +13,7 @@ since that's the last stable build script before OpenCV 3.0.0.
 The master branch now builds OpenCV 3.0.0 from GitHub, so you can consider this experimental
 until the OpenCV build is release quality. TBB works now thanks to an answer after reporting
 the problem as a [bug](http://code.opencv.org/issues/3900). The suggested cmake arguments worked.
-I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb) if you are interested. Until then I'll cover them in the post-generated section of [install.sh](https://github.com/sgjava/install-opencv/blob/master/scripts/ubuntu/install.sh).
+I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb) if you are interested.
 
 
 ### WARNING
@@ -31,6 +31,7 @@ sane in config.sh.
 * Java 8 and Apache Ant
     * [Pull request 4006](https://github.com/Itseez/opencv/pull/4006) was accepted, but I should have made delete() public instead or protected.
     * [Pull request 4014](https://github.com/Itseez/opencv/pull/4014) is waiting for a merge and it will make generated delete() public. These changes combined will generate VideoWriter, add a few CV_CAP constants and add n_delete to release() in Mat class. This will prevent the majority of native memory leaks. Some other classes still create Mats without calling release(). Once I figure out how to fix these in the source I'll create some more pull requests.
+Until then I'll cover them in the post-generated section of [install.sh](https://github.com/sgjava/install-opencv/blob/master/scripts/ubuntu/install.sh).
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
 * Java and Python examples
