@@ -30,7 +30,7 @@ sane in config.sh.
     * Patch libjpeg to mute common warnings that will fill up the logs.
 * Java 8 and Apache Ant
     * [Pull request 4006](https://github.com/Itseez/opencv/pull/4006) was accepted, but I should have made delete() public instead or protected.
-    * [Pull request 4014](https://github.com/Itseez/opencv/pull/4014) is waiting for a merge and it will make generated delete() public. These changes combined will generate VideoWriter, add a few CV_CAP constants and add n_delete to release() in Mat class. This will prevent the majority of native memory leaks. Some other classes still create Mats without calling release(). Once I figure out how to fix these in the source I'll create some more pull requests.
+    * [Pull request 4014](https://github.com/Itseez/opencv/pull/4014) was accepted, and it will make generated delete() public. These changes combined will generate VideoWriter, add a few CV_CAP constants and add n_delete to release() in Mat class. This will prevent the majority of native memory leaks. Some other classes still create Mats without calling release(). Once I figure out how to fix these in the source I'll create some more pull requests.
 Until then I'll cover them in the post-generated section of [install.sh](https://github.com/sgjava/install-opencv/blob/master/scripts/ubuntu/install.sh).
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
