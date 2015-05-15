@@ -11,10 +11,7 @@ I created a branch [2_4_9_0](https://github.com/sgjava/install-opencv/tree/2_4_9
 since that's the last stable build script before OpenCV 3.0.0.
 
 The master branch now builds OpenCV 3.0.0 from GitHub, so you can consider this experimental
-until the OpenCV build is release quality. TBB works now thanks to an answer after reporting
-the problem as a [bug](http://code.opencv.org/issues/3900). The suggested cmake arguments worked.
-I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb) if you are interested.
-
+until the OpenCV build is release quality.
 
 ### WARNING
 
@@ -27,6 +24,9 @@ sane in config.sh.
 ### Provides
 * FFMPEG from source (x264, fdk-aac, libvpx, libopus)
 * OpenCV from source
+    * TBB works now thanks to an answer after reporting
+the problem as a [bug](http://code.opencv.org/issues/3900). The suggested cmake arguments worked.
+I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb) if you are interested.
     * Patch libjpeg to mute common warnings that will fill up the logs.
 * Java 8 and Apache Ant
     * [Pull request 4006](https://github.com/Itseez/opencv/pull/4006) was accepted, but I should have made delete() public instead or protected.
