@@ -132,10 +132,10 @@ To run compiled class (Canny for this example) from shell:
 
 #### Things to be aware of
 * There are no bindings generated for OpenCV's GPU module.
-* Missing VideoWriter (I fixed this by patching gen_java.py)
-* Constants are missing (These can by patched as well in the install script)
+* Missing VideoWriter (I fixed this in [pull request 4006](https://github.com/Itseez/opencv/pull/4006))
+* Constants are missing (I fixed this in [pull request 4006](https://github.com/Itseez/opencv/pull/4006))
 * There's no imshow equivalent, so check out [CaptureUI](https://github.com/sgjava/install-opencv/blob/master/opencv-java/src/com/codeferm/opencv/CaptureUI.java)
-* Make sure you call Mat.release() followed by Mat.delete() to free native memory
+* Make sure you call Mat.release() to free native memory
 * The JNI code can modify variables with the final modifier. You need to be aware of the implications of this since it is not normal Java behavior.
 
 ![CaptureUI Java](images/captureui-java.png)
@@ -143,14 +143,11 @@ To run compiled class (Canny for this example) from shell:
 #### How to check for native memory leaks
 Since the OpenCV Java bindings wrap OpenCV's C++ libraries there's opportunities
 for native memory to leak without being able to detect it from Java (jmap/jhat).
-The Java bindings make use of the finalize method which is generally bad practice.
-I have removed all of these via patching. Some of the bindings create new Mat
-objects and subclasses of Mat without calling Mat.release(). This will cause
-native memory leaks and I'm patching these as they are encountered. The real fix
-is for the code to be corrected, so patching is not required. I have submitted
-[bugs](http://code.opencv.org/issues/3846) regarding the memory leaks, but until
-the code is fixed patching is the only cure. These are the steps required to
-analyze a Java program using OpenCV (or any JNI based app). 
+Some of the bindings create new Mat objects and subclasses of Mat without calling
+Mat.release(). This will cause native memory leaks and I'm patching these as they
+are encountered. The real fixis for the code to be corrected, so patching is not
+required. These are the steps required to analyze a Java program using OpenCV (or
+any JNI based app). 
 * Install Valgrind and the Valkyrie GUI
     * `sudo apt-get install valgrind valkyrie`
 * Profile application
@@ -160,7 +157,7 @@ analyze a Java program using OpenCV (or any JNI based app).
     * `valkyrie`
     * Open canny.xml
     * Scroll down to bottom
-    * Look for OpenCV classes which ar wrapped by Java such as `0x1FDD0BFE: Java_org_opencv_imgproc_Imgproc_findContours_11 (in /home/<username>/opencv-3.0.x/build/lib/libopencv_java30x.so)` This will give you a hint which Java class is leaking memory. There's always a chance it could by a memory leak in the C++ code which would require patching the C++ source.
+    * Look for OpenCV classes which are wrapped by Java such as `0x1FDD0BFE: Java_org_opencv_imgproc_Imgproc_findContours_11 (in /home/<username>/opencv-3.0.x/build/lib/libopencv_java30x.so)` This will give you a hint which Java class is leaking memory. There's always a chance it could be a memory leak in the C++ code which would require patching the C++ source.
     
 The Canny example is slightly faster in Java (3.08 seconds) compared to Python
 (3.18 seconds). In general, there's not enough difference in processing over 900
