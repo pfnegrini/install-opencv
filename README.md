@@ -8,7 +8,7 @@ also included example source, so you can test the installation.
 ### OpenCV 3.0.0
 
 I created a branch [2_4_9_0](https://github.com/sgjava/install-opencv/tree/2_4_9_0)
-since that's the last stable build script before OpenCV 3.0.0.
+since that's the last stable build script before moving to OpenCV 3.0.0.
 
 The master branch now builds OpenCV 3.0.0 from GitHub, so you can consider this experimental
 until the OpenCV build is release quality.
