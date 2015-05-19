@@ -29,9 +29,7 @@ the problem as a [bug](http://code.opencv.org/issues/3900). The suggested cmake 
 I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb) if you are interested.
     * Patch libjpeg to mute common warnings that will fill up the logs.
 * Java 8 and Apache Ant
-    * [Pull request 4006](https://github.com/Itseez/opencv/pull/4006) was accepted, but I should have made delete() public instead or protected.
-    * [Pull request 4014](https://github.com/Itseez/opencv/pull/4014) was accepted, and it will make generated delete() public. These changes combined will generate VideoWriter, add a few CV_CAP constants and add n_delete to Mat.release(). This will prevent the majority of native memory leaks. Some other classes still create Mats without calling release(). Once I figure out how to fix these in the source I'll create some more pull requests.
-Until then I'll cover them in the post-generated section of [install.sh](https://github.com/sgjava/install-opencv/blob/master/scripts/ubuntu/install.sh).
+    * Patch memory leaks as I find them.
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
 * Java and Python examples
@@ -132,10 +130,10 @@ To run compiled class (Canny for this example) from shell:
 
 #### Things to be aware of
 * There are no bindings generated for OpenCV's GPU module.
-* Missing VideoWriter (I fixed this in [pull request 4006](https://github.com/Itseez/opencv/pull/4006))
-* Constants are missing (I fixed this in [pull request 4006](https://github.com/Itseez/opencv/pull/4006))
+* Missing VideoWriter generated via patch.
+* Constants are missing generated via patch.
 * There's no imshow equivalent, so check out [CaptureUI](https://github.com/sgjava/install-opencv/blob/master/opencv-java/src/com/codeferm/opencv/CaptureUI.java)
-* Make sure you call Mat.release() to free native memory
+* Make sure you call Mat.release() and Mat.delete() to free native memory
 * The JNI code can modify variables with the final modifier. You need to be aware of the implications of this since it is not normal Java behavior.
 
 ![CaptureUI Java](images/captureui-java.png)
