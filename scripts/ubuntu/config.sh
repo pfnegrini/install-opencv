@@ -23,8 +23,8 @@ opencvver="3.0.0"
 # Relative path to gen_java.py
 genjava="/modules/java/generator/gen_java.py"
 
-# Relative path to Mat.java
-mat="/build/src/org/opencv/core/Mat.java"
+# Relative path to core+Mat.java
+mat="/modules/core/misc/java/src/java/core+Mat.java"
 
 # Relative path to Imgproc.java
 imgproc="/build/src/org/opencv/imgproc/Imgproc.java"

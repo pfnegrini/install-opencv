@@ -296,6 +296,18 @@ sed -i 's~WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);~//WARNMS(cinfo, JWRN_NOT_SEQUENTIA
 # Patch jdmarker.c to remove "Corrupt JPEG data: xx extraneous bytes before marker 0xd9" warning
 #sed -i 's~WARNMS2(cinfo, JWRN_EXTRANEOUS_DATA~//WARNMS2(cinfo, JWRN_EXTRANEOUS_DATA~g' "$opencvhome$jdmarker"
 
+# Patch gen_java.py to generate nativeObj as not final, so it can be modified by free() method
+sed -i ':a;N;$!ba;s/protected final long nativeObj/protected long nativeObj/g' "$opencvhome$genjava"
+
+# Patch gen_java.py to generate free() instead of finalize() methods
+sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable {\n        delete(nativeObj);\n    }/public void free() {\n        if (nativeObj != 0) {\n            n_delete(nativeObj);\n            nativeObj = 0;\n        }    \n    }/g' "$opencvhome$genjava"
+
+# Patch core+Mat.java remove final fron nativeObj, so new free() method can change
+sed -i 's~public final long nativeObj~public long nativeObj~g' "$opencvhome$mat"
+
+# Patch core+Mat.java to replace finalize() with free() method
+sed -i ':a;N;$!ba;s/@Override\n    protected void finalize() throws Throwable {\n        n_delete(nativeObj);\n        super.finalize();\n    }/public void free() {\n        if (nativeObj != 0) {\n            release();\n            n_delete(nativeObj);\n            nativeObj = 0;\n        }    \n    }/g' "$opencvhome$mat"
+
 # Compile OpenCV
 log "Compile OpenCV..."
 cd "$opencvhome"
@@ -320,10 +332,10 @@ ldconfig
 log "Patching Java source post-generated\n"
 
 # Patch Imgproc.java to fix memory leaks
-sed -i 's/Converters.Mat_to_vector_vector_Point(contours_mat, contours);/Converters.Mat_to_vector_vector_Point(contours_mat, contours);\n        contours_mat.release();/g' "$opencvhome$imgproc"
+sed -i 's/Converters.Mat_to_vector_vector_Point(contours_mat, contours);/Converters.Mat_to_vector_vector_Point(contours_mat, contours);\n        contours_mat.free();/g' "$opencvhome$imgproc"
 
 # Patch Converters.java to fix memory leaks
-sed -i 's/pts.add(pt);/pts.add(pt);\n            mi.release();/g' "$opencvhome$converters"
+sed -i 's/pts.add(pt);/pts.add(pt);\n            mi.free();/g' "$opencvhome$converters"
 
 # Rebuild OpenCV jar file with patched classes
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
