@@ -29,7 +29,7 @@ the problem as a [bug](http://code.opencv.org/issues/3900). The suggested cmake 
 I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb) if you are interested.
     * Patch libjpeg to mute common warnings that will fill up the logs.
 * Java 8 and Apache Ant
-    * Patch memory leaks as I find them.
+    * Patch memory leaks as I find them. Get more information [here](https://github.com/sgjava/opencvmem). 
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
 * Java and Python examples
@@ -133,7 +133,7 @@ To run compiled class (Canny for this example) from shell:
 * Missing VideoWriter generated via patch.
 * Constants are missing generated via patch.
 * There's no imshow equivalent, so check out [CaptureUI](https://github.com/sgjava/install-opencv/blob/master/opencv-java/src/com/codeferm/opencv/CaptureUI.java)
-* Make sure you call Mat.release() and Mat.delete() to free native memory
+* Make sure you call Mat.free() to free native memory
 * The JNI code can modify variables with the final modifier. You need to be aware of the implications of this since it is not normal Java behavior.
 
 ![CaptureUI Java](images/captureui-java.png)
@@ -143,9 +143,9 @@ Since the OpenCV Java bindings wrap OpenCV's C++ libraries there's opportunities
 for native memory to leak without being able to detect it from Java (jmap/jhat).
 Some of the bindings create new Mat objects and subclasses of Mat without calling
 Mat.release(). This will cause native memory leaks and I'm patching these as they
-are encountered. The real fixis for the code to be corrected, so patching is not
+are encountered. The real fix is for the code to be corrected, so patching is not
 required. These are the steps required to analyze a Java program using OpenCV (or
-any JNI based app). 
+any JNI based app). Get more information [here](https://github.com/sgjava/opencvmem).
 * Install Valgrind and the Valkyrie GUI
     * `sudo apt-get install valgrind valkyrie`
 * Profile application
