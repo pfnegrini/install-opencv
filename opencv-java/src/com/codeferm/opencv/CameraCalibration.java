@@ -157,8 +157,8 @@ final class CameraCalibration {
 			totalError += error * error;
 			totalPoints += n;
 		}
-		cornersProjected.release();
-		distortionCoefficients.release();
+		cornersProjected.free();
+		distortionCoefficients.free();
 		return Math.sqrt(totalError / totalPoints);
 	}
 
@@ -227,8 +227,8 @@ final class CameraCalibration {
 				// Write debug Mat to output dir
 				Imgcodecs.imwrite(writeFileName, undistort);
 				// Clean up
-				mat.release();
-				undistort.release();
+				mat.free();
+				undistort.free();
 			}
 		}
 	}
@@ -349,10 +349,10 @@ final class CameraCalibration {
 				String.format("Distortion coefficients: %s", distCoeffs.dump()));
 		// Clean up lists
 		for (final Mat mat : tVecs) {
-			mat.release();
+			mat.free();
 		}
 		for (final Mat mat : rVecs) {
-			mat.release();
+			mat.free();
 		}
 		return new Mat[] { cameraMatrix, distCoeffs };
 	}
@@ -412,7 +412,7 @@ final class CameraCalibration {
 					// Write debug Mat to output dir
 					Imgcodecs.imwrite(writeFileName, vis);
 					// Clean up
-					vis.release();
+					vis.free();
 					// Add data collected to Lists
 					objectPoints.add(corners3f);
 					imagePoints.add(corners);
@@ -434,16 +434,16 @@ final class CameraCalibration {
 			// Save off distortion coefficients
 			saveDoubleMat(params[1], String.format("%sdist-coefs.bin", outDir));
 			// Clean up
-			params[0].release();
-			params[1].release();
-			corners3f.release();
+			params[0].free();
+			params[1].free();
+			corners3f.free();
 			// Clean up imagePoints
 			for (Mat imagePoint : imagePoints) {
-				imagePoint.release();
+				imagePoint.free();
 			}
 			// Clean up images
 			for (Mat image : images) {
-				image.release();
+				image.free();
 			}
 		} catch (IOException e) {
 			logger.log(Level.SEVERE,
@@ -508,8 +508,8 @@ final class CameraCalibration {
 		cameraCalibration.undistortAll(inMask, outDir, calibrateArr[0],
 				calibrateArr[1]);
 		// Clean up
-		calibrateArr[0].release();
-		calibrateArr[1].release();
+		calibrateArr[0].free();
+		calibrateArr[1].free();
 		final long estimatedTime = System.currentTimeMillis() - startTime;
 		// CHECKSTYLE:OFF MagicNumber - Magic numbers here for illustration
 		logger.log(Level.INFO, String.format("Elipse time: %4.2f seconds",

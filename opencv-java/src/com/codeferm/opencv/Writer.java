@@ -106,8 +106,8 @@ final class Writer {
 				(double) estimatedTime / 1000));
 		// CHECKSTYLE:ON MagicNumber
 		// Release native memory
-		videoCapture.delete();
-		videoWriter.delete();
-		mat.release();
+		videoCapture.free();
+		videoWriter.free();
+		mat.free();
 	}
 }

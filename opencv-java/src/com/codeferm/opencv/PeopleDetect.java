@@ -159,12 +159,12 @@ final class PeopleDetect {
 				(double) estimatedTime / 1000));
 		// CHECKSTYLE:ON MagicNumber
 		// Release native memory
-		videoCapture.delete();
-		videoWriter.delete();
-		hog.delete();
-		descriptors.release();
-		foundLocations.release();
-		foundWeights.release();
-		mat.release();
+		videoCapture.free();
+		videoWriter.free();
+		hog.free();
+		descriptors.free();
+		foundLocations.free();
+		foundWeights.free();
+		mat.free();
 	}
 }

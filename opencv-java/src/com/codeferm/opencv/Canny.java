@@ -117,12 +117,12 @@ final class Canny {
 				(double) estimatedTime / 1000));
 		// CHECKSTYLE:ON MagicNumber
 		// Release native memory
-		videoCapture.delete();
-		videoWriter.delete();
-		mat.release();
-		gray.release();
-		blur.release();
-		edges.release();
-		dst.release();
+		videoCapture.free();
+		videoWriter.free();
+		mat.free();
+		gray.free();
+		blur.free();
+		edges.free();
+		dst.free();
 	}
 }

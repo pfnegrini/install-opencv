@@ -89,7 +89,7 @@ final class MotionDetect {
 		for (MatOfPoint mop : contoursList) {
 			rectList.add(Imgproc.boundingRect(mop));
 			// Release native memory
-			mop.release();
+			mop.free();
 		}
 		return rectList;
 	}
@@ -198,13 +198,13 @@ final class MotionDetect {
 				(double) estimatedTime / 1000));
 		// CHECKSTYLE:ON MagicNumber
 		// Free native memory
-		videoCapture.delete();
-		videoWriter.delete();
-		mat.release();
-		workImg.release();
-		movingAvgImg.release();
-		gray.release();
-		diffImg.release();
-		scaleImg.release();
+		videoCapture.free();
+		videoWriter.free();
+		mat.free();
+		workImg.free();
+		movingAvgImg.free();
+		gray.free();
+		diffImg.free();
+		scaleImg.free();
 	}
 }
