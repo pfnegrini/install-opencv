@@ -30,7 +30,7 @@ mat="/modules/core/misc/java/src/java/core+Mat.java"
 imgproc="/build/src/org/opencv/imgproc/Imgproc.java"
 
 # Relative path to Converters.java
-converters="/build/src/org/opencv/utils/Converters.java"
+converters="/modules/java/generator/src/java/utils+Converters.java"
 
 # Relative path to jdhuff.c
 jdhuff="/3rdparty/libjpeg/jdhuff.c"
