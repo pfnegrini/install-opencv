@@ -512,7 +512,7 @@ final class CameraCalibration {
 		calibrateArr[1].free();
 		final long estimatedTime = System.currentTimeMillis() - startTime;
 		// CHECKSTYLE:OFF MagicNumber - Magic numbers here for illustration
-		logger.log(Level.INFO, String.format("Elipse time: %4.2f seconds",
+		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds",
 				(double) estimatedTime / 1000));
 		// CHECKSTYLE:ON MagicNumber
 	}

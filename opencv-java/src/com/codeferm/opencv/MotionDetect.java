@@ -194,7 +194,7 @@ final class MotionDetect {
 		final long estimatedTime = System.currentTimeMillis() - startTime;
 		logger.log(Level.INFO, String.format(
 				"%d frames, %d frames with motion", frames, framesWithMotion));
-		logger.log(Level.INFO, String.format("Elipse time: %4.2f seconds",
+		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds",
 				(double) estimatedTime / 1000));
 		// CHECKSTYLE:ON MagicNumber
 		// Free native memory
