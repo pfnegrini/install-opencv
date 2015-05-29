@@ -138,7 +138,8 @@ To run compiled class (Canny for this example) from shell:
 * Missing VideoWriter generated via patch.
 * Missing constants generated via patch.
 * There's no imshow equivalent, so check out [CaptureUI](https://github.com/sgjava/install-opencv/blob/master/opencv-java/src/com/codeferm/opencv/CaptureUI.java)
-* Make sure you call Mat.free() to free native memory. Understand OpenCV Java bindings [memory management](https://github.com/sgjava/opencvmem)
+* Understand how memory management [works](https://github.com/sgjava/opencvmem)
+* Make sure you call Mat.free() to free native memory
 * The JNI code can modify variables with the final modifier. You need to be aware of the implications of this since it is not normal Java behavior.
 
 ![CaptureUI Java](images/captureui-java.png)
