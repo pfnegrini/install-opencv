@@ -26,7 +26,7 @@ the problem as a [bug](http://code.opencv.org/issues/3900). The suggested cmake 
 I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb) if you are interested.
     * Patch libjpeg to mute common warnings that will fill up the logs.
 * Java 8 and Apache Ant
-    * Patch memory leaks as I find them. Get more information [here](https://github.com/sgjava/opencvmem). 
+    * Patch memory leaks as I find them. Get more information [here](https://github.com/sgjava/opencvmem)
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
 * Java and Python examples
