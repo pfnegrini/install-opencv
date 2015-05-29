@@ -67,7 +67,7 @@ with an out of memory exception. To create a 1GB swap file use:
     * `sudo sh -c 'nohup ./install.sh &'` to run script in background
 
 #### Build times (Note not all make build jobs run in parallel)
-* Acer AM3470G-UW10P Desktop (test build on 02/03/2015)
+* Acer AM3470G-UW10P Desktop
     * Test build on 05/28/2015
     * AMD A6-3620 quad core
     * 2.20GHz, 4MB Cache
