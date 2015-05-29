@@ -7,11 +7,8 @@ also included example source, so you can test the installation.
 
 ### OpenCV 3.0.0
 
-I created a branch [2_4_9_0](https://github.com/sgjava/install-opencv/tree/2_4_9_0)
-since that's the last stable build script before moving to OpenCV 3.0.0.
-
 The master branch now builds OpenCV 3.0.0 from GitHub, so you can consider this experimental
-until the OpenCV build is release quality.
+until the OpenCV build is release quality. Release date [here](http://code.opencv.org/projects/opencv/versions/3).
 
 ### WARNING
 
@@ -70,6 +67,14 @@ with an out of memory exception. To create a 1GB swap file use:
     * `sudo sh -c 'nohup ./install.sh &'` to run script in background
 
 #### Build times (Note not all make build jobs run in parallel)
+* Acer AM3470G-UW10P Desktop (test build on 02/03/2015)
+    * Test build on 05/28/2015
+    * AMD A6-3620 quad core
+    * 2.20GHz, 4MB Cache
+    * 8GB DIMM DDR3 Synchronous 1333 MHz
+    * 500GB WDC WD5000AAKX-0 SATA 3 7200 RPM 16MB Cache
+    * Ubuntu 14.04 x86_64
+    * ~40 minutes (depends on download latency)
 * MacBookPro 11,3
     * Test build on 05/12/2015
     * Intel(R) Core(TM) i7-4870HQ (8 cores)
@@ -131,32 +136,13 @@ To run compiled class (Canny for this example) from shell:
 #### Things to be aware of
 * There are no bindings generated for OpenCV's GPU module.
 * Missing VideoWriter generated via patch.
-* Constants are missing generated via patch.
+* Missing constants generated via patch.
 * There's no imshow equivalent, so check out [CaptureUI](https://github.com/sgjava/install-opencv/blob/master/opencv-java/src/com/codeferm/opencv/CaptureUI.java)
-* Make sure you call Mat.free() to free native memory
+* Make sure you call Mat.free() to free native memory. Understand OpenCV Java bindings [memory management](https://github.com/sgjava/opencvmem)
 * The JNI code can modify variables with the final modifier. You need to be aware of the implications of this since it is not normal Java behavior.
 
 ![CaptureUI Java](images/captureui-java.png)
-
-#### How to check for native memory leaks
-Since the OpenCV Java bindings wrap OpenCV's C++ libraries there's opportunities
-for native memory to leak without being able to detect it from Java (jmap/jhat).
-Some of the bindings create new Mat objects and subclasses of Mat without calling
-Mat.release(). This will cause native memory leaks and I'm patching these as they
-are encountered. The real fix is for the code to be corrected, so patching is not
-required. These are the steps required to analyze a Java program using OpenCV (or
-any JNI based app). Get more information [here](https://github.com/sgjava/opencvmem).
-* Install Valgrind and the Valkyrie GUI
-    * `sudo apt-get install valgrind valkyrie`
-* Profile application
-    * `cd /home/<username>/workspace/install-opencv/opencv-java`
-    * `valgrind --trace-children=yes --leak-check=full --num-callers=15 --xml=yes --xml-file=/home/<username>/canny.xml java -Djava.compiler=NONE -Djava.library.path=/home/<username>/opencv-3.0.x/build/lib -cp /home/<username>/opencv-3.0.x/build/bin/opencv-30x.jar:bin com.codeferm.opencv.Canny`
-* Examine Valgrind output
-    * `valkyrie`
-    * Open canny.xml
-    * Scroll down to bottom
-    * Look for OpenCV classes which are wrapped by Java such as `0x1FDD0BFE: Java_org_opencv_imgproc_Imgproc_findContours_11 (in /home/<username>/opencv-3.0.x/build/lib/libopencv_java30x.so)` This will give you a hint which Java class is leaking memory. There's always a chance it could be a memory leak in the C++ code which would require patching the C++ source.
-    
+   
 The Canny example is slightly faster in Java (3.08 seconds) compared to Python
 (3.18 seconds). In general, there's not enough difference in processing over 900
 frames to pick one set of bindings over another for performance reasons.
