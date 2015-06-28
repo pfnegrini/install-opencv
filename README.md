@@ -6,6 +6,19 @@ process I've put together a script that installs the necessary prerequisites
 and builds OpenCV with Java and Python bindings. I also included example
 source, so you can test the installation.
 
+### OpenCV versions
+
+I have included branches aligned with various versions of OpenCV. I'm not keeping
+the branches up to date, but you can see where they were at the time of branching.
+If you wish to use a branch then you will need to bring some things up to date
+yourself. The master branch is aligned to OpenCV master. For some reason OpenCV
+uses branches sometimes and tags others, but not consistently. For instance, there
+is a 2.4 branch, but no 3.0 branch. Tags seem to be the preferred method of
+organizing releases.
+
+* [2_4_9_0](https://github.com/sgjava/install-opencv/tree/2_4_9_0)
+* [3_0_0_0](https://github.com/sgjava/install-opencv/tree/3_0_0_0)
+
 ### WARNING
 
 This script has the ability to install/remove Ubuntu packages and it also
@@ -64,7 +77,7 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build times (Note not all make build jobs run in parallel)
 * Acer AM3470G-UW10P Desktop
-    * Test build on 05/28/2015
+    * Test build on 06/28/2015
     * AMD A6-3620 quad core
     * 2.20GHz, 4MB Cache
     * 8GB DIMM DDR3 Synchronous 1333 MHz

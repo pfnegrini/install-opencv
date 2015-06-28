@@ -17,7 +17,7 @@ arch=$(uname -m)
 . /etc/lsb-release
 
 # OpenCV version
-opencvcmd="git clone --branch 3.0.0 --depth 1 https://github.com/Itseez/opencv.git"
+opencvcmd="git clone https://github.com/Itseez/opencv.git"
 opencvver="3.0.0"
 
 # Relative path to gen_java.py
