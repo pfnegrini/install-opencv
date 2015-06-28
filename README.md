@@ -1,14 +1,10 @@
 ## Install OpenCV
 
-Typically to get the latest version of OpenCV you have to build it from source.
-In order to automate this process I've put together a script that installs
-the necessary prerequisites and builds OpenCV with Java and Python bindings. I
-also included example source, so you can test the installation.
-
-### OpenCV 3.0.0
-
-The master branch now builds OpenCV 3.0.0 from GitHub, so you can consider this experimental
-until the OpenCV build is release quality. Release date [here](http://code.opencv.org/projects/opencv/versions/3).
+The best way to install OpenCV is from source since there are multiple ways
+to compile it (using GPU optimizations for instance). In order to automate this
+process I've put together a script that installs the necessary prerequisites
+and builds OpenCV with Java and Python bindings. I also included example
+source, so you can test the installation.
 
 ### WARNING
 

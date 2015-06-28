@@ -277,7 +277,7 @@ apt-get -y install unzip
 
 log "Installing OpenCV $opencvver...\n"
 cd "$tmpdir"
-git clone "$opencvurl"
+eval "$opencvcmd"
 opencvhome="$HOME/opencv-$opencvver"
 log "Removing $opencvhome\n"
 rm -rf "$opencvhome"

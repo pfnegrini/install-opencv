@@ -17,7 +17,7 @@ arch=$(uname -m)
 . /etc/lsb-release
 
 # OpenCV version
-opencvurl="https://github.com/Itseez/opencv.git"
+opencvcmd="git clone --branch 3.0.0 --depth 1 https://github.com/Itseez/opencv.git"
 opencvver="3.0.0"
 
 # Relative path to gen_java.py
@@ -66,8 +66,8 @@ if [ $installjava = "True" ]; then
 	fi
 	# Apache Ant
 	anturl="http://www.us.apache.org/dist/ant/binaries/"
-	antarchive="apache-ant-1.9.4-bin.tar.gz"
-	antver="apache-ant-1.9.4"
+	antarchive="apache-ant-1.9.5-bin.tar.gz"
+	antver="apache-ant-1.9.5"
 	anthome="/opt/ant"
 	antbin="/opt/ant/bin"
 fi
