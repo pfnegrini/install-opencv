@@ -1,5 +1,4 @@
 ## Install OpenCV
-
 The best way to install OpenCV is from source since there are multiple ways
 to compile it (using GPU optimizations for instance). In order to automate this
 process I've put together a script that installs the necessary prerequisites
@@ -7,7 +6,6 @@ and builds OpenCV with Java and Python bindings. I also included example
 source, so you can test the installation.
 
 ### OpenCV versions
-
 I have included branches aligned with various versions of OpenCV. I'm not keeping
 the branches up to date, but you can see where they were at the time of branching.
 If you wish to use a branch then you will need to bring some things up to date
@@ -20,7 +18,6 @@ organizing releases.
 * [3_0_0_0](https://github.com/sgjava/install-opencv/tree/3_0_0_0)
 
 ### WARNING
-
 This script has the ability to install/remove Ubuntu packages and it also
 installs some libraries from source. This could potentially screw up your system
 (if it's not a fresh install), so use with caution! I suggest using a VM for
