@@ -40,6 +40,7 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
     * Motion detection
     * People detection
     * Camera Calibration
+    * Drawing
     
 ### Platforms Supported by Install OpenCV
 * Ubuntu 14.04.2 LTS x86_64
