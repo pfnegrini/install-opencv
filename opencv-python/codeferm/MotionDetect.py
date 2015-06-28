@@ -5,8 +5,6 @@ Created by Steven P. Goldsmith on December 23, 2013
 sgoldsmith@codeferm.com
 """
 
-import logging, sys, time, numpy, cv2
-
 """Motion detector.
     
 Uses moving average to determine change percent.
@@ -16,6 +14,9 @@ sys.argv[1] = source file or will default to "../../resources/traffic.mp4" if no
 @author: sgoldsmith
 
 """
+
+import logging, sys, time, numpy, cv2
+
 
 def contours(source):
     # The background (bright) dilates around the black regions of frame

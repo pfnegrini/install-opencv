@@ -5,8 +5,6 @@ Created by Steven P. Goldsmith on March 30, 2015
 sgoldsmith@codeferm.com
 """
 
-import logging, sys, os, time, cv2, numpy, argparse, glob, pickle
-
 """Camera calibration.
 
 You need at least 10 images that pass cv2.findChessboardCorners at varying
@@ -22,6 +20,9 @@ http://opencv-python-tutroals.readthedocs.org/en/latest/py_tutorials/py_calib3d/
 @author: sgoldsmith
 
 """
+
+import logging, sys, os, time, cv2, numpy, argparse, glob, pickle
+
 
 def splitFileName(fileName):
     """Split full path into file name components"""  
@@ -48,7 +49,7 @@ def findCorners(image, patternSize):
     """Find chess board corners"""  
     squareSize = 1.0
     patternPoints = numpy.zeros((numpy.prod(patternSize), 3), numpy.float32)
-    patternPoints[:,:2] = numpy.indices(patternSize).T.reshape(-1, 2)
+    patternPoints[:, :2] = numpy.indices(patternSize).T.reshape(-1, 2)
     patternPoints *= squareSize
     found, corners = cv2.findChessboardCorners(image, patternSize)
     return found, corners, patternPoints
@@ -59,7 +60,7 @@ def getPoints(inMask, outDir, patternSize):
     objPoints = []
     imgPoints = []
     # Set the criteria for the cornerSubPix algorithm
-    term = (cv2.TERM_CRITERIA_EPS+cv2.TERM_CRITERIA_COUNT, 30, 0.1)
+    term = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_COUNT, 30, 0.1)
     passed = 0
     # Process all images
     for fileName in imageNames:
@@ -90,7 +91,7 @@ def getPoints(inMask, outDir, patternSize):
 
 def undistort(image, cameraMatrix, distCoefs):
     """Undistort image"""  
-    h,  w = image.shape[:2]
+    h, w = image.shape[:2]
     newCameraMtx, roi = cv2.getOptimalNewCameraMatrix(cameraMatrix, distCoefs, (w, h), 1, (w, h))
     # Undistort
     dst = cv2.undistort(image, cameraMatrix, distCoefs, None, newCameraMtx)
@@ -105,8 +106,8 @@ def reprojectionError(objPoints, imgPoints, rVecs, tVecs, cameraMatrix, distCoef
     totalPoints = 0  
     for i in xrange(len(objPoints)):
         reprojectedPoints, _ = cv2.projectPoints(objPoints[i], rVecs[i], tVecs[i], cameraMatrix, distCoefs)
-        reprojectedPoints = reprojectedPoints.reshape(-1,2)
-        totalError += numpy.sum(numpy.abs(imgPoints[i] - reprojectedPoints) **2)
+        reprojectedPoints = reprojectedPoints.reshape(-1, 2)
+        totalError += numpy.sum(numpy.abs(imgPoints[i] - reprojectedPoints) ** 2)
         totalPoints += len(objPoints[i])        
     return numpy.sqrt(totalError / totalPoints)
 

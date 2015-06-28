@@ -5,8 +5,6 @@ Created by Steven P. Goldsmith on December 21, 2013
 sgoldsmith@codeferm.com
 """
 
-import logging, sys, re, socket, cv2
-
 """A simple video capture script using imshow.
 
 sys.argv[1] = camera index, url or will default to "0" if no args passed.
@@ -14,8 +12,11 @@ sys.argv[1] = camera index, url or will default to "0" if no args passed.
 @author: sgoldsmith
 
 """
-
 # Configure logger
+
+import logging, sys, re, socket, cv2
+
+
 logger = logging.getLogger("CaptureUI")
 logger.setLevel("INFO")
 formatter = logging.Formatter("%(asctime)s %(levelname)-8s %(module)s %(message)s")

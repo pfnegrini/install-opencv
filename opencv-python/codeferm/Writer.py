@@ -5,8 +5,6 @@ Created by Steven P. Goldsmith on December 23, 2013
 sgoldsmith@codeferm.com
 """
 
-import logging, sys, time, cv2
-
 """Example of VideoWriter module.
 
 sys.argv[1] = source file or will default to "../../resources/traffic.mp4" if no args passed.
@@ -14,8 +12,11 @@ sys.argv[1] = source file or will default to "../../resources/traffic.mp4" if no
 @author: sgoldsmith
 
 """
-
 # Configure logger
+
+import logging, sys, time, cv2
+
+
 logger = logging.getLogger("Writer")
 logger.setLevel("INFO")
 formatter = logging.Formatter("%(asctime)s %(levelname)-8s %(module)s %(message)s")
