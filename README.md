@@ -80,16 +80,16 @@ with an out of memory exception. To create a 1GB swap file use:
     * 2.20GHz, 4MB Cache
     * 8GB DIMM DDR3 Synchronous 1333 MHz
     * 500GB WDC WD5000AAKX-0 SATA 3 7200 RPM 16MB Cache
-    * Ubuntu 14.04 x86_64
+    * Ubuntu 14.04.2 x86_64
     * ~40 minutes (depends on download latency)
 * MacBookPro 11,3
-    * Test build on 05/12/2015
+    * Test build on 06/29/2015
     * Intel(R) Core(TM) i7-4870HQ (8 cores)
     * 2.50GHz, 6MB Cache
     * 16GB SODIMM DDR3 Synchronous 1600 MHz (0.6 ns)
     * APPLE SSD SM1024
-    * Ubuntu 14.04 x86_64
-    * ~25 minutes (depends on download latency)
+    * Ubuntu 14.04.2 x86_64
+    * ~21 minutes (depends on download latency)
 * ODROID-C1
     * Test build on 02/15/2015
     * Amlogic S805 quad core
