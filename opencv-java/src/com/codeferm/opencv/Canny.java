@@ -93,7 +93,7 @@ final class Canny {
 		final Mat gray = new Mat();
 		final Mat blur = new Mat();
 		final Mat edges = new Mat();
-		final Mat dst = new Mat();
+		Mat dst = new Mat();
 		final Size kSize = new Size(3, 3);
 		final long startTime = System.currentTimeMillis();
 		while (videoCapture.read(mat)) {
@@ -108,6 +108,10 @@ final class Canny {
 			// Add some colors to edges from original image
 			Core.bitwise_and(mat, mat, dst, edges);
 			videoWriter.write(dst);
+			// This wasn't required in OpenCV 2.4 otherwise you get outline
+			// history in video
+			dst.free();
+			dst = new Mat();
 			frames++;
 		}
 		final long estimatedTime = System.currentTimeMillis() - startTime;
