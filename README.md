@@ -14,6 +14,11 @@ uses branches sometimes and tags others, but not consistently. For instance, the
 is a 2.4 branch, but no 3.0 branch. Tags seem to be the preferred method of
 organizing releases.
 
+If something breaks when executing code with the OpenCV master branch then try
+again another day. I have had times where something that worked would segfault
+the JVM which was happening down in the C++ code. All part of being on the
+cutting edge.
+
 * [2_4_9_0](https://github.com/sgjava/install-opencv/tree/2_4_9_0)
 * [3_0_0_0](https://github.com/sgjava/install-opencv/tree/3_0_0_0)
 
