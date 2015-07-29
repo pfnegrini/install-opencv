@@ -49,25 +49,25 @@ javahome=/usr/lib/jvm/jdk1.8.0
 
 if [ $installjava = "True" ]; then
 	if [ "$arch" = "x86_64" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u45-b14/"
-		jdkver="jdk1.8.0_45"
-		jdkarchive="jdk-8u45-linux-x64.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u51-b16/"
+		jdkver="jdk1.8.0_51"
+		jdkarchive="jdk-8u51-linux-x64.tar.gz"
 	elif [ "$arch" = "i586" ] || [ "$arch" = "i686" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u45-b14/"
-		jdkver="jdk1.8.0_45"
-		jdkarchive="jdk-8u45-linux-i586.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u51-b16/"
+		jdkver="jdk1.8.0_51"
+		jdkarchive="jdk-8u51-linux-i586.tar.gz"
 	elif [ "$arch" = "armv7l" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u33-b05/"
-		jdkver="jdk1.8.0_33"
-		jdkarchive="jdk-8u33-linux-arm-vfp-hflt.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u51-b16/"
+		jdkver="jdk1.8.0_51"
+		jdkarchive="jdk-8u51-linux-arm-vfp-hflt.tar.gz"
 	else
 		echo "\nNo supported architectures detected!"
 		exit 1
 	fi
 	# Apache Ant
 	anturl="http://www.us.apache.org/dist/ant/binaries/"
-	antarchive="apache-ant-1.9.5-bin.tar.gz"
-	antver="apache-ant-1.9.5"
+	antarchive="apache-ant-1.9.6-bin.tar.gz"
+	antver="apache-ant-1.9.6"
 	anthome="/opt/ant"
 	antbin="/opt/ant/bin"
 fi
