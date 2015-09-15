@@ -49,18 +49,19 @@ javahome=/usr/lib/jvm/jdk1.8.0
 
 if [ $installjava = "True" ]; then
 	if [ "$arch" = "x86_64" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u51-b16/"
-		jdkver="jdk1.8.0_51"
-		jdkarchive="jdk-8u51-linux-x64.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u60-b27/"
+		jdkver="jdk1.8.0_60"
+		jdkarchive="jdk-8u60-linux-x64.tar.gz"
 	elif [ "$arch" = "i586" ] || [ "$arch" = "i686" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u51-b16/"
-		jdkver="jdk1.8.0_51"
-		jdkarchive="jdk-8u51-linux-i586.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u60-b27/"
+		jdkver="jdk1.8.0_60"
+		jdkarchive="jdk-8u60-linux-i586.tar.gz"
 	elif [ "$arch" = "armv7l" ]; then
-		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u51-b16/"
-		jdkver="jdk1.8.0_51"
-		jdkarchive="jdk-8u51-linux-arm-vfp-hflt.tar.gz"
+		jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u60-b27/"
+		jdkver="jdk1.8.0_60"
+		jdkarchive="jdk-8u60-linux-arm32-vfp-hflt.tar.gz"
 	else
+	    # Need to support armv8 64 bit soon
 		echo "\nNo supported architectures detected!"
 		exit 1
 	fi
@@ -87,6 +88,7 @@ x264url="git://git.videolan.org/x264.git"
 fdkaccurl="git://github.com/mstorsjo/fdk-aac.git"
 
 # Opus
+# Need to test opus-1.1.1-beta.tar.gz
 opusurl="http://downloads.xiph.org/releases/opus/opus-1.1.tar.gz"
 opusarchive="opus-1.1.tar.gz"
 opusver="opus-1.1"
