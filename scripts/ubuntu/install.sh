@@ -297,6 +297,7 @@ sed -i 's~WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);~//WARNMS(cinfo, JWRN_NOT_SEQUENTIA
 #sed -i 's~WARNMS2(cinfo, JWRN_EXTRANEOUS_DATA~//WARNMS2(cinfo, JWRN_EXTRANEOUS_DATA~g' "$opencvhome$jdmarker"
 
 # Patch gen_java.py to generate VideoWriter by removing from class_ignore_list
+# This shouldn't be needed any more see https://github.com/Itseez/opencv/pull/5255
 sed -i 's/\"VideoWriter\",/'\#\"VideoWriter\",'/g' "$opencvhome$genjava"
 
 # Patch gen_java.py to generate constants by removing from const_ignore_list
