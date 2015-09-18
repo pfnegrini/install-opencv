@@ -85,7 +85,7 @@ if grep -q "JAVA_HOME" /etc/environment; then
 else
 	# Add JAVA_HOME to /etc/environment
 	log "Adding JAVA_HOME to /etc/environment"
-	log "JAVA_HOME=$javahome" >> /etc/environment
+	echo "JAVA_HOME=$javahome" >> /etc/environment
 	. /etc/environment
 fi
 # Latest ANT without all the junk from  install ant
@@ -108,7 +108,7 @@ else
 	ln -s "$antbin/ant" /usr/bin/ant
 	# Add ANT_HOME to /etc/environment
 	log "Adding ANT_HOME to /etc/environment"
-	log "ANT_HOME=$anthome" >> /etc/environment
+	echo "ANT_HOME=$anthome" >> /etc/environment
 	# Add $ANT_HOME/bin to PATH
 	sed -i 's@games@&'":$anthome/bin"'@g' /etc/environment
 	. /etc/environment
