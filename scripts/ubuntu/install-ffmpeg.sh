@@ -64,7 +64,7 @@ rm -rf "$tmpdir"
 mkdir -p "$tmpdir"
 
 # Remove existing ffmpeg, x264, and other dependencies (this removes a lot of other dependencies)
-log "Removing pre-installed ffmpeg...\n"
+log "Removing pre-installed ffmpeg..."
 apt-get -y autoremove ffmpeg >> $logfile 2>&1
 apt-get -y update >> $logfile 2>&1
 
@@ -96,9 +96,9 @@ make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 checkinstall --pkgname=yasm --pkgversion="1.3.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 # Install ffmpeg
-log "Removing ffmpeg...\n"
+log "Removing ffmpeg..."
 dpkg -r ffmpeg
-log "Installing ffmpeg...\n"
+log "Installing ffmpeg..."
 cd "$tmpdir"
 git clone "$ffmpegurl"
 cd ffmpeg
