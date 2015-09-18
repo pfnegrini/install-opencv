@@ -110,6 +110,7 @@ fi
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 checkinstall --pkgname=ffmpeg --pkgversion="7:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 hash -r >> $logfile 2>&1
+ldconfig
 
 log "Removing $tmpdir"
 rm -rf "$tmpdir" 
