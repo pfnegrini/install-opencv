@@ -93,7 +93,7 @@ tar -xf "$tmpdir/$yasmarchive" -C "$tmpdir"
 cd "$tmpdir/$yasmver"
 ./configure >> $logfile 2>&1
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
-checkinstall --pkgname=yasm --pkgversion="1.3.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+checkinstall --pkgname=yasm --pkgversion="1.2.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 # Install ffmpeg
 log "Removing ffmpeg..."
