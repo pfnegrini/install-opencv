@@ -87,6 +87,7 @@ dpkg -r yasm
 log "Installing yasm $yasmver..."
 echo -n "Downloading $yasmurl to $tmpdir     "
 wget --directory-prefix=$tmpdir --timestamping --progress=dot "$yasmurl" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+echo
 log "Extracting $tmpdir/$yasmarchive to $tmpdir"
 tar -xf "$tmpdir/$yasmarchive" -C "$tmpdir"
 cd "$tmpdir/$yasmver"
