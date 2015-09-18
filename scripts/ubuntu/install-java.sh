@@ -87,6 +87,7 @@ else
 	log "Adding JAVA_HOME to /etc/environment"
 	echo "JAVA_HOME=$javahome" >> /etc/environment
 	. /etc/environment
+	log "JAVA_HOME = $JAVA_HOME"
 fi
 # Latest ANT without all the junk from  install ant
 log "Installing Ant $antver..."
@@ -118,10 +119,6 @@ fi
 
 log "Removing $tmpdir"
 rm -rf "$tmpdir" 
-
-# Make sure root picks up JAVA_HOME for this process
-export JAVA_HOME=$javahome
-log "JAVA_HOME = $JAVA_HOME"
 
 # Get end time
 endtime=$(date "$dateformat")

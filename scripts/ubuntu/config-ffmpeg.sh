@@ -24,14 +24,5 @@ yasmurl="http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz"
 yasmarchive="yasm-1.3.0.tar.gz"
 yasmver="yasm-1.3.0"
 
-# Opus
-# Need to test opus-1.1.1-beta.tar.gz
-opusurl="http://downloads.xiph.org/releases/opus/opus-1.1.tar.gz"
-opusarchive="opus-1.1.tar.gz"
-opusver="opus-1.1"
-
-# libvpx
-libvpxurl="https://chromium.googlesource.com/webm/libvpx"
-
 # ffmpeg
 ffmpegurl="git://source.ffmpeg.org/ffmpeg.git"
