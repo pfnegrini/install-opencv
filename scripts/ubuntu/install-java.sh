@@ -100,7 +100,7 @@ tar -xf "$tmpdir/$antarchive" -C "$tmpdir"
 log "Removing $anthome"
 rm -rf "$anthome"
 # In case /opt doesn't exist
-mkdir -p "$anthome"
+mkdir -p /opt
 log "Moving $tmpdir/$antver to $anthome"
 mv "$tmpdir/$antver" "$anthome"
 # See if ANT_HOME exists and if not add it to /etc/environment
@@ -113,7 +113,7 @@ else
 	log "Adding ANT_HOME to /etc/environment"
 	echo "ANT_HOME=$anthome" >> /etc/environment
 	# Add $ANT_HOME/bin to PATH
-	sed -i 's@games@&'":$anthome/bin"'@g' /etc/environment
+	sed -i 's@local/games@&'":$anthome/bin"'@g' /etc/environment
 	. /etc/environment
 	log "ANT_HOME = $ANT_HOME"
 	log "PATH = $PATH"
