@@ -36,7 +36,7 @@ elif [ "$arch" = "armv7l" ]; then
 	jdkver="jdk1.8.0_60"
 	jdkarchive="jdk-8u60-linux-arm32-vfp-hflt.tar.gz"
 else
-    # Need to support armv8 64 bit soon
+	# Need to support armv8 64 bit soon
 	echo "\nNo supported architectures detected!"
 	exit 1
 fi
