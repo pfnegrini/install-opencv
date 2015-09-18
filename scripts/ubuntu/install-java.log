@@ -1,0 +1,13 @@
+09-17-2015 22:10:09 Installing Java jdk1.8.0_60 on Ubuntu 14.04 x86_64...
+09-17-2015 22:10:09 Removing temp dir /home/sgoldsmith/temp
+09-17-2015 22:11:37 Extracting /home/sgoldsmith/temp/jdk-8u60-linux-x64.tar.gz to /home/sgoldsmith/temp
+09-17-2015 22:11:42 Removing /usr/lib/jvm/jdk1.8.0
+09-17-2015 22:11:42 Moving /home/sgoldsmith/temp/jdk1.8.0_60 to /usr/lib/jvm/jdk1.8.0
+09-17-2015 22:11:43 JAVA_HOME already exists
+09-17-2015 22:11:43 Installing Ant apache-ant-1.9.6...
+09-17-2015 22:11:46 Extracting /home/sgoldsmith/temp/apache-ant-1.9.6-bin.tar.gz to /home/sgoldsmith/temp
+09-17-2015 22:11:46 Removing /opt/ant
+09-17-2015 22:11:47 Moving /home/sgoldsmith/temp/apache-ant-1.9.6 to /opt/ant
+09-17-2015 22:11:47 ANT_HOME already exists
+09-17-2015 22:11:47 Removing /home/sgoldsmith/temp
+09-17-2015 22:11:47 JAVA_HOME = /usr/lib/jvm/jdk1.8.0

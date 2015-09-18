@@ -4,10 +4,10 @@
 #
 # @author: sgoldsmith
 #
-# Install and configure OpenCV for Ubuntu 14.04.2 (Desktop/Server 
+# Install and configure OpenCV for Ubuntu 14.04.3 (Desktop/Server 
 # x86/x86_64 bit/armv7l). Please note that since some of the operations change
 # configurations, etc. I cannot guarantee it will work on future or previous
-# versions of Ubuntu. All testing was performed on Ubuntu 14.04.2
+# versions of Ubuntu. All testing was performed on Ubuntu 14.04.3
 # LTS x86_64,x86 and armv7l with the latest updates applied. Most likely
 # this will work on newer versions as well. 
 #
@@ -21,7 +21,7 @@
 # 
 # Prerequisites:
 #
-# o Install Ubuntu 14.04.2, update (I used VirtualBox for testing) and
+# o Install Ubuntu 14.04.3, update (I used VirtualBox for testing) and
 #   make sure to select OpenSSH Server during install. Internet connection is
 #   required to download libraries, frameworks, etc.
 #    o sudo apt-get update
@@ -152,7 +152,7 @@ echo "JAVA_HOME = $JAVA_HOME"
 # Remove existing ffmpeg, x264, and other dependencies (this removes a lot of other dependencies)
 if [ $removelibs = "True" ]; then
 	log "Removing any pre-installed ffmpeg, x264, and other dependencies...\n"
-	apt-get -y remove ffmpeg x264 libx264-dev libvpx-dev libopencv-dev >> $logfile 2>&1
+	apt-get -y remove ffmpeg x264 libx264-dev libav-tools libvpx-dev libopencv-dev >> $logfile 2>&1
 	apt-get -y update >> $logfile 2>&1
 fi
 
@@ -178,7 +178,7 @@ log "Removing x264...\n"
 dpkg -r x264
 log "Installing x264...\n"
 cd "$tmpdir"
-git clone "$x264url"
+git clone --depth 1 "$x264url"
 cd "x264"
 if [ $shared -eq 0 ]; then
 	./configure --enable-static --disable-opencl >> $logfile 2>&1
@@ -234,6 +234,17 @@ cd "$tmpdir/$opusver"
 ./configure  --disable-shared >> $logfile 2>&1
 make >> $logfile 2>&1
 checkinstall --pkgname=libopus --pkgversion="$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+
+# Add lavf support to x264
+cd ~/x264
+make distclean
+if [ $shared -eq 0 ]; then
+	./configure --enable-static --disable-opencl >> $logfile 2>&1
+else
+	./configure --enable-shared --disable-opencl >> $logfile 2>&1
+fi
+make >> $logfile 2>&1
+checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 # Install ffmpeg
 log "Removing ffmpeg...\n"

@@ -74,7 +74,7 @@ if [ $installjava = "True" ]; then
 fi
 
 # Set to True to remove existing ffmpeg, x264, and other dependencies (this removes a lot of other dependencies you may want)
-removelibs="False"
+removelibs="True"
 
 # yasm
 yasmurl="http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz"
