@@ -66,6 +66,7 @@ mkdir -p "$tmpdir"
 # Install Oracle Java JDK
 echo -n "Downloading $jdkurl$jdkarchive to $tmpdir     "
 wget --directory-prefix=$tmpdir --timestamping --progress=dot --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "$jdkurl$jdkarchive" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+echo
 log "Extracting $tmpdir/$jdkarchive to $tmpdir"
 tar -xf "$tmpdir/$jdkarchive" -C "$tmpdir"
 log "Removing $javahome"
@@ -93,12 +94,13 @@ fi
 log "Installing Ant $antver..."
 echo -n "Downloading $anturl$antarchive to $tmpdir     "
 wget --directory-prefix=$tmpdir --timestamping --progress=dot "$anturl$antarchive" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+echo
 log "Extracting $tmpdir/$antarchive to $tmpdir"
 tar -xf "$tmpdir/$antarchive" -C "$tmpdir"
 log "Removing $anthome"
+rm -rf "$anthome"
 # In case /opt doesn't exist
 mkdir -p "$anthome"
-rm -rf "$anthome"
 log "Moving $tmpdir/$antver to $anthome"
 mv "$tmpdir/$antver" "$anthome"
 # See if ANT_HOME exists and if not add it to /etc/environment
