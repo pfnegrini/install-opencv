@@ -65,12 +65,13 @@ mkdir -p "$tmpdir"
 
 # Remove existing ffmpeg, x264, and other dependencies (this removes a lot of other dependencies)
 log "Removing pre-installed ffmpeg..."
-apt-get -y autoremove ffmpeg >> $logfile 2>&1
+apt-get -y autoremove ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
 apt-get -y update >> $logfile 2>&1
 
 # Install build dependenices
 log "Installing build dependenices..."
-apt-get -y install autoconf automake git-core build-essential checkinstall cmake libass-dev libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libfdk-aac-dev libmp3lame-dev libopus-dev libvpx-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev >> $logfile 2>&1
+#apt-get -y install autoconf automake git-core build-essential checkinstall cmake libass-dev libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libfdk-aac-dev libmp3lame-dev libopus-dev libvpx-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev >> $logfile 2>&1
+apt-get -y install autoconf automake git-core build-essential checkinstall cmake libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev librtmp-dev >> $logfile 2>&1
 
 # Use shared lib?
 if [ "$arch" = "i386" -o "$arch" = "i486" -o "$arch" = "i586" -o "$arch" = "i686" ]; then
@@ -94,6 +95,21 @@ cd "$tmpdir/$yasmver"
 ./configure >> $logfile 2>&1
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 checkinstall --pkgname=yasm --pkgversion="1.2.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+
+# Install x264
+log "Removing x264...\n"
+dpkg -r x264
+log "Installing x264...\n"
+cd "$tmpdir"
+git clone --depth 1 "$x264url"
+cd "x264"
+if [ $shared -eq 0 ]; then
+	./configure --enable-static --disable-opencl >> $logfile 2>&1
+else
+	./configure --enable-shared --disable-opencl >> $logfile 2>&1
+fi
+make >> $logfile 2>&1
+checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 # Install ffmpeg
 log "Removing ffmpeg..."

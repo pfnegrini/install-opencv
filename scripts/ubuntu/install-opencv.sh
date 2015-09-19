@@ -141,7 +141,6 @@ cd "$opencvhome"
 mkdir build
 cd build
 # If ARM then compile with multi-core, FPU and NEON extensions
-# TBB will not build on x86 08/28/2014
 if [ "$arch" = "armv7l" ]; then
     # Added -D CMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" to fix "Error: thumb conditional instruction should be in IT block"
     cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_CUBLAS=ON -D WITH_CUFFT=ON -D WITH_EIGEN=ON -D WITH_OPENGL=ON -D WITH_QT=OFF -D WITH_TBB=ON -D BUILD_SHARED_LIBS=ON -D BUILD_DOCS=ON -D BUILD_EXAMPLES=ON -D BUILD_TESTS=ON -D BUILD_JPEG=ON -D ENABLE_VFPV3=ON -D ENABLE_NEON=ON -D CMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" .. >> $logfile 2>&1	
