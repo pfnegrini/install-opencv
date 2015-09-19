@@ -70,7 +70,7 @@ apt-get -y update >> $logfile 2>&1
 
 # Install build dependenices
 log "Installing build dependenices..."
-apt-get -y install autoconf automake git-core build-essential checkinstall cmake libtool libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
+apt-get -y install autoconf automake git-core build-essential yasm checkinstall cmake libtool libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
 
 # Use shared lib?
 if [ "$arch" = "i386" -o "$arch" = "i486" -o "$arch" = "i586" -o "$arch" = "i686" ]; then
@@ -80,20 +80,6 @@ else
 	shared=1
 	log "Using shared libraries"
 fi
-
-# Install yasm
-log "Removing yasm $yasmver..."
-dpkg -r yasm
-log "Installing yasm $yasmver..."
-echo -n "Downloading $yasmurl to $tmpdir     "
-wget --directory-prefix=$tmpdir --timestamping --progress=dot "$yasmurl" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
-echo
-log "Extracting $tmpdir/$yasmarchive to $tmpdir"
-tar -xf "$tmpdir/$yasmarchive" -C "$tmpdir"
-cd "$tmpdir/$yasmver"
-./configure >> $logfile 2>&1
-make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
-checkinstall --pkgname=yasm --pkgversion="1.2.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 # Install x264
 log "Removing x264...\n"
