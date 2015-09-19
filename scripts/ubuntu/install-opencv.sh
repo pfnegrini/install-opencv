@@ -103,7 +103,7 @@ cp -r "$tmpdir/opencv" "$opencvhome"
 log "Patching source pre-compile"
 
 # Patch jdhuff.c to remove "Invalid SOS parameters for sequential JPEG" warning
-sed -i 's~WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);~//WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);\'$'\n      ; // NOP~g' "$opencvhome$jdhuff"
+sed -i 's~WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);~//WARNMS(cinfo, JWRN_NOT_SEQUENTIAL);\n      ; // NOP~g' "$opencvhome$jdhuff"
 
 # Patch jdmarker.c to remove "Corrupt JPEG data: xx extraneous bytes before marker 0xd9" warning
 #sed -i 's~WARNMS2(cinfo, JWRN_EXTRANEOUS_DATA~//WARNMS2(cinfo, JWRN_EXTRANEOUS_DATA~g' "$opencvhome$jdmarker"
