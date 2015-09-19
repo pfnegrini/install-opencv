@@ -20,8 +20,8 @@ arch=$(uname -m)
 tmpdir="$HOME/temp"
 
 # OpenCV version
-opencvcmd="git clone https://github.com/Itseez/opencv.git"
 opencvver="3.0.0"
+opencvcmd="git clone --depth 1 https://github.com/Itseez/opencv.git"
 
 # Relative path to gen_java.py
 genjava="/modules/java/generator/gen_java.py"

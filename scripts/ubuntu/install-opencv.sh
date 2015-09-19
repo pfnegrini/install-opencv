@@ -83,10 +83,17 @@ apt-get -y install patch subversion ruby librtmp0 librtmp-dev libfaac-dev libmp3
 # Install optional packages
 apt-get -y install libdc1394-utils libdc1394-22-dev libdc1394-22 libjpeg-dev libpng-dev libtiff-dev libjasper-dev ocl-icd-opencl-dev >> $logfile 2>&1
 
+# Uninstall OpenCV if it exists
+opencvhome="$HOME/opencv-$opencvver"
+if [ -d "$opencvhome" ]; then
+	log "Uninstalling OpenCV"
+	cd "$opencvhome/build"
+	make uninstall >> $logfile 2>&1
+fi
+
 # Download OpenCV source
 cd "$tmpdir"
 eval "$opencvcmd"
-opencvhome="$HOME/opencv-$opencvver"
 log "Removing $opencvhome"
 rm -rf "$opencvhome"
 log "Copying $tmpdir/opencv to $opencvhome"
