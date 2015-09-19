@@ -27,5 +27,17 @@ yasmver="yasm-1.3.0"
 # x264
 x264url="git://git.videolan.org/x264.git"
 
+# fdk-aac
+fdkaccurl="git://github.com/mstorsjo/fdk-aac.git"
+
+# Opus
+# Need to test opus-1.1.1-beta.tar.gz
+opusurl="http://downloads.xiph.org/releases/opus/opus-1.1.tar.gz"
+opusarchive="opus-1.1.tar.gz"
+opusver="opus-1.1"
+
+# libvpx
+libvpxurl="https://chromium.googlesource.com/webm/libvpx"
+
 # ffmpeg
 ffmpegurl="git://source.ffmpeg.org/ffmpeg.git"

@@ -70,8 +70,7 @@ apt-get -y update >> $logfile 2>&1
 
 # Install build dependenices
 log "Installing build dependenices..."
-#apt-get -y install autoconf automake git-core build-essential checkinstall cmake libass-dev libfreetype6-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libxcb1-dev libxcb-shm0-dev libxcb-xfixes0-dev pkg-config texi2html zlib1g-dev libx264-dev libfdk-aac-dev libmp3lame-dev libopus-dev libvpx-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev >> $logfile 2>&1
-apt-get -y install autoconf automake git-core build-essential checkinstall cmake libass-dev libfreetype6-dev libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev librtmp-dev >> $logfile 2>&1
+apt-get -y install autoconf automake git-core build-essential checkinstall cmake libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
 
 # Use shared lib?
 if [ "$arch" = "i386" -o "$arch" = "i486" -o "$arch" = "i586" -o "$arch" = "i686" ]; then
@@ -111,6 +110,40 @@ fi
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
+# Install fdk-aac
+log "Removing fdk-aac (AAC audio encoder)...\n"
+dpkg -r fdk-aac
+log "Installing fdk-aac (AAC audio encoder)...\n"
+cd "$tmpdir"
+git clone --depth 1 "$fdkaccurl"
+cd "fdk-aac"
+autoreconf -fiv >> $logfile 2>&1
+if [ $shared -eq 0 ]; then
+	./configure --disable-shared >> $logfile 2>&1
+else
+	./configure --enable-shared >> $logfile 2>&1
+fi
+make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
+checkinstall --pkgname=fdk-aac --pkgversion="$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+
+# Install libvpx (VP8/VP9 video encoder and decoder)
+# ARM build failed because Cortex A* wasn't supported
+if [ "$arch" != "armv7l" ]; then
+	log "Removing libvpx (VP8/VP9 video encoder and decoder)...\n"
+	dpkg -r libvpx	
+	log "Installing libvpx (VP8/VP9 video encoder and decoder)...\n"
+	cd "$tmpdir"
+	git clone --depth 1 "$libvpxurl"
+	cd libvpx
+	if [ $shared -eq 0 ]; then
+		./configure --disable-examples --disable-unit-tests >> $logfile 2>&1
+	else
+		./configure --disable-examples --disable-unit-tests --enable-shared >> $logfile 2>&1
+	fi
+	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
+	checkinstall --pkgname=libvpx --pkgversion="1:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+fi
+
 # Install ffmpeg
 log "Removing ffmpeg..."
 dpkg -r ffmpeg
@@ -119,9 +152,9 @@ cd "$tmpdir"
 git clone "$ffmpegurl"
 cd ffmpeg
 if [ $shared -eq 0 ]; then
-	./configure --enable-gpl --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-nonfree --enable-version3 >> $logfile 2>&1
+	./configure --enable-gpl --enable-libfaac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-nonfree --enable-version3 >> $logfile 2>&1
 else
-	./configure --enable-gpl --enable-libass --enable-libfdk-aac --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-nonfree --enable-version3 --enable-shared >> $logfile 2>&1
+	./configure --enable-gpl --enable-libfaac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-nonfree --enable-version3 --enable-shared >> $logfile 2>&1
 fi
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 checkinstall --pkgname=ffmpeg --pkgversion="7:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
