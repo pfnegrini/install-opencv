@@ -108,7 +108,7 @@ if [ $shared -eq 0 ]; then
 else
 	./configure --enable-shared --disable-opencl >> $logfile 2>&1
 fi
-make >> $logfile 2>&1
+make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 # Install ffmpeg
