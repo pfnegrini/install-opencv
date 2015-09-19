@@ -70,7 +70,7 @@ apt-get -y update >> $logfile 2>&1
 
 # Install build dependenices
 log "Installing build dependenices..."
-apt-get -y install autoconf automake git-core build-essential checkinstall cmake libtool libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
+apt-get -y install autoconf automake git-core build-essential checkinstall cmake libtool libx264-dev libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
 
 # Use shared lib?
 if [ "$arch" = "i386" -o "$arch" = "i486" -o "$arch" = "i586" -o "$arch" = "i686" ]; then
