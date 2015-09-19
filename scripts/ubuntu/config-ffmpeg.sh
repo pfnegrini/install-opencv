@@ -25,7 +25,7 @@ yasmarchive="yasm-1.3.0.tar.gz"
 yasmver="yasm-1.3.0"
 
 # x264
-x264url="git://git.videolan.org/x264"
+x264url="git://git.videolan.org/x264.git"
 
 # fdk-aac
 fdkaccurl="git://github.com/mstorsjo/fdk-aac.git"

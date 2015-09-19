@@ -70,7 +70,7 @@ apt-get -y update >> $logfile 2>&1
 
 # Install build dependenices
 log "Installing build dependenices..."
-apt-get -y install autoconf automake git-core build-essential checkinstall cmake libtool libx264-dev libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
+apt-get -y install autoconf automake git-core build-essential checkinstall cmake libtool libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
 
 # Use shared lib?
 if [ "$arch" = "i386" -o "$arch" = "i486" -o "$arch" = "i586" -o "$arch" = "i686" ]; then
@@ -103,9 +103,9 @@ cd "$tmpdir"
 git clone --depth 1 "$x264url"
 cd "x264"
 if [ $shared -eq 0 ]; then
-	./configure --enable-static --disable-opencl >> $logfile 2>&1
+	./configure --enable-static --prefix=/usr/local --disable-opencl >> $logfile 2>&1
 else
-	./configure --enable-shared --disable-opencl >> $logfile 2>&1
+	./configure --enable-shared --prefix=/usr/local --disable-opencl >> $logfile 2>&1
 fi
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
