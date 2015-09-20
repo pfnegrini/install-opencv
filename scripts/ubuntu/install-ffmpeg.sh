@@ -65,7 +65,7 @@ mkdir -p "$tmpdir"
 
 # Remove existing ffmpeg, x264, and other dependencies (this removes a lot of other dependencies)
 log "Removing pre-installed ffmpeg..."
-apt-get -y autoremove ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
+apt-get -y autoremove yasm ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
 apt-get -y update >> $logfile 2>&1
 
 # Install build dependenices
