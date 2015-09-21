@@ -78,7 +78,7 @@ else
 
 	# Install build dependenices
 	log "Installing build dependenices..."
-	apt-get -y install autoconf automake git-core build-essential yasm checkinstall cmake libtool libfaac-dev libgpac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libtheora-dev libvorbis-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
+	apt-get -y install autoconf build-essential checkinstall cmake git libass-dev libfaac-dev libgpac-dev libjack-jackd2-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libx11-dev libxext-dev libxfixes-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
 
 	# Use shared lib?
 	if [ "$arch" = "i386" -o "$arch" = "i486" -o "$arch" = "i586" -o "$arch" = "i686" ]; then
@@ -88,6 +88,19 @@ else
 		shared=1
 		log "Using shared libraries"
 	fi
+	
+	# Install yasm
+	log "Removing yasm $yasmver...\n"
+	dpkg -r yasm
+	log "Installing yasm $yasmver...\n"
+	echo -n "Downloading $yasmurl to $tmpdir     "
+	wget --directory-prefix=$tmpdir --timestamping --progress=dot "$yasmurl" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+	echo "\nExtracting $tmpdir/$yasmarchive to $tmpdir"
+	tar -xf "$tmpdir/$yasmarchive" -C "$tmpdir"
+	cd "$tmpdir/$yasmver"
+	./configure >> $logfile 2>&1
+	make >> $logfile 2>&1
+	checkinstall --pkgname=yasm --pkgversion="1.3.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 	# Install x264
 	log "Removing x264...\n"
@@ -145,10 +158,14 @@ else
 	cd "$tmpdir"
 	git clone "$ffmpegurl"
 	cd ffmpeg
-	if [ $shared -eq 0 ]; then
-		./configure --enable-gpl --enable-libfaac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-nonfree --enable-version3 >> $logfile 2>&1
+	if [ "$arch" = "armv7l" ]; then
+		./configure --enable-gpl --enable-libass --enable-libfaac --enable-libfdk-aac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-x11grab --enable-libx264 --enable-nonfree --enable-version3 --enable-shared >> $logfile 2>&1
 	else
-		./configure --enable-gpl --enable-libfaac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libx264 --enable-nonfree --enable-version3 --enable-shared >> $logfile 2>&1
+		if [ $shared -eq 0 ]; then
+			./configure --enable-gpl --enable-libass --enable-libfaac --enable-libfdk-aac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-x11grab --enable-libx264 --enable-nonfree --enable-version3 >> $logfile 2>&1
+		else
+			./configure --enable-gpl --enable-libass --enable-libfaac --enable-libfdk-aac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-x11grab --enable-libx264 --enable-nonfree --enable-version3 --enable-shared >> $logfile 2>&1
+		fi
 	fi
 	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 	checkinstall --pkgname=ffmpeg --pkgversion="7:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1

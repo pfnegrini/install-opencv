@@ -11,7 +11,7 @@
 #
 
 # Set to True to install from ppa instead of building from source
-installppa="True"
+installppa="False"
 
 # Get architecture
 arch=$(uname -m)
@@ -21,6 +21,11 @@ arch=$(uname -m)
 
 # Temp dir
 tmpdir="$HOME/temp"
+
+# yasm
+yasmurl="http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz"
+yasmarchive="yasm-1.3.0.tar.gz"
+yasmver="yasm-1.3.0"
 
 # x264
 x264url="git://git.videolan.org/x264.git"
