@@ -81,6 +81,8 @@ make >> $logfile 2>&1
 checkinstall --pkgname=yasm --pkgversion="1.3.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 log "Installing OpenCV dependenices..."
+# Install build tools
+apt-get -y install autoconf automake git-core build-essential checkinstall cmake libtool
 # Install Image I/O libraries 
 apt-get -y install libtiff4-dev libjpeg-dev libjasper-dev >> $logfile 2>&1
 # Install Video I/O libraries, support for Firewire video cameras and video streaming libraries

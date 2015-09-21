@@ -10,6 +10,9 @@
 # sgjava@gmail.com
 #
 
+# Set to True to install from ppa instead of building from source
+installppa="True"
+
 # Get architecture
 arch=$(uname -m)
 
