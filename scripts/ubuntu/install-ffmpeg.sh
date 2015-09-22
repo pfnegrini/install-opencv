@@ -71,7 +71,7 @@ else
 
 	# Remove existing ffmpeg, x264, and other dependencies (this removes a lot of other dependencies)
 	log "Removing pre-installed ffmpeg..."
-	apt-get -y autoremove yasm ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
+	apt-get -y autoremove ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
 	apt-get -y update >> $logfile 2>&1
 
 	# Install build dependenices
@@ -88,8 +88,14 @@ else
 	fi
 	
 	# Install yasm
-	if [ "$(yasm --version | grep \"yasm 1.3.0\")" != "yasm 1.3.0" ]; then	
+	if which yasm >/dev/null; then
+		yasminstver=$(yasm --version | grep "yasm 1.3.0")
+	else
+		yasminstver=""
+	fi
+	if [ "${yasminstver}" != "yasm 1.3.0" ]; then	
 		log "Removing yasm $yasmver...\n"
+		apt-get -y autoremove yasm >> $logfile 2>&1
 		dpkg -r yasm
 		log "Installing yasm $yasmver...\n"
 		echo -n "Downloading $yasmurl to $tmpdir     "

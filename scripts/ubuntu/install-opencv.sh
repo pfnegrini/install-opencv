@@ -68,8 +68,14 @@ export JAVA_HOME=$javahome
 log "JAVA_HOME = $JAVA_HOME"
 
 # Install yasm
-if [ "$(yasm --version | grep \"yasm 1.3.0\")" != "yasm 1.3.0" ]; then	
+if which yasm >/dev/null; then
+	yasminstver=$(yasm --version | grep "yasm 1.3.0")
+else
+	yasminstver=""
+fi
+if [ "${yasminstver}" != "yasm 1.3.0" ]; then	
 	log "Removing yasm $yasmver...\n"
+	apt-get -y autoremove yasm >> $logfile 2>&1
 	dpkg -r yasm
 	log "Installing yasm $yasmver...\n"
 	echo -n "Downloading $yasmurl to $tmpdir     "
