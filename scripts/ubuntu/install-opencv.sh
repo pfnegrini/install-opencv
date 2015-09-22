@@ -68,17 +68,19 @@ export JAVA_HOME=$javahome
 log "JAVA_HOME = $JAVA_HOME"
 
 # Install yasm
-log "Removing yasm $yasmver...\n"
-dpkg -r yasm
-log "Installing yasm $yasmver...\n"
-echo -n "Downloading $yasmurl to $tmpdir     "
-wget --directory-prefix=$tmpdir --timestamping --progress=dot "$yasmurl" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
-echo "\nExtracting $tmpdir/$yasmarchive to $tmpdir"
-tar -xf "$tmpdir/$yasmarchive" -C "$tmpdir"
-cd "$tmpdir/$yasmver"
-./configure >> $logfile 2>&1
-make >> $logfile 2>&1
-checkinstall --pkgname=yasm --pkgversion="1.3.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+if [ "$(yasm --version | grep \"yasm 1.3.0\")" != "yasm 1.3.0" ]; then	
+	log "Removing yasm $yasmver...\n"
+	dpkg -r yasm
+	log "Installing yasm $yasmver...\n"
+	echo -n "Downloading $yasmurl to $tmpdir     "
+	wget --directory-prefix=$tmpdir --timestamping --progress=dot "$yasmurl" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+	echo "\nExtracting $tmpdir/$yasmarchive to $tmpdir"
+	tar -xf "$tmpdir/$yasmarchive" -C "$tmpdir"
+	cd "$tmpdir/$yasmver"
+	./configure >> $logfile 2>&1
+	make >> $logfile 2>&1
+	checkinstall --pkgname=yasm --pkgversion="1.3.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+fi
 
 log "Installing OpenCV dependenices..."
 # Install build tools
