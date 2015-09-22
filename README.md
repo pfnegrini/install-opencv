@@ -30,7 +30,7 @@ testing before using it on your physical systems. I tried to make the defaults
 sane in config.sh.
 
 ### Provides
-* FFMPEG from source (x264, fdk-aac, libvpx, libopus)
+* FFMPEG from source (x264, fdk-aac, libvpx, libopus) or PPA
 * OpenCV from source
     * TBB works now thanks to an answer after reporting
 the problem as a [bug](http://code.opencv.org/issues/3900). The suggested cmake arguments worked.
@@ -46,7 +46,16 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
     * People detection
     * Camera Calibration
     * Drawing
-    
+* Scripts update individual components without having to worry about uninstallinf first
+    * Java
+    * ffmpeg (via source or PPA see `config-ffmpeg.sh`)
+    * OpenCV
+
+### To do
+* Build with Pyhton 3 bindings
+* Make OpenCV cmake configurable (i.e. in configuration file) instead of having to edit install script
+* Build OpenCV documentation
+
 ### Platforms Supported by Install OpenCV
 * Ubuntu 14.04.3 LTS x86_64
 * Ubuntu 14.04.3 LTS x86
@@ -73,8 +82,12 @@ with an out of memory exception. To create a 1GB swap file use:
  Cortex-A9. For now the install script doesn't build WebM on ARM.
 * `git clone https://github.com/sgjava/install-opencv.git`
 * `cd install-opencv/scripts/ubuntu`
-* Edit config.sh and change OpenCV and Java versions as needed
-* Run script in foreground or background
+* Edit config-*.sh files and change versions or switches as needed
+* Run individual scripts to update individual components
+    * `sudo ./install-java.sh` to install/update Java
+    * `sudo ./install-ffmpeg.sh` to install/update ffmpeg
+    * `sudo ./install-opencv.sh` to install/update OpenCV
+* Run script in foreground or background to install all components
     * `sudo ./install.sh` to run script in foreground
     * `sudo sh -c 'nohup ./install.sh &'` to run script in background
 
