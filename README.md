@@ -46,7 +46,7 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
     * People detection
     * Camera Calibration
     * Drawing
-* Scripts update individual components without having to worry about uninstallinf first
+* Scripts update individual components without having to worry about uninstalling first
     * Java
     * ffmpeg (via source or PPA see `config-ffmpeg.sh`)
     * OpenCV
