@@ -56,16 +56,14 @@ log(){
 	echo "$timestamp $1" >> $logfile 2>&1
 }
 
-log "Installing ffmpeg on Ubuntu $ubuntuver $arch..."
-
 # Install Oracle Java JDK if installjava True
 if [ $installppa = "True" ]; then
-	log "Installing ffmpeg from PPA"
+	log "Installing ffmpeg from PPA on Ubuntu $ubuntuver $arch..."
 	add-apt-repository -y  ppa:kirillshkrogalev/ffmpeg-next
 	apt-get update
 	apt-get -y install ffmpeg	
 else
-	log "Installing ffmpeg from source"
+	log "Installing ffmpeg from source on Ubuntu $ubuntuver $arch..."
 	# Remove temp dir
 	log "Removing temp dir $tmpdir"
 	rm -rf "$tmpdir"
