@@ -46,7 +46,7 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
     * People detection
     * Camera Calibration
     * Drawing
-* Scripts update individual components without having to worry about uninstalling first
+* Scripts update individual components without having to worry about uninstalling first. All source builds multi-core now if compatible.
     * Java
     * ffmpeg (via source or PPA see `config-ffmpeg.sh`)
     * OpenCV
@@ -93,13 +93,13 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build times (Note not all make build jobs run in parallel)
 * Acer AM3470G-UW10P Desktop
-    * Test build on 09/14/2015
+    * Test build on 09/21/2015
     * AMD A6-3620 quad core
     * 2.20GHz, 4MB Cache
     * 8GB DIMM DDR3 Synchronous 1333 MHz
     * 500GB WDC WD5000AAKX-0 SATA 3 7200 RPM 16MB Cache
     * Ubuntu 14.04.3 x86_64
-    * ~28 minutes (depends on download latency)
+    * ~35 minutes (depends on download latency)
 * MacBookPro 11,3
     * Test build on 07/29/2015
     * Intel(R) Core(TM) i7-4870HQ (8 cores)
