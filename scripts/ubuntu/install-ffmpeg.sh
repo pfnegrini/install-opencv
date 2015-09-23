@@ -64,9 +64,6 @@ if [ $installppa = "True" ]; then
 	apt-get -y install ffmpeg	
 else
 	log "Installing ffmpeg from source on Ubuntu $ubuntuver $arch..."
-	# Remove temp dir
-	log "Removing temp dir $tmpdir"
-	rm -rf "$tmpdir"
 	mkdir -p "$tmpdir"
 
 	# Remove existing ffmpeg, x264, and other dependencies (this removes a lot of other dependencies)
@@ -98,10 +95,13 @@ else
 		apt-get -y autoremove yasm >> $logfile 2>&1
 		dpkg -r yasm
 		log "Installing yasm $yasmver...\n"
+		cd "$tmpdir"
+		rm -rf "$yasmver"
 		echo -n "Downloading $yasmurl to $tmpdir     "
 		wget --directory-prefix=$tmpdir --timestamping --progress=dot "$yasmurl" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
 		echo "\nExtracting $tmpdir/$yasmarchive to $tmpdir"
 		tar -xf "$tmpdir/$yasmarchive" -C "$tmpdir"
+		rm -f "$yasmarchive"
 		cd "$tmpdir/$yasmver"
 		./configure >> $logfile 2>&1
 		make >> $logfile 2>&1
@@ -113,6 +113,7 @@ else
 	dpkg -r x264
 	log "Installing x264...\n"
 	cd "$tmpdir"
+	rm -rf "x264"
 	git clone --depth 1 "$x264url"
 	cd "x264"
 	if [ $shared -eq 0 ]; then
@@ -128,6 +129,7 @@ else
 	dpkg -r fdk-aac
 	log "Installing fdk-aac (AAC audio encoder)...\n"
 	cd "$tmpdir"
+	rm -rf "fdk-aac"
 	git clone --depth 1 "$fdkaccurl"
 	cd "fdk-aac"
 	autoreconf -fiv >> $logfile 2>&1
@@ -144,6 +146,7 @@ else
 	dpkg -r libvpx	
 	log "Installing libvpx (VP8/VP9 video encoder and decoder)...\n"
 	cd "$tmpdir"
+	rm -rf "libvpx"
 	git clone --depth 1 "$libvpxurl"
 	cd libvpx
 	if [ $shared -eq 0 ]; then
@@ -159,6 +162,7 @@ else
 	dpkg -r ffmpeg
 	log "Installing ffmpeg..."
 	cd "$tmpdir"
+	rm -rf "ffmpeg"
 	git clone "$ffmpegurl"
 	cd ffmpeg
 	if [ $shared -eq 0 ]; then
