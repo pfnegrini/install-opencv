@@ -39,6 +39,9 @@ starttimesec=$(date +%s)
 # Get architecture
 arch=$(uname -m)
 
+# Source release info
+. /etc/lsb-release
+
 # Get current directory
 curdir=$(cd `dirname $0` && pwd)
 
