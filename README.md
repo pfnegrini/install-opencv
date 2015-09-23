@@ -133,18 +133,9 @@ with an out of memory exception. To create a 1GB swap file use:
     * ~3 hours (depends on download latency)
 
 #### Build output
-* Check install.log output for any problems with the installation script.
-* Dependent libraries `/home/<username>/opencv-3.0.x-libs`
+* Check install logs for any problems with the installation scripts.
 * OpenCV home `/home/<username>/opencv-3.0.x`
 * Java and Python bindings `/home/<username>/opencv-3.0.x/build`
-
-#### Upgrades
-The install script will remove the previously installed packages with `dpkg -r`.
-To upgrade OpenCV follow the build instructions after doing:
-* `sudo su -`
-* `cd /home/<username>/opencv-3.0.x/build`
-* `make uninstall`
-* `exit`
 
 ### Java
 To run Java programs in Eclipse you need add the OpenCV library.
