@@ -21,7 +21,7 @@ arch=$(uname -m)
 . /etc/lsb-release
 
 # Temp dir
-tmpdir="$HOME/temp"
+tmpdir="$HOME/ffmpeg-libs"
 
 # yasm
 yasmurl="http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz"

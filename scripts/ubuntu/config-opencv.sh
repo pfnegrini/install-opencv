@@ -19,11 +19,6 @@ arch=$(uname -m)
 # Temp dir
 tmpdir="$HOME/temp"
 
-# yasm
-yasmurl="http://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz"
-yasmarchive="yasm-1.3.0.tar.gz"
-yasmver="yasm-1.3.0"
-
 # OpenCV version
 opencvver="3.0.0"
 # git clone --depth 1 -b 3.0.0 https://github.com/Itseez/opencv.git
