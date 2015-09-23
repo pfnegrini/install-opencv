@@ -140,22 +140,19 @@ else
 	checkinstall --pkgname=fdk-aac --pkgversion="$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 	# Install libvpx (VP8/VP9 video encoder and decoder)
-	# ARM build failed because Cortex A* wasn't supported
-	if [ "$arch" != "armv7l" ]; then
-		log "Removing libvpx (VP8/VP9 video encoder and decoder)...\n"
-		dpkg -r libvpx	
-		log "Installing libvpx (VP8/VP9 video encoder and decoder)...\n"
-		cd "$tmpdir"
-		git clone --depth 1 "$libvpxurl"
-		cd libvpx
-		if [ $shared -eq 0 ]; then
-			./configure --disable-examples --disable-unit-tests >> $logfile 2>&1
-		else
-			./configure --disable-examples --disable-unit-tests --enable-shared >> $logfile 2>&1
-		fi
-		make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
-		checkinstall --pkgname=libvpx --pkgversion="1:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+	log "Removing libvpx (VP8/VP9 video encoder and decoder)...\n"
+	dpkg -r libvpx	
+	log "Installing libvpx (VP8/VP9 video encoder and decoder)...\n"
+	cd "$tmpdir"
+	git clone --depth 1 "$libvpxurl"
+	cd libvpx
+	if [ $shared -eq 0 ]; then
+		./configure --disable-examples --disable-unit-tests >> $logfile 2>&1
+	else
+		./configure --disable-examples --disable-unit-tests --enable-shared >> $logfile 2>&1
 	fi
+	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
+	checkinstall --pkgname=libvpx --pkgversion="1:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 	# Install ffmpeg
 	log "Removing ffmpeg..."
