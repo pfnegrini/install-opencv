@@ -5,7 +5,7 @@ process I've put together a script that installs the necessary prerequisites
 and builds OpenCV with Java and Python bindings. I also included example
 source, so you can test the installation.
 
-### Platforms Supported by Install OpenCV
+### Platforms Supported
 * Ubuntu 14.04.3 LTS x86_64
 * Ubuntu 14.04.3 LTS x86
 * Ubuntu 14.04.3 LTS armv7l
