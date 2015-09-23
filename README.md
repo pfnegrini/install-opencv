@@ -5,6 +5,11 @@ process I've put together a script that installs the necessary prerequisites
 and builds OpenCV with Java and Python bindings. I also included example
 source, so you can test the installation.
 
+### Platforms Supported by Install OpenCV
+* Ubuntu 14.04.3 LTS x86_64
+* Ubuntu 14.04.3 LTS x86
+* Ubuntu 14.04.3 LTS armv7l
+
 ### OpenCV versions
 I have included branches aligned with various versions of OpenCV. I'm not keeping
 the branches up to date, but you can see where they were at the time of branching.
@@ -55,11 +60,6 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
 * Build with Pyhton 3 bindings
 * Make OpenCV cmake configurable (i.e. in configuration file) instead of having to edit install script
 * Build OpenCV documentation
-
-### Platforms Supported by Install OpenCV
-* Ubuntu 14.04.3 LTS x86_64
-* Ubuntu 14.04.3 LTS x86
-* Ubuntu 14.04.3 LTS armv7l
 
 Make sure the following is in your /etc/apt/sources.list for ARM:
 ```
