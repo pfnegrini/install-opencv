@@ -55,7 +55,6 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
 * Build with Pyhton 3 bindings
 * Make OpenCV cmake configurable (i.e. in configuration file) instead of having to edit install script
 * Build OpenCV documentation
-* Compile libvpx on ARM
 
 ### Platforms Supported by Install OpenCV
 * Ubuntu 14.04.3 LTS x86_64
