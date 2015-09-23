@@ -36,6 +36,9 @@ dateformat="+%a %b %-eth %Y %I:%M:%S %p %Z"
 starttime=$(date "$dateformat")
 starttimesec=$(date +%s)
 
+# Get architecture
+arch=$(uname -m)
+
 # Get current directory
 curdir=$(cd `dirname $0` && pwd)
 
