@@ -56,7 +56,7 @@ log(){
 	echo "$timestamp $1" >> $logfile 2>&1
 }
 
-# Install Oracle Java JDK if installjava True
+# Install ffmpeg from PPA if installppa True
 if [ $installppa = "True" ]; then
 	log "Installing ffmpeg from PPA on Ubuntu $ubuntuver $arch..."
 	add-apt-repository -y  ppa:kirillshkrogalev/ffmpeg-next
