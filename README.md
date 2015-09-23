@@ -61,6 +61,8 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
 * Make OpenCV cmake configurable (i.e. in configuration file) instead of having to edit install script
 * Build OpenCV documentation
 
+### Build
+
 Make sure the following is in your /etc/apt/sources.list for ARM:
 ```
 deb http://ports.ubuntu.com/ubuntu-ports/ trusty multiverse
@@ -68,8 +70,6 @@ deb-src http://ports.ubuntu.com/ubuntu-ports/ trusty multiverse
 deb http://ports.ubuntu.com/ubuntu-ports/ trusty-updates multiverse
 deb-src http://ports.ubuntu.com/ubuntu-ports/ trusty-updates multiverse
 ```
-
-### Build
 * On ARM platforms with limited memory create a swap file or the build may fail
 with an out of memory exception. To create a 1GB swap file use:
     * `sudo su -`
