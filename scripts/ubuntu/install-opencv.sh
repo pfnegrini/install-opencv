@@ -163,6 +163,11 @@ log "Compile OpenCV..."
 cd "$opencvhome"
 mkdir build
 cd build
+
+#
+# Change cmake as needed for custom build.
+#
+
 # If ARM then compile with multi-core, FPU and NEON extensions
 if [ "$arch" = "armv7l" ]; then
     # Added -D CMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" to fix "Error: thumb conditional instruction should be in IT block"
