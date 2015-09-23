@@ -131,7 +131,7 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build output
 * Check install logs for any problems with the installation scripts.
-* ffmpeg libs (this is needed for uninstall of deb packages) `/home/<username>/ffmpeg-libs`
+* ffmpeg libs (this is needed for uninstallation of deb packages) `/home/<username>/ffmpeg-libs`
 * OpenCV home `/home/<username>/opencv-3.0.x`
 * Java and Python bindings `/home/<username>/opencv-3.0.x/build`
 
