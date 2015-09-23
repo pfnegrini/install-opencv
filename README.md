@@ -77,9 +77,6 @@ with an out of memory exception. To create a 1GB swap file use:
     * `mkswap tmpswap`
     * `swapon tmpswap`
     * `free`
-* On ARM WebM codec (libvpx) failed to build because due to "Requested CPU
- 'cortex-a8' not supported by compiler" even though I tested it on a
- Cortex-A9. For now the install script doesn't build WebM on ARM.
 * `git clone https://github.com/sgjava/install-opencv.git`
 * `cd install-opencv/scripts/ubuntu`
 * Edit config-*.sh files and change versions or switches as needed
