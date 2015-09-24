@@ -1,8 +1,8 @@
 ## Install OpenCV
 The best way to install OpenCV is from source since there are multiple ways
 to compile it (using GPU optimizations for instance). In order to automate this
-process I've put together a script that installs the necessary prerequisites
-and builds OpenCV with Java and Python bindings. I also included example
+process I've put together scripts that install the necessary prerequisites
+and build OpenCV with Java and Python bindings. I also included example
 source, so you can test the installation.
 
 ### Platforms Supported
@@ -51,10 +51,10 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
     * People detection
     * Camera Calibration
     * Drawing
-* Scripts update individual components without having to worry about uninstalling first. All source builds multi-core now if compatible.
+* Scripts update individual components without having to worry about uninstalling them first. All source builds use multi-core now if compatible.
     * Java
     * ffmpeg (via source or PPA see `config-ffmpeg.sh`)
-    * OpenCV
+    * OpenCV 
 
 ### To do
 * Build with Pyhton 3 bindings
@@ -88,7 +88,7 @@ with an out of memory exception. To create a 1GB swap file use:
     * `sudo ./install.sh` to run script in foreground
     * `sudo sh -c 'nohup ./install.sh &'` to run script in background
 
-#### Build times (Note not all make build jobs run in parallel)
+#### Build times
 * Acer AM3470G-UW10P Desktop
     * Test build on 09/21/2015
     * AMD A6-3620 quad core

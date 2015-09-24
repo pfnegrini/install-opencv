@@ -27,7 +27,7 @@
 #    o sudo apt-get update
 #    o sudo apt-get upgrade
 #    o sudo apt-get dist-upgrade
-# o Set variables in config.sh before running.
+# o Run install-java.sh and install-ffmpeg.sh at least once.
 # o sudo ./install.sh
 #
 

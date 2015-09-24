@@ -28,7 +28,7 @@
 #    o sudo apt-get upgrade
 #    o sudo apt-get dist-upgrade
 # o Set variables in config-java.sh before running.
-# o sudo ./install-java.sh
+# o sudo ./install-opencv.sh
 #
 
 # Get start time

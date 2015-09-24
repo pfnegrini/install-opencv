@@ -28,7 +28,7 @@
 #    o sudo apt-get upgrade
 #    o sudo apt-get dist-upgrade
 # o Set variables in config-java.sh before running.
-# o sudo ./install-java.sh
+# o sudo ./install-ffmpeg.sh
 #
 
 # Get start time
@@ -57,11 +57,14 @@ log(){
 }
 
 # Install ffmpeg from PPA if installppa True
+# I've only tested PPA on X86_64 platform
 if [ $installppa = "True" ]; then
 	log "Installing ffmpeg from PPA on Ubuntu $ubuntuver $arch..."
-	add-apt-repository -y  ppa:kirillshkrogalev/ffmpeg-next
-	apt-get update
-	apt-get -y install ffmpeg	
+	log "Removing pre-installed ffmpeg..."
+	apt-get -y autoremove ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
+	add-apt-repository -y  ppa:kirillshkrogalev/ffmpeg-next >> $logfile 2>&1
+	apt-get updatev >> $logfile 2>&1
+	apt-get -y install ffmpeg >> $logfile 2>&1
 else
 	log "Installing ffmpeg from source on Ubuntu $ubuntuver $arch..."
 	mkdir -p "$tmpdir"
