@@ -127,25 +127,6 @@ else
 	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 	checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
-	# Install x265
-	if [ -d "$tmpdir/x265" ]; then
-		log "Removing x265...\n"
-		cd "$tmpdir/x265/build/linux"
-		make uninstall >> $logfile 2>&1
-		rm -rf "$tmpdir/x265"
-	fi
-	log "Installing x265...\n"
-	cd "$tmpdir"
-	eval "$x265cmd"	
-	cd "x265/build/linux"
-	if [ $shared -eq 0 ]; then
-		cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$tmpdir" -DENABLE_SHARED:bool=off ../../source >> $logfile 2>&1
-	else
-		cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$tmpdir" -DENABLE_SHARED:bool=on ../../source >> $logfile 2>&1
-	fi
-	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
-	make install >> $logfile 2>&1
-
 	# Install fdk-aac
 	log "Removing fdk-aac (AAC audio encoder)...\n"
 	dpkg -r fdk-aac
@@ -188,9 +169,9 @@ else
 	git clone "$ffmpegurl"
 	cd ffmpeg
 	if [ $shared -eq 0 ]; then
-		./configure --enable-gpl --enable-libass --enable-libfaac --enable-libfdk-aac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-x11grab --enable-libx264 --enable-libx265 --enable-nonfree --enable-version3 >> $logfile 2>&1
+		./configure --enable-gpl --enable-libass --enable-libfaac --enable-libfdk-aac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-x11grab --enable-libx264 --enable-nonfree --enable-version3 >> $logfile 2>&1
 	else
-		./configure --enable-gpl --enable-libass --enable-libfaac --enable-libfdk-aac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-x11grab --enable-libx264 --enable-libx265 --enable-nonfree --enable-version3 --enable-shared >> $logfile 2>&1
+		./configure --enable-gpl --enable-libass --enable-libfaac --enable-libfdk-aac --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-librtmp --enable-libtheora --enable-libvorbis --enable-libvpx --enable-x11grab --enable-libx264 --enable-nonfree --enable-version3 --enable-shared >> $logfile 2>&1
 	fi
 	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 	checkinstall --pkgname=ffmpeg --pkgversion="7:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
