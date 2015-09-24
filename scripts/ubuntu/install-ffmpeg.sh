@@ -63,7 +63,7 @@ if [ $installppa = "True" ]; then
 	log "Removing pre-installed ffmpeg..."
 	apt-get -y autoremove ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
 	add-apt-repository -y  ppa:kirillshkrogalev/ffmpeg-next >> $logfile 2>&1
-	apt-get updatev >> $logfile 2>&1
+	apt-get update >> $logfile 2>&1
 	apt-get -y install ffmpeg >> $logfile 2>&1
 else
 	log "Installing ffmpeg from source on Ubuntu $ubuntuver $arch..."
