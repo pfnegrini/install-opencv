@@ -134,6 +134,7 @@ else
 		make uninstall >> $logfile 2>&1
 		rm -rf "$tmpdir/x265"
 	fi
+	log "Installing x265...\n"
 	cd "$tmpdir"
 	eval "$x265cmd"	
 	cd "x265/build/linux"
