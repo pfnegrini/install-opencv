@@ -115,6 +115,8 @@ else
 	log "Removing x264...\n"
 	dpkg -r x264
 	log "Installing x264...\n"
+	# Install x264 package
+	apt-get -y install libx264-dev	
 	cd "$tmpdir"
 	rm -rf "x264"
 	git clone --depth 1 "$x264url"
@@ -159,6 +161,18 @@ else
 	fi
 	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 	checkinstall --pkgname=libvpx --pkgversion="1:$(date +%Y%m%d%H%M)-git" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+
+	# Add lavf support to x264
+	log "Adding lavf support to x264...\n"
+	cd "$tmpdir/x264"
+	make distclean
+	if [ $shared -eq 0 ]; then
+		./configure --enable-static >> $logfile 2>&1
+	else
+		./configure --enable-shared >> $logfile 2>&1
+	fi
+	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
+	checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 
 	# Install ffmpeg
 	log "Removing ffmpeg..."
