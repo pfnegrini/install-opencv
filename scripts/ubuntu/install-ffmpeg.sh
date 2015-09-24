@@ -76,7 +76,7 @@ else
 
 	# Install build dependenices
 	log "Installing build dependenices..."
-	apt-get -y install autoconf build-essential checkinstall cmake git libass-dev libfaac-dev libgpac-dev libjack-jackd2-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libx11-dev libxext-dev libxfixes-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
+	apt-get -y install autoconf build-essential checkinstall cmake git mercurial libass-dev libfaac-dev libgpac-dev libjack-jackd2-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev librtmp-dev libsdl1.2-dev libtheora-dev libtool libva-dev libvdpau-dev libvorbis-dev libx11-dev libxext-dev libxfixes-dev pkg-config texi2html zlib1g-dev >> $logfile 2>&1
 
 	# Use shared lib?
 	if [ "$arch" = "i386" -o "$arch" = "i486" -o "$arch" = "i586" -o "$arch" = "i686" ]; then
@@ -126,6 +126,24 @@ else
 	fi
 	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 	checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+
+	# Install x265
+	if [ -d "$tmpdir/x265" ]; then
+		log "Removing x265...\n"
+		cd "$tmpdir/x265/build/linux"
+		make uninstall >> $logfile 2>&1
+		rm -rf "$tmpdir/x265"
+	fi
+	cd "$tmpdir"
+	eval "$x265cmd"	
+	cd "x265/build/linux"
+	if [ $shared -eq 0 ]; then
+		cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$tmpdir" -DENABLE_SHARED:bool=off ../../source >> $logfile 2>&1
+	else
+		cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX="$tmpdir" -DENABLE_SHARED:bool=on ../../source >> $logfile 2>&1
+	fi
+	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
+	make install >> $logfile 2>&1
 
 	# Install fdk-aac
 	log "Removing fdk-aac (AAC audio encoder)...\n"
