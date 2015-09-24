@@ -57,6 +57,7 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
     * OpenCV 
 
 ### To do
+* Fix `Warning: AV_PIX_FMT_FLAG_RGB is missing from libavutil, update for swscale support` for x264 build
 * Build with Pyhton 3 bindings
 * Make OpenCV cmake configurable (i.e. in configuration file) instead of having to edit install script
 * Build OpenCV documentation
