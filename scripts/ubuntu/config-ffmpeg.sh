@@ -32,10 +32,10 @@ yasmver="yasm-1.3.0"
 x264url="git://git.videolan.org/x264.git"
 
 # x265
-x265cmd="git://git.videolan.org/x264.git"
+x265cmd="hg clone https://bitbucket.org/multicoreware/x265"
 
 # fdk-aac
-fdkaccurl="hg clone https://bitbucket.org/multicoreware/x265"
+fdkaccurl="git://github.com/mstorsjo/fdk-aac.git"
 
 # Opus
 # Need to test opus-1.1.1-beta.tar.gz
