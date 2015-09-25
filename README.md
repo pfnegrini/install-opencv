@@ -51,9 +51,10 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
     * People detection
     * Camera Calibration
     * Drawing
-* Scripts update individual components without having to worry about uninstalling them first. All source builds use multi-core now if compatible.
+* Scripts update individual components without having to worry about uninstalling them first. All source builds use multi-core now if compatible. These are the components and order to build.
     * Java
-    * ffmpeg (via source or PPA see `config-ffmpeg.sh`)
+    * ffmpeg (via source or PPA see `config-ffmpeg.sh`) Ubuntu 14.04 has a bug where lavf and ffms support are missing. See [
+Trusty: x264 not built with lavf or ffms support ](https://bugs.launchpad.net/ubuntu/+source/x264/+bug/1328744). The PPA gives you an older version of ffmpeg, but a more complete version than from source. The PPA has not been tested on ARM.
     * OpenCV 
 
 ### To do
