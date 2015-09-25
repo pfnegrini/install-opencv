@@ -56,6 +56,32 @@ log(){
 	echo "$timestamp $1" >> $logfile 2>&1
 }
 
+mkdir -p "$tmpdir"
+
+# Install yasm
+if which yasm >/dev/null; then
+	yasminstver=$(yasm --version | grep "yasm 1.3.0")
+else
+	yasminstver=""
+fi
+if [ "${yasminstver}" != "yasm 1.3.0" ]; then	
+	log "Removing yasm $yasmver...\n"
+	apt-get -y autoremove yasm >> $logfile 2>&1
+	dpkg -r yasm
+	log "Installing yasm $yasmver...\n"
+	cd "$tmpdir"
+	rm -rf "$yasmver"
+	echo -n "Downloading $yasmurl to $tmpdir     "
+	wget --directory-prefix=$tmpdir --timestamping --progress=dot "$yasmurl" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+	echo "\nExtracting $tmpdir/$yasmarchive to $tmpdir"
+	tar -xf "$tmpdir/$yasmarchive" -C "$tmpdir"
+	rm -f "$yasmarchive"
+	cd "$tmpdir/$yasmver"
+	./configure >> $logfile 2>&1
+	make >> $logfile 2>&1
+	checkinstall --pkgname=yasm --pkgversion="1.3.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
+fi
+
 # Install ffmpeg from PPA if installppa True
 # I've only tested PPA on X86_64 platform
 if [ $installppa = "True" ]; then
@@ -85,30 +111,6 @@ else
 	else
 		shared=1
 		log "Using shared libraries"
-	fi
-	
-	# Install yasm
-	if which yasm >/dev/null; then
-		yasminstver=$(yasm --version | grep "yasm 1.3.0")
-	else
-		yasminstver=""
-	fi
-	if [ "${yasminstver}" != "yasm 1.3.0" ]; then	
-		log "Removing yasm $yasmver...\n"
-		apt-get -y autoremove yasm >> $logfile 2>&1
-		dpkg -r yasm
-		log "Installing yasm $yasmver...\n"
-		cd "$tmpdir"
-		rm -rf "$yasmver"
-		echo -n "Downloading $yasmurl to $tmpdir     "
-		wget --directory-prefix=$tmpdir --timestamping --progress=dot "$yasmurl" 2>&1 | grep --line-buffered "%" |  sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
-		echo "\nExtracting $tmpdir/$yasmarchive to $tmpdir"
-		tar -xf "$tmpdir/$yasmarchive" -C "$tmpdir"
-		rm -f "$yasmarchive"
-		cd "$tmpdir/$yasmver"
-		./configure >> $logfile 2>&1
-		make >> $logfile 2>&1
-		checkinstall --pkgname=yasm --pkgversion="1.3.0" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
 	fi
 
 	# Install x264
