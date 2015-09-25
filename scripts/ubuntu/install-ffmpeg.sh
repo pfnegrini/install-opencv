@@ -120,9 +120,17 @@ else
 	git clone --depth 1 "$x264url"
 	cd "x264"
 	if [ $shared -eq 0 ]; then
-		./configure --enable-static >> $logfile 2>&1
+		if [ "$arch" = "armv7l" ]; then
+			./configure --extra-cflags="-march=armv7 -mfloat-abi=hard -mfpu=vfp" --enable-static >> $logfile 2>&1
+		else
+			./configure --enable-static >> $logfile 2>&1
+		fi
 	else
-		./configure --enable-shared >> $logfile 2>&1
+		if [ "$arch" = "armv7l" ]; then
+			./configure --extra-cflags="-march=armv7 -mfloat-abi=hard -mfpu=vfp" --enable-shared >> $logfile 2>&1
+		else
+			./configure --enable-shared >> $logfile 2>&1
+		fi
 	fi
 	make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 	checkinstall --pkgname=x264 --pkgversion="3:$(./version.sh | awk -F'[" ]' '/POINT/{print $4"+git"$5}')" --backup=no --deldoc=yes --fstrans=no --default >> $logfile 2>&1
