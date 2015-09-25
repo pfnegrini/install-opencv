@@ -84,13 +84,20 @@ fi
 
 # Install ffmpeg from PPA if installppa True
 # I've only tested PPA on X86_64 platform
-if [ $installppa = "True" ]; then
-	log "Installing ffmpeg from PPA on Ubuntu $ubuntuver $arch..."
-	log "Removing pre-installed ffmpeg..."
-	apt-get -y autoremove ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
-	add-apt-repository -y  ppa:kirillshkrogalev/ffmpeg-next >> $logfile 2>&1
-	apt-get update >> $logfile 2>&1
-	apt-get -y install ffmpeg >> $logfile 2>&1
+if [ $installsrc = "False" ]; then
+	if [ "$arch" = "armv7l" ]; then
+		log "Removing pre-installed ffmpeg..."
+		apt-get -y autoremove ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
+		log "Installing ffmpeg using libav-tools on Ubuntu $ubuntuver $arch..."
+		apt-get -y install libav-tools >> $logfile 2>&1
+	else
+		log "Removing pre-installed ffmpeg..."
+		apt-get -y autoremove ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
+		log "Installing ffmpeg from PPA on Ubuntu $ubuntuver $arch..."
+		add-apt-repository -y  ppa:kirillshkrogalev/ffmpeg-next >> $logfile 2>&1
+		apt-get update >> $logfile 2>&1
+		apt-get -y install ffmpeg >> $logfile 2>&1
+	fi
 else
 	log "Installing ffmpeg from source on Ubuntu $ubuntuver $arch..."
 	mkdir -p "$tmpdir"

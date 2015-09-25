@@ -10,9 +10,8 @@
 # sgjava@gmail.com
 #
 
-# Set to True to install from ppa instead of building from source
-# I've only tested PPA on X86_64 platform
-installppa="False"
+# Set to True to install from source
+installsrc="True"
 
 # Get architecture
 arch=$(uname -m)
