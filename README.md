@@ -35,11 +35,8 @@ testing before using it on your physical systems. I tried to make the defaults
 sane in config-*.sh files.
 
 ### Provides
-* FFMPEG from source (x264, fdk-aac, libvpx, libopus) or PPA
 * OpenCV from source
-    * TBB works now thanks to an answer after reporting
-the problem as a [bug](http://code.opencv.org/issues/3900). The suggested cmake arguments worked.
-I also answered my own [question](http://answers.opencv.org/question/40544/opencv-300-alpha-build-failure-with-tbb) if you are interested.
+    * ARM optimizations
     * Patch libjpeg to mute common warnings that will fill up the logs.
 * Java 8 and Apache Ant
     * Patch memory leaks as I find them. Get more information [here](https://github.com/sgjava/opencvmem)
@@ -51,17 +48,9 @@ I also answered my own [question](http://answers.opencv.org/question/40544/openc
     * People detection
     * Camera Calibration
     * Drawing
-* Scripts update individual components without having to worry about uninstalling them first. All source builds use multi-core now if compatible. These are the components and order to build.
+* Scripts update individual components without having to worry about uninstalling them first.
     * Java
-    * ffmpeg (via source or PPA see `config-ffmpeg.sh`) Ubuntu 14.04 has a bug where lavf and ffms support are missing. See [
-Trusty: x264 not built with lavf or ffms support ](https://bugs.launchpad.net/ubuntu/+source/x264/+bug/1328744). The PPA gives you an older version of ffmpeg, but a more complete version than from source. The PPA has not been tested on ARM.
     * OpenCV 
-
-### To do
-* Fix `Warning: AV_PIX_FMT_FLAG_RGB is missing from libavutil, update for swscale support` for x264 build
-* Build with Pyhton 3 bindings
-* Make OpenCV cmake configurable (i.e. in configuration file) instead of having to edit install script
-* Build OpenCV documentation
 
 ### Build
 
@@ -84,7 +73,6 @@ with an out of memory exception. To create a 1GB swap file use:
 * Edit config-*.sh files and change versions or switches as needed
 * Run individual scripts to update individual components
     * `sudo ./install-java.sh` to install/update Java
-    * `sudo ./install-ffmpeg.sh` to install/update ffmpeg
     * `sudo ./install-opencv.sh` to install/update OpenCV
 * Run script in foreground or background to install all components
     * `sudo ./install.sh` to run script in foreground
@@ -92,7 +80,7 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build times
 * Acer AM3470G-UW10P Desktop
-    * Test build on 09/25/2015 (using PPA for ffmpeg)
+    * Test build on 09/25/2015
     * AMD A6-3620 quad core
     * 2.20GHz, 4MB Cache
     * 8GB DIMM DDR3 Synchronous 1333 MHz
@@ -133,7 +121,6 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build output
 * Check install logs for any problems with the installation scripts.
-* ffmpeg libs (this is needed for uninstallation of deb packages) `/home/<username>/ffmpeg-libs`
 * OpenCV home `/home/<username>/opencv-3.0.x`
 * Java and Python bindings `/home/<username>/opencv-3.0.x/build`
 

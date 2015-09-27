@@ -4,7 +4,7 @@
 #
 # @author: sgoldsmith
 #
-# Install and configure ffmpeg for Ubuntu 14.04.3 (Desktop/Server 
+# Install and configure OpenCV for Ubuntu 14.04.3 (Desktop/Server 
 # x86/x86_64 bit/armv7l). Please note that since some of the operations change
 # configurations, etc. I cannot guarantee it will work on future or previous
 # versions of Ubuntu. All testing was performed on Ubuntu 14.04.3
@@ -27,7 +27,7 @@
 #    o sudo apt-get update
 #    o sudo apt-get upgrade
 #    o sudo apt-get dist-upgrade
-# o Set variables in config-java.sh before running.
+# o Set variables in config-opencv.sh before running.
 # o sudo ./install-opencv.sh
 #
 
@@ -69,21 +69,17 @@ log "JAVA_HOME = $JAVA_HOME"
 
 log "Installing OpenCV dependenices..."
 # Install build tools
-apt-get -y install autoconf automake git-core build-essential checkinstall cmake libtool
-# Install Image I/O libraries 
-apt-get -y install libtiff4-dev libjpeg-dev libjasper-dev >> $logfile 2>&1
+apt-get -y install build-essential cmake yasm doxygen >> $logfile 2>&1
+# Install Media I/O libraries 
+apt-get -y install zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev libjasper-dev libopenexr-dev libgdal-dev >> $logfile 2>&1
 # Install Video I/O libraries, support for Firewire video cameras and video streaming libraries
-apt-get -y install libav-tools libavcodec-dev libavformat-dev libswscale-dev libxine-dev libgstreamer0.10-dev libgstreamer-plugins-base0.10-dev libv4l-dev v4l-utils v4l-conf >> $logfile 2>&1
+apt-get -y install libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev libopencore-amrnb-dev libopencore-amrwb-dev libv4l-dev libxine2-dev >> $logfile 2>&1
 # Install the Python development environment and the Python Numerical library
-apt-get -y install python-dev python-numpy >> $logfile 2>&1
-# Install the parallel code processing library (the Intel tbb library)
-apt-get -y install libtbb-dev >> $logfile 2>&1
-# Install the Qt dev library
-apt-get -y install libqt4-dev libgtk2.0-dev >> $logfile 2>&1
-# Install other dependencies (if need be it would upgrade current version of the packages)
-apt-get -y install patch subversion ruby librtmp0 librtmp-dev libfaac-dev libmp3lame-dev libopencore-amrnb-dev libopencore-amrwb-dev libvpx-dev libxvidcore-dev >> $logfile 2>&1
-# Install optional packages
-apt-get -y install libdc1394-utils libdc1394-22-dev libdc1394-22 libjpeg-dev libpng-dev libtiff-dev libjasper-dev ocl-icd-opencl-dev >> $logfile 2>&1
+apt-get -y install python-dev python-tk python-numpy python3-dev python3-tk python3-numpy >> $logfile 2>&1
+# Install the parallel code processing and linear algebra library
+apt-get -y install libtbb-dev libeigen3-dev >> $logfile 2>&1
+# Install the Qt library
+apt-get -y install qt5-default libvtk6-dev >> $logfile 2>&1
 
 # Uninstall OpenCV if it exists
 opencvhome="$HOME/opencv-$opencvver"
@@ -150,9 +146,9 @@ cd build
 # If ARM then compile with multi-core, FPU and NEON extensions
 if [ "$arch" = "armv7l" ]; then
     # Added -D CMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" to fix "Error: thumb conditional instruction should be in IT block"
-    cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_CUBLAS=ON -D WITH_CUFFT=ON -D WITH_EIGEN=ON -D WITH_OPENGL=ON -D WITH_QT=OFF -D WITH_TBB=ON -D BUILD_SHARED_LIBS=ON -D BUILD_DOCS=ON -D BUILD_EXAMPLES=ON -D BUILD_TESTS=ON -D BUILD_JPEG=ON -D ENABLE_VFPV3=ON -D ENABLE_NEON=ON -D CMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" .. >> $logfile 2>&1	
+    cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_C_FLAGS="-std=c11 -march=native" -D CMAKE_CXX_FLAGS="-std=c++11 -march=native" -D CMAKE_INSTALL_PREFIX=/usr/local -DWITH_QT=ON -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -D BUILD_TESTS=OFF -D BUILD_JPEG=ON -D ENABLE_VFPV3=ON -D ENABLE_NEON=ON .. >> $logfile 2>&1	
 else
-    cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D WITH_CUBLAS=ON -D WITH_CUFFT=ON -D WITH_EIGEN=ON -D WITH_OPENGL=ON -D WITH_QT=OFF -D WITH_TBB=ON -D BUILD_SHARED_LIBS=ON -D BUILD_DOCS=ON -D BUILD_EXAMPLES=ON -D BUILD_TESTS=ON -D BUILD_JPEG=ON .. >> $logfile 2>&1	
+    cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_C_FLAGS="-std=c11 -march=native" -D CMAKE_CXX_FLAGS="-std=c++11 -march=native" -D CMAKE_INSTALL_PREFIX=/usr/local -DWITH_QT=ON -DWITH_OPENGL=ON -DFORCE_VTK=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -D BUILD_TESTS=OFF -D BUILD_JPEG=ON .. >> $logfile 2>&1	
 fi
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 make install >> $logfile 2>&1

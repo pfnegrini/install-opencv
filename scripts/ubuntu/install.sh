@@ -27,7 +27,7 @@
 #    o sudo apt-get update
 #    o sudo apt-get upgrade
 #    o sudo apt-get dist-upgrade
-# o Run install-java.sh and install-ffmpeg.sh at least once.
+# o Run install-java.sh at least once.
 # o sudo ./install.sh
 #
 
@@ -62,7 +62,6 @@ log(){
 log "Installing OpenCV on Ubuntu $ubuntuver $arch..."
 
 sh ./install-java.sh
-sh ./install-ffmpeg.sh
 sh ./install-opencv.sh
 
 # Get end time
