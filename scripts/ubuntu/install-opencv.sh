@@ -75,7 +75,7 @@ apt-get -y install zlib1g-dev libjpeg-dev libwebp-dev libpng-dev libtiff5-dev li
 # Install Video I/O libraries, support for Firewire video cameras and video streaming libraries
 apt-get -y install libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev libtheora-dev libvorbis-dev libxvidcore-dev libx264-dev libopencore-amrnb-dev libopencore-amrwb-dev libv4l-dev libxine2-dev >> $logfile 2>&1
 # Install GStreamer
-apt-get -y install sudo apt-get install gstreamer1.0 >> $logfile 2>&1
+apt-get -y install gstreamer1.0 >> $logfile 2>&1
 # Install the Python development environment and the Python Numerical library
 apt-get -y install python-dev python-tk python-numpy python3-dev python3-tk python3-numpy >> $logfile 2>&1
 # Install the parallel code processing and linear algebra library
