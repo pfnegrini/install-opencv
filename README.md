@@ -5,6 +5,10 @@ process I've put together scripts that install the necessary prerequisites
 and build OpenCV with Java and Python bindings. I also included example
 source, so you can test the installation.
 
+I no longer build ffmpeg from source. Instead I rely on libav, so the install
+process is faster now. Both Python and Java work with VideoWriter using X264
+as well.
+
 ### Platforms Supported
 * Ubuntu 14.04.3 LTS x86_64
 * Ubuntu 14.04.3 LTS x86
@@ -34,10 +38,14 @@ installs some libraries from source. This could potentially screw up your system
 testing before using it on your physical systems. I tried to make the defaults
 sane in config-*.sh files.
 
+### To do
+* Install X265
+* Build for Python 3
+
 ### Provides
 * OpenCV from source
     * ARM optimizations
-    * Patch libjpeg to mute common warnings that will fill up the logs.
+    * Patch libjpeg to mute common warnings that will fill up the logs
 * Java 8 and Apache Ant
     * Patch memory leaks as I find them. Get more information [here](https://github.com/sgjava/opencvmem)
     * FourCC class
@@ -48,7 +56,7 @@ sane in config-*.sh files.
     * People detection
     * Camera Calibration
     * Drawing
-* Scripts update individual components without having to worry about uninstalling them first.
+* Scripts update individual components without having to worry about uninstalling them first
     * Java
     * OpenCV 
 
@@ -138,7 +146,7 @@ To run compiled class (Canny for this example) from shell:
 
 #### Things to be aware of
 * There are no bindings generated for OpenCV's GPU module.
-* Missing VideoWriter generated via patch.
+* Missing VideoWriter generated via patch (if needed).
 * Missing constants generated via patch.
 * There's no imshow equivalent, so check out [CaptureUI](https://github.com/sgjava/install-opencv/blob/master/opencv-java/src/com/codeferm/opencv/CaptureUI.java)
 * Understand how memory management [works](https://github.com/sgjava/opencvmem)
