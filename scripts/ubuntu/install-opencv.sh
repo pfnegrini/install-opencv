@@ -78,8 +78,10 @@ apt-get -y install libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-de
 apt-get -y install python-dev python-tk python-numpy python3-dev python3-tk python3-numpy >> $logfile 2>&1
 # Install the parallel code processing and linear algebra library
 apt-get -y install libtbb-dev libeigen3-dev >> $logfile 2>&1
-# Install the Qt library
-apt-get -y install qt5-default libvtk6-dev >> $logfile 2>&1
+# If not ARM then install the Qt library
+if [ "$arch" != "armv7l" ]; then
+	apt-get -y install qt5-default libvtk6-dev >> $logfile 2>&1
+fi
 
 # Uninstall OpenCV if it exists
 opencvhome="$HOME/opencv-$opencvver"
@@ -145,7 +147,7 @@ cd build
 
 # If ARM then compile with multi-core, FPU and NEON extensions
 if [ "$arch" = "armv7l" ]; then
-    cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_QT=ON -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON -DENABLE_VFPV3=ON -DENABLE_NEON=ON .. >> $logfile 2>&1
+    cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_QT=OFF -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON -DENABLE_VFPV3=ON -DENABLE_NEON=ON .. >> $logfile 2>&1
 else
     cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_QT=ON -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON .. >> $logfile 2>&1
 fi
