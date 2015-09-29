@@ -76,7 +76,7 @@ with an out of memory exception. To create a 1GB swap file use:
     * `mkswap tmpswap`
     * `swapon tmpswap`
     * `free`
-* `git clone https://github.com/sgjava/install-opencv.git`
+* `git clone --depth 1 https://github.com/sgjava/install-opencv.git`
 * `cd install-opencv/scripts/ubuntu`
 * Edit config-*.sh files and change versions or switches as needed
 * Run individual scripts to update individual components
