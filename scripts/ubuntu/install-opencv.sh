@@ -147,7 +147,8 @@ cd build
 
 # If ARM then compile with multi-core, FPU and NEON extensions
 if [ "$arch" = "armv7l" ]; then
-    cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_QT=OFF -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON -DENABLE_VFPV3=ON -DENABLE_NEON=ON .. >> $logfile 2>&1
+ 	# Added -D CMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" to fix "Error: thumb conditional instruction should be in IT block"
+    cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_QT=OFF -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON -DENABLE_VFPV3=ON -DENABLE_NEON=ON .. >> $logfile 2>&1
 else
     cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_INSTALL_PREFIX=/usr/local -DWITH_QT=ON -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON .. >> $logfile 2>&1
 fi
