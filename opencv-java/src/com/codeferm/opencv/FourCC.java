@@ -47,7 +47,7 @@ final class FourCC {
         int val = 0;
         for (int i = 0; i < 4; i++) {
             val <<= 8;
-            val |= fourcc.charAt(i);
+            val |= fourcc.charAt(3-i);
         }
         // CHECKSTYLE:ON MagicNumber
         this.value = val;
