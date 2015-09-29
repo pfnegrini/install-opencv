@@ -24,11 +24,6 @@ import org.opencv.videoio.Videoio;
  * args[0] = source file or will default to "../resources/traffic.mp4" if no
  * args passed.
  *
- * The following codecs were tested using Gstreamer OpenCV backend (FourCC
- * value):
- *
- * Codec DIVX (avi), XVID (avi)
- *
  * @author sgoldsmith
  * @version 1.0.0
  * @since 1.0.0
@@ -89,7 +84,7 @@ final class Writer {
 				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_WIDTH),
 				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_HEIGHT));
 		logger.log(Level.INFO, String.format("Resolution: %s", frameSize));
-		final FourCC fourCC = new FourCC("XVID");
+		final FourCC fourCC = new FourCC("X264");
 		VideoWriter videoWriter = new VideoWriter(outputFile, fourCC.toInt(),
 				videoCapture.get(Videoio.CAP_PROP_FPS), frameSize, true);
 		final Mat mat = new Mat();

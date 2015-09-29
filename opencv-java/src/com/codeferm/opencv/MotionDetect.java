@@ -130,7 +130,7 @@ final class MotionDetect {
 				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_WIDTH),
 				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_HEIGHT));
 		logger.log(Level.INFO, String.format("Resolution: %s", frameSize));
-		final FourCC fourCC = new FourCC("DIVX");
+		final FourCC fourCC = new FourCC("X264");
 		VideoWriter videoWriter = new VideoWriter(outputFile, fourCC.toInt(),
 				videoCapture.get(Videoio.CAP_PROP_FPS), frameSize, true);
 		final Mat mat = new Mat();

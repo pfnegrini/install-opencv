@@ -35,7 +35,7 @@ logger.info("Output file: %s" % outputFile)
 videoCapture = cv2.VideoCapture(url)
 logger.info("Resolution: %dx%d" % (videoCapture.get(cv2.CAP_PROP_FRAME_WIDTH),
                                videoCapture.get(cv2.CAP_PROP_FRAME_HEIGHT)))
-videoWriter = cv2.VideoWriter(outputFile, cv2.VideoWriter_fourcc(*'DIVX'), videoCapture.get(cv2.CAP_PROP_FPS),
+videoWriter = cv2.VideoWriter(outputFile, cv2.VideoWriter_fourcc(*'X264'), videoCapture.get(cv2.CAP_PROP_FPS),
                               (int(videoCapture.get(cv2.CAP_PROP_FRAME_WIDTH)), int(videoCapture.get(cv2.CAP_PROP_FRAME_HEIGHT))), True)
 lastFrame = False
 frames = 0
