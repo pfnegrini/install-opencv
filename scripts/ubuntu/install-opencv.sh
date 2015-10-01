@@ -63,6 +63,10 @@ log "Removing temp dir $tmpdir"
 rm -rf "$tmpdir"
 mkdir -p "$tmpdir"
 
+#Remove existing ffmpeg and other libs
+log "Removing ffmpeg dependenices..."
+apt-get -y autoremove ffmpeg x264 libav-tools libvpx-dev libx264-dev >> $logfile 2>&1
+
 # Make sure root picks up JAVA_HOME for this process
 export JAVA_HOME=$javahome
 log "JAVA_HOME = $JAVA_HOME"
