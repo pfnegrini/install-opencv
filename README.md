@@ -39,7 +39,7 @@ testing before using it on your physical systems. I tried to make the defaults
 sane in config-*.sh files.
 
 ### To do
-* Install X265
+* Install X265 - I tried FFMPEG PPA and libx265-dev, but no luck with X265 FOURCC.
 * Build for Python 3
 
 ### Provides
