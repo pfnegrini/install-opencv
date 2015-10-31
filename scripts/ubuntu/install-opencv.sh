@@ -103,6 +103,15 @@ rm -rf "$opencvhome"
 log "Copying $tmpdir/opencv to $opencvhome"
 cp -r "$tmpdir/opencv" "$opencvhome"
 
+# Download OpenCV contrib
+opencvcontribhome="$HOME/opencv_contrib-$opencvver"
+cd "$tmpdir"
+eval "$opencvcontribcmd"
+log "Removing $opencvcontribhome"
+rm -rf "$opencvcontribhome"
+log "Copying $tmpdir/opencv_contrib to $opencvcontribhome"
+cp -r "$tmpdir/opencv_contrib" "$opencvcontribhome"
+
 # Patch source pre-compile
 log "Patching source pre-compile"
 
@@ -152,9 +161,9 @@ cd build
 # If ARM then compile with multi-core, FPU and NEON extensions
 if [ "$arch" = "armv7l" ]; then
  	# Added -D CMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" to fix "Error: thumb conditional instruction should be in IT block"
-    cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" -DCMAKE_INSTALL_PREFIX=/usr/local -D WITH_GSTREAMER=OFF -DWITH_QT=OFF -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON -DENABLE_VFPV3=ON -DENABLE_NEON=ON .. >> $logfile 2>&1
+    cmake -DOPENCV_EXTRA_MODULES_PATH=$opencvcontribhome/modules -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_CXX_FLAGS_RELEASE="-Wa,-mimplicit-it=thumb" -DCMAKE_INSTALL_PREFIX=/usr/local -D WITH_GSTREAMER=OFF -DWITH_QT=OFF -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON -DENABLE_VFPV3=ON -DENABLE_NEON=ON .. >> $logfile 2>&1
 else
-    cmake -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_INSTALL_PREFIX=/usr/local -D WITH_GSTREAMER=OFF -DWITH_QT=ON -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON .. >> $logfile 2>&1
+    cmake -DOPENCV_EXTRA_MODULES_PATH=$opencvcontribhome/modules -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_C_FLAGS="-std=c11 -march=native" -DCMAKE_CXX_FLAGS="-std=c++11 -march=native" -DCMAKE_INSTALL_PREFIX=/usr/local -D WITH_GSTREAMER=OFF -DWITH_QT=ON -DWITH_OPENGL=ON -DWITH_TBB=ON -DWITH_GDAL=ON -DWITH_XINE=ON -DBUILD_EXAMPLES=ON -DBUILD_TESTS=OFF -DBUILD_PERF_TESTS=OFF -DBUILD_JPEG=ON .. >> $logfile 2>&1
 fi
 make -j$(getconf _NPROCESSORS_ONLN) >> $logfile 2>&1
 make install >> $logfile 2>&1

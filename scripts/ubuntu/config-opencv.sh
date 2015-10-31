@@ -23,6 +23,7 @@ tmpdir="$HOME/temp"
 opencvver="3.0.0"
 # git clone --depth 1 -b 3.0.0 https://github.com/Itseez/opencv.git
 opencvcmd="git clone --depth 1 https://github.com/Itseez/opencv.git"
+opencvcontribcmd="git clone --depth 1 https://github.com/Itseez/opencv_contrib.git"
 
 # Relative path to gen_java.py
 genjava="/modules/java/generator/gen_java.py"
