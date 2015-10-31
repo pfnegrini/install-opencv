@@ -104,7 +104,6 @@ log "Copying $tmpdir/opencv to $opencvhome"
 cp -r "$tmpdir/opencv" "$opencvhome"
 
 # If installcontrib is True then install OpenCV's contrib package
-log "installcontrib = $installcontrib"
 if [ "$installcontrib" = "True" ]; then
 	# Download OpenCV contrib
 	opencvcontribhome="$HOME/opencv_contrib-$opencvver"
@@ -115,7 +114,6 @@ if [ "$installcontrib" = "True" ]; then
 	log "Copying $tmpdir/opencv_contrib to $opencvcontribhome"
 	cp -r "$tmpdir/opencv_contrib" "$opencvcontribhome"
 	opencvextramodpath = "-DOPENCV_EXTRA_MODULES_PATH=$opencvcontribhome/modules"
-	log "opencvextramodpath = $opencvextramodpath"
 fi
 
 # Patch source pre-compile
