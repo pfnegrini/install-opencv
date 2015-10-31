@@ -104,12 +104,12 @@ log "Copying $tmpdir/opencv to $opencvhome"
 cp -r "$tmpdir/opencv" "$opencvhome"
 
 # Download OpenCV contrib source
+opencvcontribhome="$HOME/opencv_contrib-$opencvver"
 log "Removing $opencvcontribhome"
 rm -rf "$opencvcontribhome"
 # If installcontrib is True then install OpenCV's contrib package
 if [ "$installcontrib" = "True" ]; then
 	# Download OpenCV contrib
-	opencvcontribhome="$HOME/opencv_contrib-$opencvver"
 	cd "$tmpdir"
 	eval "$opencvcontribcmd"
 	log "Copying $tmpdir/opencv_contrib to $opencvcontribhome"
