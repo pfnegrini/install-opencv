@@ -113,7 +113,9 @@ if [ "$installcontrib" = "True" ]; then
 	rm -rf "$opencvcontribhome"
 	log "Copying $tmpdir/opencv_contrib to $opencvcontribhome"
 	cp -r "$tmpdir/opencv_contrib" "$opencvcontribhome"
-	opencvextramodpath = "-DOPENCV_EXTRA_MODULES_PATH=$opencvcontribhome/modules"
+	opencvextramodpath="-DOPENCV_EXTRA_MODULES_PATH=$opencvcontribhome/modules -DBUILD_opencv_legacy=OFF"
+else
+	opencvextramodpath=""
 fi
 
 # Patch source pre-compile
