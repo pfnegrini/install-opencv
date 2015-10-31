@@ -103,14 +103,15 @@ rm -rf "$opencvhome"
 log "Copying $tmpdir/opencv to $opencvhome"
 cp -r "$tmpdir/opencv" "$opencvhome"
 
+# Download OpenCV contrib source
+log "Removing $opencvcontribhome"
+rm -rf "$opencvcontribhome"
 # If installcontrib is True then install OpenCV's contrib package
 if [ "$installcontrib" = "True" ]; then
 	# Download OpenCV contrib
 	opencvcontribhome="$HOME/opencv_contrib-$opencvver"
 	cd "$tmpdir"
 	eval "$opencvcontribcmd"
-	log "Removing $opencvcontribhome"
-	rm -rf "$opencvcontribhome"
 	log "Copying $tmpdir/opencv_contrib to $opencvcontribhome"
 	cp -r "$tmpdir/opencv_contrib" "$opencvcontribhome"
 	opencvextramodpath="-DOPENCV_EXTRA_MODULES_PATH=$opencvcontribhome/modules -DBUILD_opencv_legacy=OFF"
