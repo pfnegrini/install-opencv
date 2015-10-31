@@ -44,6 +44,7 @@ sane in config-*.sh files.
 
 ### Provides
 * OpenCV from source
+    * opencv_contrib is built by default, but can be disabled in config-opencv.sh.
     * ARM optimizations
     * Patch libjpeg to mute common warnings that will fill up the logs
 * Java 8 and Apache Ant
