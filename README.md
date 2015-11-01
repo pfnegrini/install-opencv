@@ -104,13 +104,13 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build times
 * Acer AM3470G-UW10P Desktop
-    * Test build on 09/29/2015
+    * Test build on 10/31/2015
     * AMD A6-3620 quad core
     * 2.20GHz, 4MB Cache
     * 8GB DIMM DDR3 Synchronous 1333 MHz
     * 500GB WDC WD5000AAKX-0 SATA 3 7200 RPM 16MB Cache
     * Ubuntu 14.04.3 x86_64
-    * ~20 minutes (depends on download latency)
+    * ~235 minutes (depends on download latency)
 * MacBookPro 11,3
     * Test build on 09/29/2015
     * Intel(R) Core(TM) i7-4870HQ (8 cores)
@@ -120,13 +120,13 @@ with an out of memory exception. To create a 1GB swap file use:
     * Ubuntu 14.04.3 x86_64
     * ~16 minutes (depends on download latency)
 * ODROID-C1+ (Mali-450 MP2 GPU has no support for OpenCL)
-    * Test build on 09/29/2015
+    * Test build on 10/31/2015
     * Amlogic S805 quad core
     * 1.5GHz Cortex-A5 (set to 1.5 GHz)
     * 1GB DDR3
     * 32GB SDHC Class10 UHS-1
     * Ubuntu 14.04.3
-    * ~35 minutes (depends on download latency)
+    * ~45 minutes (depends on download latency)
 * MK808 mini PC
     * Rockchip RK3066 dual core
     * 1.6GHz Cortex-A9 (set to 1.5 GHz)
