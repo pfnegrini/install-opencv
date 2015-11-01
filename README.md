@@ -13,7 +13,6 @@
  ╚██████╔╝██║     ███████╗██║ ╚████║╚██████╗ ╚████╔╝   
   ╚═════╝ ╚═╝     ╚══════╝╚═╝  ╚═══╝ ╚═════╝  ╚═══╝
   ```    
-
 The best way to install OpenCV is from source since there are multiple ways
 to compile it (using GPU optimizations for instance). In order to automate this
 process I've put together scripts that install the necessary prerequisites
@@ -237,10 +236,18 @@ Elapse time: 3.18 seconds
         1    0.002    0.002    0.003    0.003 hermite.py:50(<module>)
         1    0.002    0.002    0.003    0.003 legendre.py:74(<module>)
 ```
-### FreeBSD License
-Copyright (c) Steven P. Goldsmith
+### C++
+To create a new C++ project in Eclipse you need to install CDT plugin first (or use the Eclipse IDE for C/C++ Developers). I'm using the Eclipse IDE for Java EE Developers, so I installed the CDT plugin.
+* Help, Install New Software..., Add..., Name: CDT, Location: http://download.eclipse.org/tools/cdt/releases/8.7 (this is for Eclipse Mars), OK, select CDT Main Features and CDT Optional Features, Next, Next, I accept the terms of the license agreement, Finish, Yes
 
-All rights reserved.
+To create new C++ project
+* Change to C/C++ perspcetive, File, New, C++ Project, Project name: test, Hello World C++ Project, Cross GCC, Next, Next, Next, Finish
+* Open terminal (Crtl+Alt+T) and run `pkg-config --cflags opencv` and note output for next step
+* Right click project, Properties, C/C++ Build, Settings, Cross GCC Compiler, Includes, Include paths(-l), click +, Directory: /usr/local/include/opencv, OK'
+* Open terminal (Crtl+Alt+T) and run `pkg-config --libs opencv` and note output for next step
+* Right click project, Properties, C/C++ Build, Settings, Cross G++ Linker, Libraries, Library search path (-L), click +, Directory: /usr/local/include/opencv, OK
+* Right click project, Properties, C/C++ Build, Settings, Cross G++ Linker, Libraries, Libraries(-l), click +, Libraries(-l): opencv_core, repeat for other libraries such as opencv_imgproc opencv_highgui, OK
+* Open test.cpp and replace all the text with:
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
