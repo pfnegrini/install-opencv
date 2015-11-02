@@ -248,6 +248,38 @@ To create new C++ project
 * Right click project, Properties, C/C++ Build, Settings, Cross G++ Linker, Libraries, Library search path (-L), click +, Directory: /usr/local/include/opencv, OK
 * Right click project, Properties, C/C++ Build, Settings, Cross G++ Linker, Libraries, Libraries(-l), click +, Libraries(-l): opencv_core, repeat for other libraries such as opencv_imgproc opencv_highgui, OK
 * Open test.cpp and replace all the text with:
+```
+#include <opencv2/opencv.hpp>
+
+using namespace cv;
+
+int main() {
+	// Create black empty image
+	Mat image = Mat::zeros(240, 320, CV_8UC3);
+	// Draw circles
+	for (int a = 0; a < 10; a = a + 1) {
+		circle(image, Point(160, 120), 10.0 * a, Scalar(128, 128, 255), 2, 8);
+	}
+	// Draw lines
+	for (int a = 0; a < 15; a = a + 1) {
+		line(image, Point(2 + a * a, 40), Point(318, 40 + a * a), Scalar(0, 255, 0),
+				2, 8);
+	}
+	// Draw text
+	putText(image, "C++ Drawing example", Point(18, 20), FONT_HERSHEY_SIMPLEX,
+			0.8, Scalar(255, 255, 255), 2);
+	// Show image
+	imshow("Drawing example", image);
+	// Wait for key press
+	waitKey();
+	return 0;
+}
+```
+* Save file, right click project, Build Project, right click project, Run As, Local C/C++ Application
+### FreeBSD License
+Copyright (c) Steven P. Goldsmith
+
+All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
