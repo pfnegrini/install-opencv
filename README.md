@@ -277,6 +277,8 @@ int main() {
 ```
 * Save file, right click project, Build Project, right click project, Run As, Local C/C++ Application
 
+![C++ Example](images/example-cpp.png)
+
 ### FreeBSD License
 Copyright (c) Steven P. Goldsmith
 
