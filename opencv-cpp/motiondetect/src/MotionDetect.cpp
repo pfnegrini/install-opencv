@@ -11,6 +11,17 @@
 using namespace std;
 using namespace cv;
 
+vector<vector<Point> > contours(Mat source) {
+	dilate(source, source, 15);
+	erode(source, source, 10);
+	// Find contours
+	vector<vector<Point> > contours;
+	vector<Vec4i> hierarchy;
+	findContours(source, contours, hierarchy, CV_RETR_TREE,
+			CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
+	return contours;
+}
+
 /**
  * Uses moving average to determine change percent.
  *
@@ -21,6 +32,7 @@ using namespace cv;
  * @version 1.0.0
  * @since 1.0.0
  */
+// TODO debug
 int main(int argc, char *argv[]) {
 	int return_val = 0;
 	string url = "../../resources/traffic.mp4";
@@ -54,6 +66,7 @@ int main(int argc, char *argv[]) {
 		double total_pixels = image.total();
 		double motion_percent = 0.0;
 		int frames_with_motion = 0;
+		Scalar color = Scalar(0, 255, 0);
 		// Process all frames
 		while (capture.read(image) && !exit_loop) {
 			if (!image.empty()) {
@@ -80,7 +93,18 @@ int main(int argc, char *argv[]) {
 				if (motion_percent > 25.0) {
 					work_img.convertTo(moving_avg_img, CV_32FC3);
 				}
-
+				vector<vector<Point> > movement_locations = contours(gray_img);
+				Rect bounding_rect;
+				// Threshold trigger motion
+				if (motion_percent > 0.75) {
+					frames_with_motion++;
+					for (size_t i = 0, max = movement_locations.size();
+							i != max; ++i) {
+						bounding_rect = boundingRect(movement_locations[i]);
+						rectangle(image, bounding_rect.tl(), bounding_rect.br(), color, 2, 8, 0);
+					}
+				}
+				writer.write(image);
 			} else {
 				cout << "No frame captured" << endl;
 				exit_loop = true;
