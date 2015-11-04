@@ -26,27 +26,29 @@ int main(int argc, char *argv[]) {
 	cout << "Press [Esc] to exit" << endl;
 	VideoCapture capture;
 	Mat frame;
-	// See if device arg passed
+	// See if URL arg passed
 	if (argc == 2) {
 		char *end;
 		long l = strtol(argv[1], &end, 10);
 		// See if long conversion worked
 		if (end != argv[1] || *end == '\0') {
 			// Use number version
-			cout << "Device: " << l << endl;
+			cout << "URL: " << l << endl;
 			capture.open(l);
 		} else {
 			// Use string version
-			cout << "Device: " << argv[1] << endl;
+			cout << "URL: " << argv[1] << endl;
 			capture.open(argv[1]);
 		}
 	} else {
 		// Use default device
-		cout << "Device: -1" << endl;
+		cout << "URL: -1" << endl;
 		capture.open(-1);
 	}
 	// See if video capture opened
 	if (capture.isOpened()) {
+		cout << "Resolution: " << capture.get(CV_CAP_PROP_FRAME_WIDTH) << "x"
+				<< capture.get(CV_CAP_PROP_FRAME_HEIGHT) << endl;
 		bool exit_loop = false;
 		// Display frames until escape pressed
 		while (capture.read(frame) && !exit_loop) {
@@ -62,6 +64,8 @@ int main(int argc, char *argv[]) {
 				exit_loop = true;
 			}
 		}
+		// Release VideoCapture
+		capture.release();
 	} else {
 		cout << "Unable to open device" << endl;
 		return_val = -1;

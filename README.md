@@ -65,7 +65,7 @@ sane in config-*.sh files.
     * Patch memory leaks as I find them. Get more information [here](https://github.com/sgjava/opencvmem)
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
-* Java and Python examples
+* Java and Python examples (working on C++ [equivalents](https://github.com/sgjava/install-opencv/tree/master/opencv-cpp))
     * Capture UI
     * Motion detection
     * People detection
