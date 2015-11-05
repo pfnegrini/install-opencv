@@ -6,14 +6,28 @@
  */
 
 #include <iostream>
+#include <sys/time.h>
 #include <opencv2/opencv.hpp>
 
 using namespace std;
 using namespace cv;
 
-vector<vector<Point> > contours(Mat source) {
-	dilate(source, source, 15);
-	erode(source, source, 10);
+/**
+ * Kernel used for contours.
+ */
+static const Mat CONTOUR_KERNEL = getStructuringElement(MORPH_DILATE,
+		Size(3, 3), Point(1, 1));
+/**
+ * Point used for contour dilate and erode.
+ */
+static const Point CONTOUR_POINT = Point(-1, -1);
+
+/**
+ * Find contours and return in vector of Point.
+ */
+vector<vector<Point> > motion_contours(Mat source) {
+	dilate(source, source, CONTOUR_KERNEL, CONTOUR_POINT, 15);
+	erode(source, source, CONTOUR_KERNEL, CONTOUR_POINT, 10);
 	// Find contours
 	vector<vector<Point> > contours;
 	vector<Vec4i> hierarchy;
@@ -32,7 +46,6 @@ vector<vector<Point> > contours(Mat source) {
  * @version 1.0.0
  * @since 1.0.0
  */
-// TODO debug
 int main(int argc, char *argv[]) {
 	int return_val = 0;
 	string url = "../../resources/traffic.mp4";
@@ -63,10 +76,12 @@ int main(int argc, char *argv[]) {
 		Mat gray_img;
 		Mat diff_img;
 		Mat scale_img;
-		double total_pixels = image.total();
 		double motion_percent = 0.0;
 		int frames_with_motion = 0;
+		int frames = 0;
 		Scalar color = Scalar(0, 255, 0);
+		timeval start_time;
+		gettimeofday(&start_time, 0);
 		// Process all frames
 		while (capture.read(image) && !exit_loop) {
 			if (!image.empty()) {
@@ -87,29 +102,40 @@ int main(int argc, char *argv[]) {
 				// Convert to BW
 				threshold(gray_img, gray_img, 25, 255, THRESH_BINARY);
 				// Total number of changed motion pixels
-				motion_percent = 100.0 * countNonZero(gray_img) / total_pixels;
+				motion_percent = 100.0 * countNonZero(gray_img) / image.total();
 				// Detect if camera is adjusting and reset reference if more than
 				// 25%
 				if (motion_percent > 25.0) {
 					work_img.convertTo(moving_avg_img, CV_32FC3);
-				}
-				vector<vector<Point> > movement_locations = contours(gray_img);
-				Rect bounding_rect;
-				// Threshold trigger motion
-				if (motion_percent > 0.75) {
-					frames_with_motion++;
-					for (size_t i = 0, max = movement_locations.size();
-							i != max; ++i) {
-						bounding_rect = boundingRect(movement_locations[i]);
-						rectangle(image, bounding_rect.tl(), bounding_rect.br(), color, 2, 8, 0);
+				} else {
+					// Threshold trigger motion
+					if (motion_percent > 0.75) {
+						frames_with_motion++;
+						vector<vector<Point> > movement_locations =
+								motion_contours(gray_img);
+						// Process all points
+						for (size_t i = 0, max = movement_locations.size();
+								i != max; ++i) {
+							Rect bounding_rect = boundingRect(
+									movement_locations[i]);
+							rectangle(image, bounding_rect.tl(),
+									bounding_rect.br(), color, 2, 8, 0);
+						}
 					}
 				}
+				// Write frame with motion rectangles
 				writer.write(image);
+				frames++;
 			} else {
 				cout << "No frame captured" << endl;
 				exit_loop = true;
 			}
 		}
+		timeval end_time;
+		gettimeofday(&end_time, 0);
+		cout << frames << " frames, " << frames_with_motion
+				<< " frames with motion" << endl;
+		cout << "Elapsed time: " << (end_time.tv_sec - start_time.tv_sec) << " seconds" << endl;
 		// Release VideoWriter
 		writer.release();
 		// Release VideoCapture
