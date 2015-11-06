@@ -65,7 +65,7 @@ sane in config-*.sh files.
     * Patch memory leaks as I find them. Get more information [here](https://github.com/sgjava/opencvmem)
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
-* Java and Python examples (working on C++ [equivalents](https://github.com/sgjava/install-opencv/tree/master/opencv-cpp))
+* Java, Python and C++ examples
     * Capture UI
     * Motion detection
     * People detection
@@ -109,7 +109,7 @@ with an out of memory exception. To create a 1GB swap file use:
     * 8GB DIMM DDR3 Synchronous 1333 MHz
     * 500GB WDC WD5000AAKX-0 SATA 3 7200 RPM 16MB Cache
     * Ubuntu 14.04.3 x86_64
-    * ~235 minutes (depends on download latency)
+    * ~35 minutes (depends on download latency)
 * MacBookPro 11,3
     * Test build on 11/02/2015
     * Intel(R) Core(TM) i7-4870HQ (8 cores)
