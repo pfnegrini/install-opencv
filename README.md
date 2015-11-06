@@ -240,7 +240,7 @@ Elapse time: 3.18 seconds
 To create a new C++ project in Eclipse you need to install CDT plugin first (or use the Eclipse IDE for C/C++ Developers). I'm using the Eclipse IDE for Java EE Developers, so I installed the CDT plugin.
 * Help, Install New Software..., Add..., Name: CDT, Location: http://download.eclipse.org/tools/cdt/releases/8.7 (this is for Eclipse Mars), OK, select CDT Main Features and CDT Optional Features, Next, Next, I accept the terms of the license agreement, Finish, Yes
 
-To import C++ example projects
+To run C++ example projects
 * Import [Eclipse projects](https://github.com/sgjava/install-opencv/tree/master/opencv-cpp) one at a time
 
 To create new C++ project
