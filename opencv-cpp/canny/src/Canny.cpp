@@ -15,7 +15,7 @@ using namespace cv;
 /**
  * Canny Edge Detector.
  *
- * argv[1] = source file or will default to "../resources/traffic.mp4" if no
+ * argv[1] = source file or will default to "../../resources/traffic.mp4" if no
  * args passed.
  *
  * @author sgoldsmith

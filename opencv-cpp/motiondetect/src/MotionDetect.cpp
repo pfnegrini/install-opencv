@@ -39,7 +39,7 @@ vector<vector<Point> > motion_contours(Mat source) {
 /**
  * Uses moving average to determine change percent.
  *
- * argv[1] = source file or will default to "../resources/traffic.mp4" if no
+ * argv[1] = source file or will default to "../../resources/traffic.mp4" if no
  * args passed.
  *
  * @author sgoldsmith
