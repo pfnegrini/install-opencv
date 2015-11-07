@@ -51,7 +51,6 @@ int main(int argc, char *argv[]) {
 	string url = "../../resources/traffic.mp4";
 	string output_file = "../../output/motion-detect-cpp.avi";
 	cout << CV_VERSION << endl;
-	cout << "Press [Esc] to exit" << endl;
 	VideoCapture capture;
 	Mat image;
 	// See if URL arg passed
