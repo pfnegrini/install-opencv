@@ -35,6 +35,74 @@ vector<string> globVector(const string& pattern) {
 }
 
 /**
+ * Find chess board corners.
+ */
+vector<Point2f> getCorners(Mat gray, Size pattern_size, Size win_size, Size zone_size) {
+	vector<Point2f> corners;
+	if (findChessboardCorners(gray, pattern_size, corners)) {
+		cornerSubPix(gray, corners, win_size, zone_size, CRITERIA);
+	}
+	return corners;
+}
+
+/**
+ * Point3f corners.
+ */
+vector<Point3f> getCorner3f(Size pattern_size) {
+	vector<Point3f> corners3f(pattern_size.height * pattern_size.width);
+	double squareSize = 50;
+	int cnt = 0;
+	for (int i = 0; i < pattern_size.height; ++i) {
+		for (int j = 0; j < pattern_size.width; ++j, cnt++) {
+			corners3f[cnt] = Point3f(j * squareSize, i * squareSize, 0.0);
+		}
+	}
+	return corners3f;
+}
+
+/**
+ * Process all images matching inMask and output debug images to outDir.
+ */
+void getPoints(string in_mask, string out_dir, Size pattern_size) {
+	vector<Point3f> corners3f = getCorner3f(pattern_size);
+	// Get list of files to process.
+	vector<string> files = globVector(in_mask);
+	vector<vector<Point3f> > object_points(files.size());
+	vector<vector<Point2f> > image_points(files.size());
+	vector<Mat> images(files.size());
+	int passed = 0;
+	for (size_t i = 0, max = files.size(); i != max; ++i) {
+		Mat mat = imread(files[i], CV_LOAD_IMAGE_GRAYSCALE);
+		vector<Point2f> corners;
+		Size win_size = Size(5, 5);
+		Size zone_size = Size(-1, -1);
+		corners = getCorners(mat, pattern_size, win_size, zone_size);
+		// Process only images that pass getCorners
+		if (!corners.empty()) {
+			cout << "Chessboard found in: " << files[i] << endl;
+			Mat vis;
+			// Convert to color for drawing
+			cvtColor(mat, vis, COLOR_GRAY2BGR);
+			drawChessboardCorners(vis, pattern_size, corners, true);
+			// Get just file name from path
+			string just_file_name = files[i].substr(
+					files[i].find_last_of("/") + 1, files[i].length());
+			// File name to write to
+			string write_file_name = out_dir
+					+ just_file_name.substr(0, just_file_name.find_last_of("."))
+					+ "-cpp.bmp";
+			imwrite(write_file_name, vis);
+			object_points[i] = corners3f;
+			image_points[i] = corners;
+			images[i] = mat;
+			passed++;
+		} else {
+			cout << "Chessboard not found in: " << files[i] << endl;
+		}
+	}
+}
+
+/**
  * Camera calibration.
  *
  * You need at least 10 images that pass cv2.findChessboardCorners at varying
@@ -84,10 +152,6 @@ int main(int argc, char *argv[]) {
 	cout << "Input mask: " << in_mask << endl;
 	cout << "Output dir: " << out_dir << endl;
 	cout << "Pattern size: " << pattern_size << endl;
-	// Get list of files to process.
-	vector<string> files = globVector(in_mask);
-	for (size_t i = 0, max = files.size(); i != max; ++i) {
-		cout << "File: " << files[i] << endl;
-	}
+	getPoints(in_mask, out_dir, pattern_size);
 	return return_val;
 }
