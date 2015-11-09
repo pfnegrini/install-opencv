@@ -243,6 +243,8 @@ To create a new C++ project in Eclipse you need to install CDT plugin first (or 
 To run C++ example projects
 * Import [Eclipse projects](https://github.com/sgjava/install-opencv/tree/master/opencv-cpp) one at a time
 
+![CaptureUI C++](images/captureui-cpp.png)
+
 To create new C++ project
 * Change to C/C++ perspcetive, File, New, C++ Project, Project name: test, Hello World C++ Project, Cross GCC, Next, Next, Next, Finish
 * Open terminal (Crtl+Alt+T) and run `pkg-config --cflags opencv` and note output for next step
