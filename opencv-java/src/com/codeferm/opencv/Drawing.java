@@ -23,7 +23,7 @@ import org.opencv.imgproc.Imgproc;
 /**
  * Example of drawing on Mat and saving to file.
  *
- * args[0] = dest file or will default to "../output/traffic.mp4" if no args
+ * args[0] = dest file or will default to "../output/drawing-java.png" if no args
  * passed.
  *
  * @author sgoldsmith
