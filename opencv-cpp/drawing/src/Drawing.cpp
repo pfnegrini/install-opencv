@@ -40,6 +40,8 @@ int main(int argc, char *argv[]) {
 	Scalar blue = Scalar(255, 0, 0);
 	Scalar green = Scalar(0, 255, 0);
 	Scalar red = Scalar(0, 0, 255);
+	timeval start_time;
+	gettimeofday(&start_time, 0);
 	// Draw text
 	putText(mat, "C++ drawing", Point(10, 30), FONT_HERSHEY_COMPLEX, 1.0, white,
 			2);
@@ -59,5 +61,9 @@ int main(int argc, char *argv[]) {
 			Point(width / 2 + 40, height / 2 + 40), green, FILLED);
 	// Write image file
 	imwrite(output_file, mat);
+	timeval end_time;
+	gettimeofday(&end_time, 0);
+	cout << "Elapsed time: " << (end_time.tv_sec - start_time.tv_sec)
+			<< " seconds" << endl;
 	return return_val;
 }
