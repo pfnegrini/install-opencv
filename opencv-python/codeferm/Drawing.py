@@ -7,7 +7,7 @@ sgoldsmith@codeferm.com
 
 """Example of drawing on Mat and saving to file.
 
-sys.argv[1] = dest file or will default to "../output/traffic.mp4" if no args passed.
+sys.argv[1] = dest file or will default to "../../output/drawing-python.png" if no args passed.
 
 @author: sgoldsmith
 

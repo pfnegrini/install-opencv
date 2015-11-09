@@ -7,7 +7,7 @@ sgoldsmith@codeferm.com
 
 """A simple video capture script using imshow.
 
-sys.argv[1] = camera index, url or will default to "0" if no args passed.
+sys.argv[1] = camera index, url or will default to "-1" if no args passed.
 
 @author: sgoldsmith
 
@@ -23,9 +23,9 @@ formatter = logging.Formatter("%(asctime)s %(levelname)-8s %(module)s %(message)
 handler = logging.StreamHandler(sys.stdout)
 handler.setFormatter(formatter)
 logger.addHandler(handler)
-# If no args passed then default to device 0
+# If no args passed then use default camera
 if len(sys.argv) < 2:
-    url = 0
+    url = -1
 # If arg is an integer then convert to int
 elif re.match(r"[-+]?\d+$", sys.argv[1]) is not None:
     url = int(sys.argv[1])
