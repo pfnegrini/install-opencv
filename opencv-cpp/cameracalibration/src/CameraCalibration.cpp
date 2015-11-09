@@ -253,6 +253,29 @@ pair<Mat, Mat> getPoints(string in_mask, string out_dir, Size pattern_size) {
 	return calibrate(object_points, image_points, images);
 }
 
+/** @brief Save Mat to file.
+
+ @param mat Mat to save.
+ @param file_name File name to save as.
+ */
+void saveMat(Mat mat, string file_name) {
+	FileStorage file(file_name, FileStorage::WRITE);
+	file << "mat" << mat;
+	file.release();
+}
+
+/** @brief Load mat from file.
+
+ @param file_name File name to load.
+ */
+Mat loadMat(string file_name) {
+	FileStorage file(file_name, FileStorage::READ);
+	Mat mat;
+	file["mat"] >> mat;
+	file.release();
+	return mat;
+}
+
 /**
  * Camera calibration.
  *
@@ -307,6 +330,16 @@ int main(int argc, char *argv[]) {
 	gettimeofday(&start_time, 0);
 	pair<Mat, Mat> data = getPoints(in_mask, out_dir, pattern_size);
 	undistortAll(in_mask, out_dir, data.first, data.second);
+	// Save mats
+	cout << "Saving calibration parameters to file" << endl;
+	saveMat(data.first, out_dir + "camera-matrix.xml");
+	saveMat(data.second, out_dir + "dist-coefs.xml");
+	// Load mats
+	cout << "Restoring calibration parameters from file" << endl;
+	Mat camera_matrix =loadMat(out_dir + "camera-matrix.xml");
+	Mat dist_coeffs	= loadMat(out_dir + "dist-coefs.xml");
+	cout << "Camera matrix: " << camera_matrix << endl;
+	cout << "Distortion coefficients: " << dist_coeffs << endl;
 	timeval end_time;
 	gettimeofday(&end_time, 0);
 	cout << "Elapsed time: " << (end_time.tv_sec - start_time.tv_sec)
