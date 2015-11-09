@@ -27,7 +27,7 @@ import org.opencv.videoio.Videoio;
  * A simple video capture applet. The Java bindings do not have an imshow
  * equivalent (highgui wrapper) yet.
  *
- * args[0] = camera index, url or will default to "0" if no args passed.
+ * args[0] = camera index, url or will default to "-1" if no args passed.
  *
  * @author sgoldsmith
  * @version 1.0.0
@@ -224,8 +224,8 @@ final class CaptureUI extends Applet implements Runnable { // NOPMD
 		String url = null;
 		// Check how many arguments were passed in
 		if (args.length == 0) {
-			// If no arguments were passed then default to camera index 0
-			url = "0";
+			// If no arguments were passed then default to camera index -1
+			url = "-1";
 		} else {
 			url = args[0];
 		}
