@@ -65,7 +65,7 @@ sane in config-*.sh files.
     * Patch memory leaks as I find them. Get more information [here](https://github.com/sgjava/opencvmem)
     * FourCC class
     * CaptureUI Applet to view images/video since there's no imshow with the bindings
-* Java, Python and C++ examples
+* Java, Python and C++ examples can be easily run from Eclipse.
     * Capture UI
     * Motion detection
     * People detection
