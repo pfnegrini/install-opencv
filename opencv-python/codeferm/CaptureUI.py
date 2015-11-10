@@ -46,7 +46,7 @@ if videoCapture.get(cv2.CAP_PROP_FRAME_WIDTH) > 0 and videoCapture.get(cv2.CAP_P
     cv2.namedWindow("Python Capture")
     key = -1
     # Wait for escape to be pressed
-    while(key < 0 and success):
+    while(key != 27 and success):
         videoCapture.grab()
         success, image = videoCapture.read()
         cv2.imshow("Python Capture", image)
