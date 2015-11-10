@@ -23,6 +23,17 @@ I no longer build ffmpeg from source. Instead I rely on libav, so the install
 process is faster now. Both Python and Java work with VideoWriter using X264
 as well.
 
+* [Platforms Supported](#platforms-supported)
+* [OpenCV versions](#opencv-versions)
+* [WARNING](#warning)
+* [To do](#to-do)
+* [Provides](#provides)
+* [Build](#build)
+* [Java](#java)
+* [Python](#python)
+* [C++](#c)
+* [FreeBSD License](#freebsd-license)
+
 ### Platforms Supported
 * Ubuntu 14.04.3 LTS x86_64
 * Ubuntu 14.04.3 LTS x86
