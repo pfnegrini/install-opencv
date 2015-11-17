@@ -157,6 +157,7 @@ with an out of memory exception. To create a 1GB swap file use:
 * Check install logs for any problems with the installation scripts.
 * OpenCV home `/home/<username>/opencv-3.0.x`
 * Java and Python bindings `/home/<username>/opencv-3.0.x/build`
+* OpenCV contrib `/home/<username>/opencv-3.0.x`
 
 ### Java
 To run Java programs in Eclipse you need add the OpenCV library.
