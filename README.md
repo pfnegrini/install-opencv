@@ -37,7 +37,7 @@ as well.
 ### Platforms Supported
 * Ubuntu 14.04.3 LTS x86_64
 * Ubuntu 14.04.3 LTS x86
-* Ubuntu 14.04.3 LTS armv7l
+* Ubuntu 14.04.3 LTS armv7l (Will not build on [Official](http://odroid.com/dokuwiki/doku.php?id=en:c1_release_linux_ubuntu) ODROID images, see [Create Ubuntu root filesystem ODROID-C1/C1+](https://github.com/sgjava/ubuntu-mini#create-ubuntu-root-filesystem-odroid-c1c1))
 
 ### OpenCV versions
 I have included branches aligned with various versions of OpenCV. I'm not keeping
