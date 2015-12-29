@@ -45,7 +45,7 @@ the branches up to date, but you can see where they were at the time of branchin
 If you wish to use a branch then you will need to bring some things up to date
 yourself. The master branch is aligned to OpenCV master. For some reason OpenCV
 uses branches sometimes and tags others, but not consistently. For instance, there
-is a 2.4 branch, but no 3.0 branch. Tags seem to be the preferred method of
+is a 2.4 branch, but no 3.1 branch. Tags seem to be the preferred method of
 organizing releases.
 
 If something breaks when executing code with the OpenCV master branch then try
@@ -114,7 +114,7 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build times
 * Acer AM3470G-UW10P Desktop
-    * Test build on 10/31/2015
+    * Test build on 12/28/2015
     * AMD A6-3620 quad core
     * 2.20GHz, 4MB Cache
     * 8GB DIMM DDR3 Synchronous 1333 MHz
@@ -155,21 +155,21 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build output
 * Check install logs for any problems with the installation scripts.
-* OpenCV home `/home/<username>/opencv-3.0.x`
-* Java and Python bindings `/home/<username>/opencv-3.0.x/build`
-* OpenCV contrib `/home/<username>/opencv-3.0.x`
+* OpenCV home `/home/<username>/opencv-3.1.x`
+* Java and Python bindings `/home/<username>/opencv-3.1.x/build`
+* OpenCV contrib `/home/<username>/opencv-3.1.x`
 
 ### Java
 To run Java programs in Eclipse you need add the OpenCV library.
 * Window, Preferences, Java, Build Path, User Libraries, New..., OpenCV, OK
-* Add External JARs..., /home/&lt;username&gt;/opencv-3.0.x/build/bin/opencv-30x.jar
-* Native library location, Edit..., External Folder..., /home/&lt;username&gt;/opencv-3.0.x/build/lib, OK
+* Add External JARs..., /home/&lt;username&gt;/opencv-3.1.x/build/bin/opencv-31x.jar
+* Native library location, Edit..., External Folder..., /home/&lt;username&gt;/opencv-3.1.x/build/lib, OK
 * Right click project, Properties, Java Build Path, Libraries, Add Library..., User Library, OpenCV, Finish, OK
 * Import [Eclipse project](https://github.com/sgjava/install-opencv/tree/master/opencv-java)
 
 To run compiled class (Canny for this example) from shell:
 * `cd /home/<username>/workspace/install-opencv/opencv-java`
-* `java -Djava.library.path=/home/<username>/opencv-3.0.x/build/lib -cp /home/<username>/opencv-3.0.x/build/bin/opencv-30x.jar:bin com.codeferm.opencv.Canny`
+* `java -Djava.library.path=/home/<username>/opencv-3.1.x/build/lib -cp /home/<username>/opencv-3.1.x/build/bin/opencv-31x.jar:bin com.codeferm.opencv.Canny`
 
 #### Things to be aware of
 * There are no bindings generated for OpenCV's GPU module.
