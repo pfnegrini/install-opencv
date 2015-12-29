@@ -16,7 +16,7 @@
 The best way to install OpenCV is from source since there are multiple ways
 to compile it (using GPU optimizations for instance). In order to automate this
 process I've put together scripts that install the necessary prerequisites
-and build OpenCV with Java and Python bindings. I also included example
+and build OpenCV with C++, Java and Python bindings. I also included example
 source, so you can test the installation.
 
 I no longer build ffmpeg from source. Instead I rely on libav, so the install
