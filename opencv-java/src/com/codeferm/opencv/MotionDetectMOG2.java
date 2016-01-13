@@ -14,7 +14,6 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.opencv.core.Core;
-import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
@@ -165,12 +164,15 @@ final class MotionDetectMOG2 {
 			if (movementLocations.size() > 0) {
 				framesWithMotion++;
 				for (Rect rect : movementLocations) {
-					rectPoint1.x = rect.x;
-					rectPoint1.y = rect.y;
-					rectPoint2.x = rect.x + rect.width;
-					rectPoint2.y = rect.y + rect.height;
-					// Draw rectangle around fond object
-					Imgproc.rectangle(capture, rectPoint1, rectPoint2, rectColor, 2);
+					// Filter out smaller blobs
+					if (rect.width > 30 && rect.height > 30) {
+						rectPoint1.x = rect.x;
+						rectPoint1.y = rect.y;
+						rectPoint2.x = rect.x + rect.width;
+						rectPoint2.y = rect.y + rect.height;
+						// Draw rectangle around fond object
+						Imgproc.rectangle(capture, rectPoint1, rectPoint2, rectColor, 2);
+					}
 				}
 			}
 			videoWriter.write(capture);
@@ -179,7 +181,6 @@ final class MotionDetectMOG2 {
 		final long estimatedTime = System.currentTimeMillis() - startTime;
 		logger.log(Level.INFO, String.format("%d frames, %d frames with motion", frames, framesWithMotion));
 		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds", (double) estimatedTime / 1000));
-		// CHECKSTYLE:ON MagicNumber
 		// Free native memory
 		videoCapture.free();
 		videoWriter.free();
