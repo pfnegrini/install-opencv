@@ -40,7 +40,7 @@ final class MotionDetect {
 	/**
 	 * Logger.
 	 */
-	// CHECKSTYLE:OFF This is not a constant, so naming convenetion is correct
+	// CHECKSTYLE:OFF - Logger is static final, not a constant
 	private static final Logger logger = Logger.getLogger(MotionDetect.class // NOPMD
 			.getName());
 	// CHECKSTYLE:ON
