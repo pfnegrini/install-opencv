@@ -129,14 +129,14 @@ with an out of memory exception. To create a 1GB swap file use:
     * APPLE SSD SM1024
     * Ubuntu 14.04.3 x86_64
     * ~16 minutes (depends on download latency)
-* ODROID-C1+ (Mali-450 MP2 GPU has no support for OpenCL)
-    * Test build on 01/12/2016
+* ODROID-C1/C1+ (Mali-450 MP2 GPU has no support for OpenCL)
+    * Test build on 01/19/2016
     * Amlogic S805 quad core
     * 1.5GHz Cortex-A5 (set to 1.5 GHz)
     * 1GB DDR3
     * 32GB SDHC Class10 UHS-1
     * Ubuntu 14.04.3
-    * ~1.5 hours (depends on download latency)
+    * ~1.3 hours (depends on download latency)
 * MK808 mini PC
     * Rockchip RK3066 dual core
     * 1.6GHz Cortex-A9 (set to 1.5 GHz)
