@@ -137,6 +137,14 @@ with an out of memory exception. To create a 1GB swap file use:
     * 32GB SanDisk Extreme PRO 32GB UHS-I/U3 Micro SDHC
     * Ubuntu 14.04.3
     * ~1.3 hours (depends on download latency)
+* ODROID-XU4 (Mali-T628 MP6 GPU has OpenCL support)
+    * Test build on 02/15/2016
+    * Samsung Exynos 5422 Cortex-A15 quad core and Cortex-A7 quad core
+    * 1.4GHz Cortex-A7 and 2.0 GHz Cortex-A15 (both set to maximum frequency)
+    * 2Gbyte LPDDR3 RAM PoP stacked
+    * 32GB SanDisk Extreme 32GB UHS-1 Micro SDHC
+    * Ubuntu 14.04.3
+    * ~35 minutes (depends on download latency)
 * MK808 mini PC
     * Rockchip RK3066 dual core
     * 1.6GHz Cortex-A9 (set to 1.5 GHz)
