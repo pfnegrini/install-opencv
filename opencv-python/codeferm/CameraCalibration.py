@@ -173,5 +173,5 @@ if __name__ == '__main__':
     logger.info("Distortion coefficients: %s" % distCoefs.ravel())    
     logger.info("Undistorting images")
     undistortAll(inmask, outdir, cameraMatrix, distCoefs)
-    elapse = time.time() - start
-    logger.info("Elapse time: %4.2f seconds" % elapse)    
+    elapsed = time.time() - start
+    logger.info("Elapsed time: %4.2f seconds" % elapsed)    

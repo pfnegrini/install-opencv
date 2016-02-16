@@ -61,9 +61,9 @@ while not lastFrame:
     videoWriter.write(image)
     frames += 1
 
-elapse = time.time() - start
+elapsed = time.time() - start
 logger.info("%d frames, %d frames with people" % (frames, framesWithPeople))
-logger.info("Elapse time: %4.2f seconds" % elapse)
+logger.info("%4.1f FPS, elapsed time: %4.2f seconds" % (frames / elapsed, elapsed))
 del videoCapture
 del videoWriter
 

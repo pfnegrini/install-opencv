@@ -52,6 +52,6 @@ mat = cv2.ellipse(mat, (width / 2 - 1, height / 2 - 1), (110, 160), 45.0, 0.0, 3
 mat = cv2.rectangle(mat, (width / 2 - 50, height / 2 - 50), (width / 2 + 50, height / 2 + 50), blue, 2)
 # Draw filled rectangle
 mat = cv2.rectangle(mat, (width / 2 - 40, height / 2 - 40), (width / 2 + 40, height / 2 + 40), green, cv2.FILLED)
-elapse = time.time() - start
+elapsed = time.time() - start
 cv2.imwrite(outputFile, mat)
-logger.info("Elapse time: %4.2f seconds" % elapse)
+logger.info("Elapsed time: %4.2f seconds" % elapsed)

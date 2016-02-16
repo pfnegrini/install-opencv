@@ -47,8 +47,8 @@ while not lastFrame:
         frames += 1
     else:
         lastFrame = True
-elapse = time.time() - start
+elapsed = time.time() - start
 logger.info("%d frames" % frames)
-logger.info("Elapse time: %4.2f seconds" % elapse)
+logger.info("%4.1f FPS, elapsed time: %4.2f seconds" % (frames / elapsed, elapsed))
 del videoCapture
 del videoWriter
