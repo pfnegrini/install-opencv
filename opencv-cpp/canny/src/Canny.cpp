@@ -53,7 +53,6 @@ int main(int argc, char *argv[]) {
 		Mat dst_img;
 		Size kSize = Size(3, 3);
 		int frames = 0;
-		Scalar color = Scalar(0, 255, 0);
 		timeval start_time;
 		gettimeofday(&start_time, 0);
 		// Process all frames
@@ -80,7 +79,9 @@ int main(int argc, char *argv[]) {
 		timeval end_time;
 		gettimeofday(&end_time, 0);
 		cout << frames << " frames" << endl;
-		cout << "Elapsed time: " << (end_time.tv_sec - start_time.tv_sec) << " seconds" << endl;
+		cout << "FPS " << (frames / (end_time.tv_sec - start_time.tv_sec))
+				<< ", elapsed time: " << (end_time.tv_sec - start_time.tv_sec)
+				<< " seconds" << endl;
 		// Release VideoWriter
 		writer.release();
 		// Release VideoCapture

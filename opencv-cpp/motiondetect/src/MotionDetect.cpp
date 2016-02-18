@@ -134,7 +134,9 @@ int main(int argc, char *argv[]) {
 		gettimeofday(&end_time, 0);
 		cout << frames << " frames, " << frames_with_motion
 				<< " frames with motion" << endl;
-		cout << "Elapsed time: " << (end_time.tv_sec - start_time.tv_sec) << " seconds" << endl;
+		cout << "FPS " << (frames / (end_time.tv_sec - start_time.tv_sec))
+				<< ", elapsed time: " << (end_time.tv_sec - start_time.tv_sec)
+				<< " seconds" << endl;
 		// Release VideoWriter
 		writer.release();
 		// Release VideoCapture

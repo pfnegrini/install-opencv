@@ -93,7 +93,8 @@ int main(int argc, char *argv[]) {
 		gettimeofday(&end_time, 0);
 		cout << frames << " frames, " << frames_with_people
 				<< " frames with people" << endl;
-		cout << "Elapsed time: " << (end_time.tv_sec - start_time.tv_sec)
+		cout << "FPS " << (frames / (end_time.tv_sec - start_time.tv_sec))
+				<< ", elapsed time: " << (end_time.tv_sec - start_time.tv_sec)
 				<< " seconds" << endl;
 		// Release VideoWriter
 		writer.release();
