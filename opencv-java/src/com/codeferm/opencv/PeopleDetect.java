@@ -44,6 +44,7 @@ final class PeopleDetect {
 	// CHECKSTYLE:OFF ConstantName - Logger is static final, not a constant
 	private static final Logger logger = Logger.getLogger(PeopleDetect.class // NOPMD
 			.getName());
+
 	// CHECKSTYLE:ON ConstantName
 	/* Load the OpenCV system library */
 	static {
@@ -78,9 +79,8 @@ final class PeopleDetect {
 		}
 		// Custom logging properties via class loader
 		try {
-			LogManager.getLogManager().readConfiguration(
-					PeopleDetect.class.getClassLoader().getResourceAsStream(
-							"logging.properties"));
+			LogManager.getLogManager()
+					.readConfiguration(PeopleDetect.class.getClassLoader().getResourceAsStream("logging.properties"));
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
@@ -88,14 +88,12 @@ final class PeopleDetect {
 		logger.log(Level.INFO, String.format("Input file: %s", url));
 		logger.log(Level.INFO, String.format("Output file: %s", outputFile));
 		final VideoCapture videoCapture = new VideoCapture(url);
-		final Size frameSize = new Size(
-				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_WIDTH),
+		final Size frameSize = new Size((int) videoCapture.get(Videoio.CAP_PROP_FRAME_WIDTH),
 				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_HEIGHT));
 		logger.log(Level.INFO, String.format("Resolution: %s", frameSize));
 		final FourCC fourCC = new FourCC("X264");
-		final VideoWriter videoWriter = new VideoWriter(outputFile,
-				fourCC.toInt(), videoCapture.get(Videoio.CAP_PROP_FPS),
-				frameSize, true);
+		final VideoWriter videoWriter = new VideoWriter(outputFile, fourCC.toInt(),
+				videoCapture.get(Videoio.CAP_PROP_FPS), frameSize, true);
 		final Mat mat = new Mat();
 		// final HOGDescriptor hog = new HOGDescriptor(new Size(128, 64),
 		// new Size(16, 16), new Size(8, 8), new Size(8, 8), 9, 0, -1, 0,
@@ -117,8 +115,7 @@ final class PeopleDetect {
 		final long startTime = System.currentTimeMillis();
 		while (videoCapture.read(mat)) {
 			// CHECKSTYLE:OFF MagicNumber - Magic numbers here for illustration
-			hog.detectMultiScale(mat, foundLocations, foundWeights, 0.0,
-					winStride, padding, 1.05, 2.0, false);
+			hog.detectMultiScale(mat, foundLocations, foundWeights, 0.0, winStride, padding, 1.05, 2.0, false);
 			// CHECKSTYLE:ON MagicNumber
 			if (foundLocations.rows() > 0) {
 				framesWithPeople++;
@@ -140,10 +137,8 @@ final class PeopleDetect {
 					// Print weight
 					// CHECKSTYLE:OFF MagicNumber - Magic numbers here for
 					// illustration
-					Imgproc.putText(mat,
-							String.format("%1.2f", weightList.get(i)),
-							fontPoint, Core.FONT_HERSHEY_PLAIN, 1.5, fontColor,
-							2, Core.LINE_AA, false);
+					Imgproc.putText(mat, String.format("%1.2f", weightList.get(i)), fontPoint, Core.FONT_HERSHEY_PLAIN,
+							1.5, fontColor, 2, Core.LINE_AA, false);
 					// CHECKSTYLE:ON MagicNumber
 					i++;
 				}
@@ -152,12 +147,9 @@ final class PeopleDetect {
 			frames++;
 		}
 		final long estimatedTime = System.currentTimeMillis() - startTime;
-		logger.log(Level.INFO, String.format(
-				"%d frames, %d frames with people", frames, framesWithPeople));
-		// CHECKSTYLE:OFF MagicNumber - Magic numbers here for illustration
-		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds",
-				(double) estimatedTime / 1000));
-		// CHECKSTYLE:ON MagicNumber
+		final double seconds = (double) estimatedTime / 1000;
+		logger.log(Level.INFO, String.format("%d frames, %d frames with people", frames, framesWithPeople));
+		logger.log(Level.INFO, String.format("%4.1f FPS, elapsed time: %4.2f seconds", frames / seconds, seconds));
 		// Release native memory
 		videoCapture.free();
 		videoWriter.free();

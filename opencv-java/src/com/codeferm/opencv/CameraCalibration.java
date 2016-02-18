@@ -62,14 +62,13 @@ final class CameraCalibration {
 	 * Logger.
 	 */
 	// CHECKSTYLE:OFF ConstantName - Logger is static final, not a constant
-	private static final Logger logger = Logger
-			.getLogger(CameraCalibration.class.getName());
+	private static final Logger logger = Logger.getLogger(CameraCalibration.class.getName());
 	// CHECKSTYLE:ON ConstantName
 	/**
 	 * Set the criteria for the cornerSubPix algorithm.
 	 */
-	private static final TermCriteria CRITERIA = new TermCriteria(
-			TermCriteria.EPS + TermCriteria.COUNT, 30, 0.1);
+	private static final TermCriteria CRITERIA = new TermCriteria(TermCriteria.EPS + TermCriteria.COUNT, 30, 0.1);
+
 	/* Load the OpenCV system library */
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -90,8 +89,8 @@ final class CameraCalibration {
 	 *            This value is modified by JNI code.
 	 * @return Value of findChessboardCorners.
 	 */
-	public boolean getCorners(final Mat gray, final Size patternSize,
-			final Size winSize, final Size zoneSize, final MatOfPoint2f corners) {
+	public boolean getCorners(final Mat gray, final Size patternSize, final Size winSize, final Size zoneSize,
+			final MatOfPoint2f corners) {
 		boolean found = false;
 		if (Calib3d.findChessboardCorners(gray, patternSize, corners)) {
 			Imgproc.cornerSubPix(gray, corners, winSize, zoneSize, CRITERIA);
@@ -139,20 +138,16 @@ final class CameraCalibration {
 	 *            Image points.
 	 * @return Mean reprojection error.
 	 */
-	public double reprojectionError(final List<Mat> objectPoints,
-			final List<Mat> rVecs, final List<Mat> tVecs,
-			final Mat cameraMatrix, final Mat distCoeffs,
-			final List<Mat> imagePoints) {
+	public double reprojectionError(final List<Mat> objectPoints, final List<Mat> rVecs, final List<Mat> tVecs,
+			final Mat cameraMatrix, final Mat distCoeffs, final List<Mat> imagePoints) {
 		double totalError = 0;
 		double totalPoints = 0;
 		final MatOfPoint2f cornersProjected = new MatOfPoint2f();
 		final MatOfDouble distortionCoefficients = new MatOfDouble(distCoeffs);
 		for (int i = 0; i < objectPoints.size(); i++) {
-			Calib3d.projectPoints((MatOfPoint3f) objectPoints.get(i),
-					rVecs.get(i), tVecs.get(i), cameraMatrix,
+			Calib3d.projectPoints((MatOfPoint3f) objectPoints.get(i), rVecs.get(i), tVecs.get(i), cameraMatrix,
 					distortionCoefficients, cornersProjected);
-			final double error = Core.norm(imagePoints.get(i),
-					cornersProjected, Core.NORM_L2);
+			final double error = Core.norm(imagePoints.get(i), cornersProjected, Core.NORM_L2);
 			final int n = objectPoints.get(i).rows();
 			totalError += error * error;
 			totalPoints += n;
@@ -173,10 +168,8 @@ final class CameraCalibration {
 	 *            Input vector of distortion coefficients.
 	 * @return Undistorted image.
 	 */
-	public Mat undistort(final Mat image, final Mat cameraMatrix,
-			final Mat distCoeffs) {
-		final Mat newCameraMtx = Calib3d.getOptimalNewCameraMatrix(
-				cameraMatrix, distCoeffs, image.size(), 0);
+	public Mat undistort(final Mat image, final Mat cameraMatrix, final Mat distCoeffs) {
+		final Mat newCameraMtx = Calib3d.getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, image.size(), 0);
 		final Mat mat = new Mat();
 		Imgproc.undistort(image, mat, cameraMatrix, distCoeffs, newCameraMtx);
 		return mat;
@@ -197,33 +190,26 @@ final class CameraCalibration {
 	 * @throws IOException
 	 *             Possible exception.
 	 */
-	public void undistortAll(final String inMask, final String outDir,
-			final Mat cameraMatrix, final Mat distCoeffs) throws IOException {
+	public void undistortAll(final String inMask, final String outDir, final Mat cameraMatrix, final Mat distCoeffs)
+			throws IOException {
 		final File file = new File(inMask);
 		// Get dir
 		final File parentFile = new File(file.getParent());
 		// Make it canonical
 		final Path dir = Paths.get(parentFile.getCanonicalPath());
 		// Get matching names from inMask
-		try (final DirectoryStream<Path> stream = Files.newDirectoryStream(dir,
-				file.getName())) {
+		try (final DirectoryStream<Path> stream = Files.newDirectoryStream(dir, file.getName())) {
 			// Undistort all files
 			for (final Path entry : stream) {
-				final String fileName = String.format("%s/%s", dir,
-						entry.getFileName());
-				logger.log(Level.FINE,
-						String.format("Reading image: %s", fileName));
+				final String fileName = String.format("%s/%s", dir, entry.getFileName());
+				logger.log(Level.FINE, String.format("Reading image: %s", fileName));
 				// Read in image unchanged
-				final Mat mat = Imgcodecs.imread(fileName,
-						Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
+				final Mat mat = Imgcodecs.imread(fileName, Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
 				final Mat undistort = undistort(mat, cameraMatrix, distCoeffs);
 				// Get file name without extension
-				final String[] tokens = Paths.get(fileName).getFileName()
-						.toString().split("\\.");
-				final String writeFileName = String.format(
-						"%s%s-java-undistort.bmp", outDir, tokens[0]);
-				logger.log(Level.FINE,
-						String.format("Writing image: %s", writeFileName));
+				final String[] tokens = Paths.get(fileName).getFileName().toString().split("\\.");
+				final String writeFileName = String.format("%s%s-java-undistort.bmp", outDir, tokens[0]);
+				logger.log(Level.FINE, String.format("Writing image: %s", writeFileName));
 				// Write debug Mat to output dir
 				Imgcodecs.imwrite(writeFileName, undistort);
 				// Clean up
@@ -249,14 +235,12 @@ final class CameraCalibration {
 		final long count = mat.total() * mat.channels();
 		final double[] buff = new double[(int) count];
 		mat.get(0, 0, buff);
-		try (final DataOutputStream out = new DataOutputStream(
-				new FileOutputStream(fileName))) {
+		try (final DataOutputStream out = new DataOutputStream(new FileOutputStream(fileName))) {
 			for (int i = 0; i < buff.length; ++i) {
 				out.writeDouble(buff[i]);
 			}
 		} catch (IOException e) {
-			logger.log(Level.SEVERE,
-					String.format("Exception: %s", e.getMessage()));
+			logger.log(Level.SEVERE, String.format("Exception: %s", e.getMessage()));
 		}
 	}
 
@@ -271,12 +255,10 @@ final class CameraCalibration {
 	 *            File to read.
 	 */
 	public void loadDoubleMat(final Mat mat, final String fileName) {
-		logger.log(Level.FINE,
-				String.format("Loading double Mat: %s", fileName));
+		logger.log(Level.FINE, String.format("Loading double Mat: %s", fileName));
 		final long count = mat.total() * mat.channels();
 		final List<Double> list = new ArrayList<>();
-		try (final DataInputStream in = new DataInputStream(
-				new FileInputStream(fileName))) {
+		try (final DataInputStream in = new DataInputStream(new FileInputStream(fileName))) {
 			// Read all Doubles into List
 			for (int i = 0; i < count; ++i) {
 				logger.log(Level.FINE, String.format("%d", i));
@@ -284,11 +266,9 @@ final class CameraCalibration {
 			}
 		} catch (IOException e) {
 			if (e.getMessage() == null) {
-				logger.log(Level.FINE,
-						String.format("EOF reached for: %s", fileName));
+				logger.log(Level.FINE, String.format("EOF reached for: %s", fileName));
 			} else {
-				logger.log(Level.SEVERE,
-						String.format("Exception: %s", e.getMessage()));
+				logger.log(Level.SEVERE, String.format("Exception: %s", e.getMessage()));
 			}
 		}
 		// Set byte array to size of List
@@ -309,8 +289,7 @@ final class CameraCalibration {
 	 *            Distortion coefficients file name.
 	 * @return Mat array consisting of cameraMatrix and distCoeffs.
 	 */
-	public Mat[] loadCalibrate(final String camMtxFileName,
-			final String distCoFileName) {
+	public Mat[] loadCalibrate(final String camMtxFileName, final String distCoFileName) {
 		final Mat cameraMatrix = Mat.eye(3, 3, CvType.CV_64F);
 		loadDoubleMat(cameraMatrix, camMtxFileName);
 		final Mat distCoeffs = Mat.zeros(5, 1, CvType.CV_64F);
@@ -330,23 +309,18 @@ final class CameraCalibration {
 	 *            List of images to calibrate.
 	 * @return Mat array consisting of cameraMatrix and distCoeffs.
 	 */
-	public Mat[] calibrate(final List<Mat> objectPoints,
-			final List<Mat> imagePoints, final List<Mat> images) {
+	public Mat[] calibrate(final List<Mat> objectPoints, final List<Mat> imagePoints, final List<Mat> images) {
 		final Mat cameraMatrix = Mat.eye(3, 3, CvType.CV_64F);
 		final Mat distCoeffs = Mat.zeros(8, 1, CvType.CV_64F);
 		final List<Mat> rVecs = new ArrayList<Mat>();
 		final List<Mat> tVecs = new ArrayList<Mat>();
-		final double rms = Calib3d.calibrateCamera(objectPoints, imagePoints,
-				images.get(0).size(), cameraMatrix, distCoeffs, rVecs, tVecs);
-		final double error = reprojectionError(objectPoints, rVecs, tVecs,
-				cameraMatrix, distCoeffs, imagePoints);
-		logger.log(Level.INFO,
-				String.format("Mean reprojection error: %s", error));
+		final double rms = Calib3d.calibrateCamera(objectPoints, imagePoints, images.get(0).size(), cameraMatrix,
+				distCoeffs, rVecs, tVecs);
+		final double error = reprojectionError(objectPoints, rVecs, tVecs, cameraMatrix, distCoeffs, imagePoints);
+		logger.log(Level.INFO, String.format("Mean reprojection error: %s", error));
 		logger.log(Level.INFO, String.format("RMS: %s", rms));
-		logger.log(Level.INFO,
-				String.format("Camera matrix: %s", cameraMatrix.dump()));
-		logger.log(Level.INFO,
-				String.format("Distortion coefficients: %s", distCoeffs.dump()));
+		logger.log(Level.INFO, String.format("Camera matrix: %s", cameraMatrix.dump()));
+		logger.log(Level.INFO, String.format("Distortion coefficients: %s", distCoeffs.dump()));
 		// Clean up lists
 		for (final Mat mat : tVecs) {
 			mat.free();
@@ -370,8 +344,7 @@ final class CameraCalibration {
 	 * @throws IOException
 	 *             Possible exception.
 	 */
-	public void getPoints(final String inMask, final String outDir,
-			final Size patternSize) throws IOException {
+	public void getPoints(final String inMask, final String outDir, final Size patternSize) throws IOException {
 		final List<Mat> images = new ArrayList<Mat>();
 		final List<Mat> objectPoints = new ArrayList<Mat>();
 		final List<Mat> imagePoints = new ArrayList<Mat>();
@@ -381,34 +354,26 @@ final class CameraCalibration {
 		final File parentFile = new File(file.getParent());
 		// Make it canonical
 		final Path dir = Paths.get(parentFile.getCanonicalPath());
-		try (final DirectoryStream<Path> stream = Files.newDirectoryStream(dir,
-				file.getName())) {
+		try (final DirectoryStream<Path> stream = Files.newDirectoryStream(dir, file.getName())) {
 			int passed = 0;
 			for (final Path entry : stream) {
-				final String fileName = String.format("%s/%s", dir,
-						entry.getFileName());
+				final String fileName = String.format("%s/%s", dir, entry.getFileName());
 				// Read in image as gray scale
-				final Mat mat = Imgcodecs.imread(fileName,
-						Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
+				final Mat mat = Imgcodecs.imread(fileName, Imgcodecs.CV_LOAD_IMAGE_GRAYSCALE);
 				final MatOfPoint2f corners = new MatOfPoint2f();
 				final Size winSize = new Size(5, 5);
 				final Size zoneSize = new Size(-1, -1);
 				// Process only images that pass getCorners
 				if (getCorners(mat, patternSize, winSize, zoneSize, corners)) {
-					logger.log(Level.FINE,
-							String.format("Chessboard found in: %s", fileName));
+					logger.log(Level.FINE, String.format("Chessboard found in: %s", fileName));
 					final Mat vis = new Mat();
 					// Convert to color for drawing
 					Imgproc.cvtColor(mat, vis, Imgproc.COLOR_GRAY2BGR);
-					Calib3d.drawChessboardCorners(vis, patternSize, corners,
-							true);
+					Calib3d.drawChessboardCorners(vis, patternSize, corners, true);
 					// Get file name without extension
-					final String[] tokens = Paths.get(fileName).getFileName()
-							.toString().split("\\.");
-					final String writeFileName = String.format(
-							"%s/%s-java.bmp", outDir, tokens[0]);
-					logger.log(Level.FINE, String.format(
-							"Writing debug image: %s", writeFileName));
+					final String[] tokens = Paths.get(fileName).getFileName().toString().split("\\.");
+					final String writeFileName = String.format("%s/%s-java.bmp", outDir, tokens[0]);
+					logger.log(Level.FINE, String.format("Writing debug image: %s", writeFileName));
 					// Write debug Mat to output dir
 					Imgcodecs.imwrite(writeFileName, vis);
 					// Clean up
@@ -419,18 +384,15 @@ final class CameraCalibration {
 					images.add(mat);
 					passed++;
 				} else {
-					logger.log(Level.WARNING, String.format(
-							"Chessboard not found in: %s", fileName));
+					logger.log(Level.WARNING, String.format("Chessboard not found in: %s", fileName));
 				}
 			}
-			logger.log(Level.INFO, String.format(
-					"Images passed cv2.findChessboardCorners: %d", passed));
+			logger.log(Level.INFO, String.format("Images passed cv2.findChessboardCorners: %d", passed));
 			// Calibrate camera
 			final Mat[] params = calibrate(objectPoints, imagePoints, images);
 			logger.log(Level.INFO, "Saving calibration parameters to file");
 			// Save off camera matrix
-			saveDoubleMat(params[0],
-					String.format("%scamera-matrix.bin", outDir));
+			saveDoubleMat(params[0], String.format("%scamera-matrix.bin", outDir));
 			// Save off distortion coefficients
 			saveDoubleMat(params[1], String.format("%sdist-coefs.bin", outDir));
 			// Clean up
@@ -446,8 +408,7 @@ final class CameraCalibration {
 				image.free();
 			}
 		} catch (IOException e) {
-			logger.log(Level.SEVERE,
-					String.format("IO error: %s", e.getMessage()));
+			logger.log(Level.SEVERE, String.format("IO error: %s", e.getMessage()));
 		}
 	}
 
@@ -470,8 +431,7 @@ final class CameraCalibration {
 			outDir = args[1];
 			// Split into cols and rows "cols,rows"
 			final String[] parts = args[3].split(",");
-			patternSize = new Size(Integer.parseInt(parts[0]),
-					Integer.parseInt(parts[1]));
+			patternSize = new Size(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
 			// Go with defaults
 		} else {
 			inMask = "../resources/2015*.jpg";
@@ -481,8 +441,7 @@ final class CameraCalibration {
 		// Custom logging properties via class loader
 		try {
 			LogManager.getLogManager().readConfiguration(
-					CameraCalibration.class.getClassLoader()
-							.getResourceAsStream("logging.properties"));
+					CameraCalibration.class.getClassLoader().getResourceAsStream("logging.properties"));
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
@@ -494,26 +453,20 @@ final class CameraCalibration {
 		final long startTime = System.currentTimeMillis();
 		cameraCalibration.getPoints(inMask, outDir, patternSize);
 		logger.log(Level.INFO, "Restoring calibration parameters from file");
-		final Mat[] calibrateArr = cameraCalibration.loadCalibrate(
-				String.format("%scamera-matrix.bin", outDir),
+		final Mat[] calibrateArr = cameraCalibration.loadCalibrate(String.format("%scamera-matrix.bin", outDir),
 				String.format("%sdist-coefs.bin", outDir));
-		logger.log(Level.INFO,
-				String.format("Camera matrix: %s", calibrateArr[0].dump()));
-		logger.log(
-				Level.INFO,
-				String.format("Distortion coefficients: %s",
-						calibrateArr[1].dump()));
+		logger.log(Level.INFO, String.format("Camera matrix: %s", calibrateArr[0].dump()));
+		logger.log(Level.INFO, String.format("Distortion coefficients: %s", calibrateArr[1].dump()));
 		logger.log(Level.INFO, "Undistorting images");
 		// Undistort all images
-		cameraCalibration.undistortAll(inMask, outDir, calibrateArr[0],
-				calibrateArr[1]);
+		cameraCalibration.undistortAll(inMask, outDir, calibrateArr[0], calibrateArr[1]);
 		// Clean up
 		calibrateArr[0].free();
 		calibrateArr[1].free();
 		final long estimatedTime = System.currentTimeMillis() - startTime;
+		final double seconds = (double) estimatedTime / 1000;
 		// CHECKSTYLE:OFF MagicNumber - Magic numbers here for illustration
-		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds",
-				(double) estimatedTime / 1000));
+		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds", seconds));
 		// CHECKSTYLE:ON MagicNumber
 	}
 }

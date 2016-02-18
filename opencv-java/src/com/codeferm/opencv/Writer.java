@@ -35,6 +35,7 @@ final class Writer {
 	// CHECKSTYLE:OFF ConstantName - Logger is static final, not a constant
 	private static final Logger logger = Logger.getLogger(Writer.class // NOPMD
 			.getName());
+
 	// CHECKSTYLE:ON ConstantName
 	/* Load the OpenCV system library */
 	static {
@@ -70,9 +71,8 @@ final class Writer {
 		}
 		// Custom logging properties via class loader
 		try {
-			LogManager.getLogManager().readConfiguration(
-					Writer.class.getClassLoader().getResourceAsStream(
-							"logging.properties"));
+			LogManager.getLogManager()
+					.readConfiguration(Writer.class.getClassLoader().getResourceAsStream("logging.properties"));
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
@@ -80,13 +80,12 @@ final class Writer {
 		logger.log(Level.INFO, String.format("Input file: %s", url));
 		logger.log(Level.INFO, String.format("Output file: %s", outputFile));
 		VideoCapture videoCapture = new VideoCapture(url);
-		final Size frameSize = new Size(
-				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_WIDTH),
+		final Size frameSize = new Size((int) videoCapture.get(Videoio.CAP_PROP_FRAME_WIDTH),
 				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_HEIGHT));
 		logger.log(Level.INFO, String.format("Resolution: %s", frameSize));
 		final FourCC fourCC = new FourCC("X264");
-		VideoWriter videoWriter = new VideoWriter(outputFile, fourCC.toInt(),
-				videoCapture.get(Videoio.CAP_PROP_FPS), frameSize, true);
+		VideoWriter videoWriter = new VideoWriter(outputFile, fourCC.toInt(), videoCapture.get(Videoio.CAP_PROP_FPS),
+				frameSize, true);
 		final Mat mat = new Mat();
 		int frames = 0;
 		final long startTime = System.currentTimeMillis();
@@ -95,11 +94,9 @@ final class Writer {
 			frames++;
 		}
 		final long estimatedTime = System.currentTimeMillis() - startTime;
+		final double seconds = (double) estimatedTime / 1000;
 		logger.log(Level.INFO, String.format("%d frames", frames));
-		// CHECKSTYLE:OFF MagicNumber - Magic numbers here for illustration
-		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds",
-				(double) estimatedTime / 1000));
-		// CHECKSTYLE:ON MagicNumber
+		logger.log(Level.INFO, String.format("%4.1f FPS, elapsed time: %4.2f seconds", frames / seconds, seconds));
 		// Release native memory
 		videoCapture.free();
 		videoWriter.free();

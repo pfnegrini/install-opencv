@@ -179,8 +179,9 @@ final class MotionDetectMOG2 {
 			frames++;
 		}
 		final long estimatedTime = System.currentTimeMillis() - startTime;
+		final double seconds = (double) estimatedTime / 1000;
 		logger.log(Level.INFO, String.format("%d frames, %d frames with motion", frames, framesWithMotion));
-		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds", (double) estimatedTime / 1000));
+		logger.log(Level.INFO, String.format("%4.1f FPS, elapsed time: %4.2f seconds", frames / seconds, seconds));
 		// Free native memory
 		videoCapture.free();
 		videoWriter.free();

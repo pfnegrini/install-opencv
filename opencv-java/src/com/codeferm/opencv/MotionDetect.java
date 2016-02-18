@@ -43,16 +43,18 @@ final class MotionDetect {
 	// CHECKSTYLE:OFF - Logger is static final, not a constant
 	private static final Logger logger = Logger.getLogger(MotionDetect.class // NOPMD
 			.getName());
+
 	// CHECKSTYLE:ON
 	/* Load the OpenCV system library */
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME); // NOPMD
 	}
+
 	/**
 	 * Kernel used for contours.
 	 */
-	private static final Mat CONTOUR_KERNEL = Imgproc.getStructuringElement(
-			Imgproc.MORPH_DILATE, new Size(3, 3), new Point(1, 1));
+	private static final Mat CONTOUR_KERNEL = Imgproc.getStructuringElement(Imgproc.MORPH_DILATE, new Size(3, 3),
+			new Point(1, 1));
 	/**
 	 * Contour hierarchy.
 	 */
@@ -82,8 +84,7 @@ final class MotionDetect {
 		Imgproc.erode(source, source, CONTOUR_KERNEL, CONTOUR_POINT, 10);
 		// CHECKSTYLE:ON MagicNumber
 		final List<MatOfPoint> contoursList = new ArrayList<MatOfPoint>();
-		Imgproc.findContours(source, contoursList, HIERARCHY,
-				Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+		Imgproc.findContours(source, contoursList, HIERARCHY, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
 		List<Rect> rectList = new ArrayList<Rect>();
 		// Convert MatOfPoint to Rectangles
 		for (MatOfPoint mop : contoursList) {
@@ -116,9 +117,8 @@ final class MotionDetect {
 		}
 		// Custom logging properties via class loader
 		try {
-			LogManager.getLogManager().readConfiguration(
-					MotionDetect.class.getClassLoader().getResourceAsStream(
-							"logging.properties"));
+			LogManager.getLogManager()
+					.readConfiguration(MotionDetect.class.getClassLoader().getResourceAsStream("logging.properties"));
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
@@ -126,13 +126,12 @@ final class MotionDetect {
 		logger.log(Level.INFO, String.format("Input file: %s", url));
 		logger.log(Level.INFO, String.format("Output file: %s", outputFile));
 		VideoCapture videoCapture = new VideoCapture(url);
-		final Size frameSize = new Size(
-				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_WIDTH),
+		final Size frameSize = new Size((int) videoCapture.get(Videoio.CAP_PROP_FRAME_WIDTH),
 				(int) videoCapture.get(Videoio.CAP_PROP_FRAME_HEIGHT));
 		logger.log(Level.INFO, String.format("Resolution: %s", frameSize));
 		final FourCC fourCC = new FourCC("X264");
-		VideoWriter videoWriter = new VideoWriter(outputFile, fourCC.toInt(),
-				videoCapture.get(Videoio.CAP_PROP_FPS), frameSize, true);
+		VideoWriter videoWriter = new VideoWriter(outputFile, fourCC.toInt(), videoCapture.get(Videoio.CAP_PROP_FPS),
+				frameSize, true);
 		final Mat mat = new Mat();
 		int frames = 0;
 		final Mat workImg = new Mat();
@@ -192,11 +191,9 @@ final class MotionDetect {
 			frames++;
 		}
 		final long estimatedTime = System.currentTimeMillis() - startTime;
-		logger.log(Level.INFO, String.format(
-				"%d frames, %d frames with motion", frames, framesWithMotion));
-		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds",
-				(double) estimatedTime / 1000));
-		// CHECKSTYLE:ON MagicNumber
+		final double seconds = (double) estimatedTime / 1000;
+		logger.log(Level.INFO, String.format("%d frames, %d frames with motion", frames, framesWithMotion));
+		logger.log(Level.INFO, String.format("%4.1f FPS, elapsed time: %4.2f seconds", frames / seconds, seconds));
 		// Free native memory
 		videoCapture.free();
 		videoWriter.free();

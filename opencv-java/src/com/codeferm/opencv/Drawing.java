@@ -23,8 +23,8 @@ import org.opencv.imgproc.Imgproc;
 /**
  * Example of drawing on Mat and saving to file.
  *
- * args[0] = dest file or will default to "../output/drawing-java.png" if no args
- * passed.
+ * args[0] = dest file or will default to "../output/drawing-java.png" if no
+ * args passed.
  *
  * @author sgoldsmith
  * @version 1.0.0
@@ -72,9 +72,8 @@ final class Drawing {
 		}
 		// Custom logging properties via class loader
 		try {
-			LogManager.getLogManager().readConfiguration(
-					Drawing.class.getClassLoader().getResourceAsStream(
-							"logging.properties"));
+			LogManager.getLogManager()
+					.readConfiguration(Drawing.class.getClassLoader().getResourceAsStream("logging.properties"));
 		} catch (SecurityException | IOException e) {
 			e.printStackTrace();
 		}
@@ -91,29 +90,25 @@ final class Drawing {
 		final Scalar red = new Scalar(0, 0, 255);
 		final long startTime = System.currentTimeMillis();
 		// Draw text
-		Imgproc.putText(mat, "Java drawing", new Point(10, 30),
-				Core.FONT_HERSHEY_COMPLEX, 1.0, white, 2);
+		Imgproc.putText(mat, "Java drawing", new Point(10, 30), Core.FONT_HERSHEY_COMPLEX, 1.0, white, 2);
 		// Draw line
-		Imgproc.line(mat, new Point(width / 2 - 100, height / 2 - 100),
-				new Point(width / 2 + 100, height / 2 + 100), white, 2);
+		Imgproc.line(mat, new Point(width / 2 - 100, height / 2 - 100), new Point(width / 2 + 100, height / 2 + 100),
+				white, 2);
 		// Draw circle
-		Imgproc.circle(mat, new Point(width / 2 - 1, height / 2 - 1), 100, red,
-				2);
+		Imgproc.circle(mat, new Point(width / 2 - 1, height / 2 - 1), 100, red, 2);
 		// Draw ellipse
-		Imgproc.ellipse(mat, new Point(width / 2 - 1, height / 2 - 1),
-				new Size(110, 160), 45.0, 0.0, 360.0, blue, 2);
+		Imgproc.ellipse(mat, new Point(width / 2 - 1, height / 2 - 1), new Size(110, 160), 45.0, 0.0, 360.0, blue, 2);
 		// Draw rectangle
-		Imgproc.rectangle(mat, new Point(width / 2 - 50, height / 2 - 50),
-				new Point(width / 2 + 50, height / 2 + 50), blue, 2);
+		Imgproc.rectangle(mat, new Point(width / 2 - 50, height / 2 - 50), new Point(width / 2 + 50, height / 2 + 50),
+				blue, 2);
 		// Draw filled rectangle
-		Imgproc.rectangle(mat, new Point(width / 2 - 40, height / 2 - 40),
-				new Point(width / 2 + 40, height / 2 + 40), green, Core.FILLED);
+		Imgproc.rectangle(mat, new Point(width / 2 - 40, height / 2 - 40), new Point(width / 2 + 40, height / 2 + 40),
+				green, Core.FILLED);
 		final long estimatedTime = System.currentTimeMillis() - startTime;
-		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds",
-				(double) estimatedTime / 1000));
+		final double seconds = (double) estimatedTime / 1000;
+		logger.log(Level.INFO, String.format("Elapsed time: %4.2f seconds", seconds));
 		// Write image file
 		Imgcodecs.imwrite(outputFile, mat);
-		// CHECKSTYLE:ON MagicNumber
 		// Release native memory
 		mat.free();
 	}
