@@ -9,7 +9,7 @@ sgoldsmith@codeferm.com
     
 Uses moving average to determine change percent.
 
-sys.argv[1] = source file or will default to "../../resources/traffic.mp4" if no args passed.
+sys.argv[1] = source file or will default to "../../resources/walking.mp4" if no args passed.
 
 @author: sgoldsmith
 
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     logger.addHandler(handler)
     # If no args passed then default to internal file
     if len(sys.argv) < 2:
-        url = "../../resources/traffic.mp4"
+        url = "../../resources/walking.mp4"
     else:
         url = sys.argv[1]
     outputFile = "../../output/motion-detect-python.avi"
@@ -83,7 +83,7 @@ if __name__ == '__main__':
                 movingAvgImg = numpy.float32(workImg)
             movementLocations = contours(grayImg)
             # Threshold trigger motion
-            if motionPercent > 0.75:
+            if motionPercent > 0.5:
                 framesWithMotion += 1
                 for x, y, w, h in movementLocations:
                     # Draw rectangle around fond object
