@@ -24,17 +24,17 @@ javahome=/usr/lib/jvm/jdk1.8.0
 
 # Set file based on architecture
 if [ "$arch" = "x86_64" ]; then
-	jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u73-b02/"
-	jdkver="jdk1.8.0_73"
-	jdkarchive="jdk-8u73-linux-x64.tar.gz"
+	jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u77-b03/"
+	jdkver="jdk1.8.0_77"
+	jdkarchive="jdk-8u77-linux-x64.tar.gz"
 elif [ "$arch" = "i586" ] || [ "$arch" = "i686" ]; then
-	jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u73-b02/"
-	jdkver="jdk1.8.0_73"
-	jdkarchive="jdk-8u73-linux-i586.tar.gz"
+	jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u77-b03/"
+	jdkver="jdk1.8.0_77"
+	jdkarchive="jdk-8u77-linux-i586.tar.gz"
 elif [ "$arch" = "armv7l" ]; then
-	jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u73-b02/"
-	jdkver="jdk1.8.0_73"
-	jdkarchive="jdk-8u73-linux-arm32-vfp-hflt.tar.gz"
+	jdkurl="http://download.oracle.com/otn-pub/java/jdk/8u77-b03/"
+	jdkver="jdk1.8.0_77"
+	jdkarchive="jdk-8u77-linux-arm32-vfp-hflt.tar.gz"
 else
 	# Need to support armv8 64 bit soon
 	echo "\nNo supported architectures detected!"
