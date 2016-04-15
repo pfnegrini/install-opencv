@@ -114,13 +114,13 @@ with an out of memory exception. To create a 1GB swap file use:
 
 #### Build times
 * Acer AM3470G-UW10P Desktop
-    * Test build on 12/28/2015
+    * Test build on 04/14/2016
     * AMD A6-3620 quad core
     * 2.20GHz, 4MB Cache
     * 8GB DIMM DDR3 Synchronous 1333 MHz
-    * 500GB WDC WD5000AAKX-0 SATA 3 7200 RPM 16MB Cache
+    * PNY CS1311 480 GB 2.5" SATA III Internal Solid State Drive SSD in AHCI mode
     * Ubuntu 14.04.3 x86_64
-    * ~35 minutes (depends on download latency)
+    * ~21 minutes (depends on download latency)
 * MacBookPro 11,3
     * Test build on 11/02/2015
     * Intel(R) Core(TM) i7-4870HQ (8 cores)
