@@ -107,7 +107,7 @@ if __name__ == '__main__':
     lastFrame = False
     frames = 0
     framesWithMotion = 0
-    framesWithPeople = 0    
+    roisWithPeople = 0    
     movingAvgImg = None
     # How many pixels in resized image
     totalPixels = frameResizeWidth * frameResizeHeight
@@ -163,7 +163,7 @@ if __name__ == '__main__':
                             # foundLocations, foundWeights = hog.detectMultiScale(imageRoi, winStride=(8, 8), padding=(16, 16), scale=1.05)
                             foundLocations, foundWeights = hog.detectMultiScale(imageRoi, winStride=(8, 8), padding=(32, 32), scale=1.05)
                             if len(foundLocations) > 0:
-                                framesWithPeople += 1
+                                roisWithPeople += 1
                                 i = 0
                                 for x2, y2, w2, h2 in foundLocations:
                                     imageRoi2 = image[y:y + (h * heightMultiplier), x:x + (w * widthMultiplier)]
@@ -186,7 +186,7 @@ if __name__ == '__main__':
         else:
             lastFrame = True
     elapsed = time.time() - start
-    logger.info("%d frames, %d frames with motion, %d frames with people" % (frames, framesWithMotion, framesWithPeople))
+    logger.info("%d frames, %d frames with motion, %d ROIs with people" % (frames, framesWithMotion, roisWithPeople))
     logger.info("%4.1f FPS, elapsed time: %4.2f seconds" % (frames / elapsed, elapsed))
     del videoCapture
     del videoWriter
